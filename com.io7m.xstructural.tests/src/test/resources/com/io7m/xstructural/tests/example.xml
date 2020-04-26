@@ -1,0 +1,265 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Document xmlns="urn:com.io7m.structural:7:0"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+          tableOfContentsDepth="3"
+          tableOfContents="true">
+
+  <Metadata>
+    <dc:contributor>A Contributor</dc:contributor>
+    <dc:creator>A Creator</dc:creator>
+    <dc:date>2020-04-23T10:19:25+00:00</dc:date>
+    <dc:description>An example article.</dc:description>
+    <dc:identifier>c65fa00d-0870-405e-8f13-258e5cf4992d</dc:identifier>
+    <dc:language>English</dc:language>
+    <dc:publisher>A Publisher</dc:publisher>
+    <dc:relation>A Relation</dc:relation>
+    <dc:rights>CC-0</dc:rights>
+    <dc:source>A Source</dc:source>
+    <dc:title>Example Document</dc:title>
+  </Metadata>
+
+  <Section title="Section 0"
+           tableOfContents="true"
+           tableOfContentsDepth="3">
+    <Paragraph>
+      Nunc a sem in ex condimentum rhoncus. Vestibulum vitae dolor euismod, ornare sem a, interdum urna. Sed facilisis
+      dui semper nisl tempor maximus. Nunc vel odio porta, consectetur lectus at, suscipit risus. Nulla vel ante quis
+      ante ornare tristique non non enim. Nulla posuere finibus malesuada. Donec bibendum, justo ut ultrices
+      sollicitudin, neque odio suscipit erat, quis blandit lacus massa a ex. Etiam leo elit, placerat porttitor risus
+      at, posuere varius purus. Phasellus ante massa, posuere ut suscipit non, egestas in ex. Curabitur non eleifend
+      libero. Etiam sed tristique augue. Fusce porttitor lectus diam, eu mattis velit tristique id. Maecenas mollis,
+      enim at varius fermentum, est augue suscipit tortor, non tristique neque urna vitae urna. Interdum et malesuada
+      fames ac ante ipsum primis in faucibus. Donec et maximus purus. Pellentesque porttitor vehicula
+      suscipit. <Term type="z">Term</Term>.
+      <LinkFootnote target="2237c9b8-d1d2-42a0-97c4-6d74d0293cfb">Footnote</LinkFootnote>.
+    </Paragraph>
+    <Paragraph>
+      A <Link target="6a1ee778-797b-4800-8ee8-e3bedb28433a">link</Link>.
+    </Paragraph>
+    <Paragraph>
+      A <LinkExternal target="https://www.io7m.com/">link</LinkExternal>.
+    </Paragraph>
+    <Footnote id="2237c9b8-d1d2-42a0-97c4-6d74d0293cfb">
+      Etiam ut libero odio. Vivamus nibh quam, lacinia ut gravida ut, fermentum a sem. Duis semper maximus justo sit
+      amet porta. Sed quis quam vitae dolor tincidunt feugiat quis vitae tortor. Nulla posuere ornare velit et
+      consectetur. Proin tincidunt, enim quis commodo pellentesque, tortor turpis pretium risus, vitae dignissim lorem
+      ligula vitae dui. Curabitur odio arcu, accumsan vel interdum et, vestibulum nec augue. Nunc nisl velit, mollis at
+      lectus a, pharetra mattis sapien. Etiam id diam ac dolor ultricies laoreet eget eget felis. Proin vestibulum, diam
+      ut pharetra mollis, erat justo malesuada orci, in sodales urna odio cursus turpis. Ut erat enim, imperdiet id
+      tempor vel, accumsan ac justo. Praesent at pulvinar lacus. Nunc egestas magna at eleifend gravida. Aenean
+      facilisis turpis vitae ipsum congue, eu consectetur augue gravida. Nullam quis imperdiet nisl, vitae consequat
+      turpis. Donec eleifend, nunc ut lobortis malesuada, felis tellus mattis ex, eget euismod odio purus vel quam.
+    </Footnote>
+    <Footnote id="7fed5855-7b86-4627-9c99-6299fc07b33a">
+      Nunc dapibus semper ligula, vel scelerisque tortor. Maecenas eu viverra libero. Pellentesque ornare urna in auctor
+      mollis. Cras ultrices sodales erat at mattis. Aliquam erat volutpat. Curabitur ante nisl, semper vel tincidunt et,
+      mollis eu augue. Nunc tincidunt nibh ac nunc porttitor, eu vulputate tortor tincidunt. Suspendisse et diam
+      dapibus, efficitur orci eget, aliquet neque. Nam vestibulum lacus a ipsum dapibus, ut dignissim nisi imperdiet. Ut
+      bibendum sapien vitae sapien pellentesque mollis. Nulla nunc lectus, dictum a enim ut, eleifend vestibulum justo.
+      Donec vitae blandit ante, in consectetur lectus. Duis tincidunt viverra malesuada. Nunc augue massa, mattis sit
+      amet tincidunt sit amet, consequat ut neque.
+    </Footnote>
+  </Section>
+
+  <Section title="Section 1">
+    <Subsection title="Subsection 1">
+      <Paragraph id="6a1ee778-797b-4800-8ee8-e3bedb28433a">
+        Cras id ante a neque iaculis porttitor. Pellentesque orci erat, pretium sit amet viverra at, condimentum quis
+        neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae; Etiam convallis
+        nunc tellus, eget fermentum sem sagittis et. Aenean vitae fermentum tellus, nec lacinia metus. Sed sodales neque
+        vitae dui laoreet, at commodo enim feugiat. Duis sit amet aliquam augue. Aliquam lobortis tincidunt velit, a
+        lacinia augue. In sollicitudin ante at diam facilisis pharetra. Morbi pharetra vehicula porta. Aliquam faucibus
+        iaculis tortor, eget cursus quam dapibus vestibulum. In nulla ligula, bibendum nec dignissim vitae, interdum at
+        libero. Vestibulum bibendum nunc rutrum eros condimentum, nec tempor quam scelerisque. Class aptent taciti
+        sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+      </Paragraph>
+      <FormalItem title="A Formal Item"
+                  id="9fe1838c-ee28-4a80-a231-5d8b7baf1dd1">
+        <Verbatim>
+          Some verbatim text.
+        </Verbatim>
+      </FormalItem>
+      <FormalItem title="A Formal Item"
+                  id="c2eb2f17-12bc-43b2-90c6-20318c004eea">
+        <Image source="missing.jpg">A missing image.</Image>
+      </FormalItem>
+      <FormalItem title="A Formal Item"
+                  id="ea11cbe4-daa6-46fb-9018-a56a72a3c43a">
+        <Image source="woods.jpg">A present image.</Image>
+      </FormalItem>
+      <FormalItem title="A Formal Item"
+                  id="b5b6645f-0fcf-4486-8e8d-04dae51ebe6c">
+        <ListOrdered>
+          <Item>Item 0</Item>
+          <Item>Item 1</Item>
+          <Item>Item 2</Item>
+        </ListOrdered>
+      </FormalItem>
+      <FormalItem title="A Formal Item"
+                  id="205e50d4-20da-4328-a821-ca50d4e59cc7">
+        <ListUnordered>
+          <Item>Item 0</Item>
+          <Item>Item 1</Item>
+          <Item>Item 2</Item>
+        </ListUnordered>
+      </FormalItem>
+      <FormalItem title="A Formal Item"
+                  id="dddc6140-b417-4808-b483-1731aaf19338">
+        <ListUnordered>
+          <Item>
+            <ListOrdered>
+              <Item>Item 0</Item>
+              <Item>Item 1</Item>
+              <Item>Item 2</Item>
+            </ListOrdered>
+          </Item>
+          <Item>
+            <ListOrdered>
+              <Item>Item 0</Item>
+              <Item>Item 1</Item>
+              <Item>Item 2</Item>
+            </ListOrdered>
+          </Item>
+          <Item>
+            <ListOrdered>
+              <Item>Item 0</Item>
+              <Item>Item 1</Item>
+              <Item>Item 2</Item>
+            </ListOrdered>
+          </Item>
+        </ListUnordered>
+      </FormalItem>
+      <FormalItem title="A Formal Item"
+                  id="3398c4eb-44dd-434d-8d75-656a6f747bd2">
+        <ListOrdered>
+          <Item>
+            <ListUnordered>
+              <Item>Item 0</Item>
+              <Item>Item 1</Item>
+              <Item>Item 2</Item>
+            </ListUnordered>
+          </Item>
+          <Item>
+            <ListUnordered>
+              <Item>Item 0</Item>
+              <Item>Item 1</Item>
+              <Item>Item 2</Item>
+            </ListUnordered>
+          </Item>
+          <Item>
+            <ListUnordered>
+              <Item>Item 0</Item>
+              <Item>Item 1</Item>
+              <Item>Item 2</Item>
+            </ListUnordered>
+          </Item>
+        </ListOrdered>
+      </FormalItem>
+      <FormalItem title="A Formal Item"
+                  id="926a7705-1ddb-4d2f-9e4b-400fc61dbcc1">
+        <Table>
+          <Columns>
+            <Column>Column 0</Column>
+            <Column>Column 1</Column>
+            <Column>Column 2</Column>
+          </Columns>
+          <Row>
+            <Cell>Cell 0</Cell>
+            <Cell>Cell 1</Cell>
+            <Cell>Cell 2</Cell>
+          </Row>
+          <Row>
+            <Cell>Cell 0</Cell>
+            <Cell>Cell 1</Cell>
+            <Cell>Cell 2</Cell>
+          </Row>
+          <Row>
+            <Cell>Cell 0</Cell>
+            <Cell>Cell 1</Cell>
+            <Cell>Cell 2</Cell>
+          </Row>
+        </Table>
+      </FormalItem>
+      <Paragraph>
+        Curabitur gravida, lorem id convallis porta, libero dui finibus odio, nec pellentesque velit tortor ac felis.
+        Nullam mattis faucibus tempus. Phasellus viverra suscipit metus, in feugiat libero eleifend nec. Pellentesque ut
+        viverra orci, id finibus libero. In venenatis id mi faucibus lobortis. Cras congue tempus ipsum, ac interdum
+        ipsum euismod sed. Quisque blandit sollicitudin elit, eu molestie lacus pellentesque sit amet. Maecenas lacus
+        nisl, molestie ut risus vel, pharetra consequat diam. Morbi vestibulum dictum diam aliquet ultricies. Aenean
+        tempor erat condimentum viverra aliquet. Aliquam ut porta leo, vitae lacinia massa.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="Subsection 2"
+                xml:lang="en"
+                xml:base="example.xml">
+      <Paragraph>
+        Integer dictum, est quis tincidunt pretium, justo risus vestibulum libero, sed aliquam libero urna vel sapien.
+        Suspendisse odio libero, vulputate eget eros ac, faucibus vehicula diam. Donec vulputate bibendum ipsum, id
+        egestas leo vulputate in. Vestibulum nec viverra tortor, vel scelerisque neque. Maecenas tempus orci et
+        fringilla mattis. In pulvinar dictum magna, quis aliquam arcu ultrices sit amet. Aenean sit amet orci sem. Nunc
+        cursus ornare augue, suscipit tempus orci posuere vitae. Aenean at auctor massa. Integer ut diam scelerisque
+        velit scelerisque laoreet. Aenean porta et elit sit amet suscipit. Donec sit amet mi ut augue bibendum ornare in
+        vel lorem. Integer condimentum vitae erat sit amet molestie.
+      </Paragraph>
+    </Subsection>
+  </Section>
+
+  <Section title="Section 2">
+    <Section title="Section 3 0">
+      <Section title="Section 4"
+               id="dfde9fcf-d34b-4d7a-9f6b-a6b26bf98967">
+        <Paragraph>
+          Paragraph.
+        </Paragraph>
+      </Section>
+      <Section title="Section 5">
+        <Paragraph>
+          Paragraph.
+        </Paragraph>
+      </Section>
+    </Section>
+    <Section title="Section 3 1">
+      <Paragraph>
+        Paragraph.
+      </Paragraph>
+    </Section>
+  </Section>
+
+  <Section title="Section 6">
+    <Paragraph>
+      Paragraph.
+    </Paragraph>
+  </Section>
+
+  <Section title="Section 7">
+    <Subsection title="7a">
+      <Subsection title="7aa">
+        <Subsection title="7aaa">
+          <Paragraph>Paragraph.</Paragraph>
+        </Subsection>
+        <Subsection title="7aab">
+          <Paragraph>Paragraph.</Paragraph>
+        </Subsection>
+        <Subsection title="7aac">
+          <Paragraph>Paragraph.</Paragraph>
+        </Subsection>
+      </Subsection>
+      <Subsection title="7ab">
+        <Subsection title="7aba">
+          <Paragraph>Paragraph.</Paragraph>
+        </Subsection>
+        <Subsection title="7abb">
+          <Paragraph>Paragraph.</Paragraph>
+        </Subsection>
+        <Subsection title="7abc">
+          <Paragraph>Paragraph.</Paragraph>
+        </Subsection>
+      </Subsection>
+    </Subsection>
+    <Subsection title="7c">
+      <Paragraph>Paragraph.</Paragraph>
+    </Subsection>
+  </Section>
+
+</Document>

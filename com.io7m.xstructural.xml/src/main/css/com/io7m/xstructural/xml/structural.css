@@ -1,0 +1,392 @@
+/*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * Structural CSS ${project.artifactId}/${project.version}
+ */
+
+:root {
+  --stColumnWidthLeft: 15%;
+  --stColumnWidthMain: 85%;
+  --stContentColor: #202020;
+  --stContentFont: sans-serif;
+  --stHeaderColor: #202020;
+  --stHeaderFont: sans-serif;
+  --stMainWidth: 50em;
+  --stBackgroundColor: #fff;
+  --stNavigationRowGap: 0.25em;
+
+  --stDivider: 1px solid #dddddd;
+  --stVerbatimBorder: 1px solid #dddddd;
+}
+
+body
+{
+  background-color: var(--stBackgroundColor);
+}
+
+h1, h2, h3, h4, h5, h6
+{
+  font-family: var(--stHeaderFont);
+  color: var(--stHeaderColor);
+}
+h1
+{
+  font-size: 1.4em;
+  font-weight: bold;
+}
+h2
+{
+  font-size: 1.32em;
+  font-weight: bold;
+}
+h3
+{
+  font-size: 1.24em;
+  font-weight: bold;
+}
+h4
+{
+  font-size: 1.16em;
+  font-weight: bold;
+}
+h5
+{
+  font-size: 1.08em;
+  font-weight: bold;
+}
+h6
+{
+  font-size: 1.0em;
+  font-weight: bold
+}
+
+#stNavigationHeader
+{
+  width: var(--stMainWidth);
+  font-family: var(--stHeaderFont);
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-row-gap: var(--stNavigationRowGap);
+  margin: 1em;
+  border-bottom: var(--stDivider);
+  padding-bottom: 1em;
+}
+#stNavigationFooter
+{
+  width: var(--stMainWidth);
+  font-family: var(--stHeaderFont);
+  display: grid;
+  grid-template-columns: auto auto auto;
+  grid-row-gap: var(--stNavigationRowGap);
+  margin: 1em;
+  border-top: var(--stDivider);
+  padding-top: 1em;
+}
+
+.stNavigationHeaderPrevTitle
+{
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+.stNavigationHeaderPrevLink
+{
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+.stNavigationHeaderUpTitle
+{
+  grid-column-start: 2;
+  grid-row-start: 1;
+  text-align: center;
+}
+.stNavigationHeaderUpLink
+{
+  grid-column-start: 2;
+  grid-row-start: 2;
+  text-align: center;
+}
+.stNavigationHeaderNextTitle
+{
+  grid-column-start: 3;
+  grid-row-start: 1;
+  text-align: right;
+}
+.stNavigationHeaderNextLink
+{
+  grid-column-start: 3;
+  grid-row-start: 2;
+  text-align: right;
+}
+
+.stNavigationFooterPrevTitle
+{
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+.stNavigationFooterPrevLink
+{
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+.stNavigationFooterUpTitle
+{
+  grid-column-start: 2;
+  grid-row-start: 2;
+  text-align: center;
+}
+.stNavigationFooterUpLink
+{
+  grid-column-start: 2;
+  grid-row-start: 1;
+  text-align: center;
+}
+.stNavigationFooterNextTitle
+{
+  grid-column-start: 3;
+  grid-row-start: 2;
+  text-align: right;
+}
+.stNavigationFooterNextLink
+{
+  grid-column-start: 3;
+  grid-row-start: 1;
+  text-align: right;
+}
+
+#stBrandingHeader
+{
+  width: var(--stMainWidth);
+  margin: 1em;
+}
+
+#stBrandingFooter
+{
+  width: var(--stMainWidth);
+  border-top: var(--stDivider);
+  padding-top: 1em;
+  margin: 1em;
+}
+
+#stHeader
+{
+  width: var(--stMainWidth);
+  margin-left: 1em;
+  margin-bottom: 2em;
+
+  padding-bottom: 2em;
+  border-bottom: var(--stDivider);
+}
+
+#stMainTableOfContents
+{
+  width: var(--stMainWidth);
+  margin-left: 1em;
+  margin-bottom: 2em;
+
+  padding-bottom: 2em;
+  border-bottom: var(--stDivider);
+}
+
+.stMainTableOfContentsContent
+{
+  margin-left: 2em;
+}
+
+.stTableOfContents
+{
+  display: flex;
+  margin-bottom: 1em;
+  font-family: var(--stContentFont);
+}
+.stTableOfContentsMargin
+{
+  width: var(--stColumnWidthLeft);
+  font-family: var(--stHeaderFont);
+}
+.stTableOfContentsContent
+{
+  width: var(--stColumnWidthMain);
+  font-family: var(--stContentFont);
+  color: var(--stContentColor);
+}
+
+.stTableOfContentsContent ul
+{
+  padding: 0;
+  margin: 0;
+}
+.stTableOfContentsContent li > ul
+{
+  padding-left: 1em;
+}
+.stTableOfContentsContent li
+{
+  list-style: none;
+}
+
+#stFootnotes
+{
+  width: var(--stMainWidth);
+  margin-left: 1em;
+  margin-bottom: 2em;
+  padding-top: 1em;
+
+  border-top: var(--stDivider);
+}
+
+#stFooter
+{
+  width: var(--stMainWidth);
+  margin-left: 1em;
+  margin-bottom: 2em;
+
+  border-top: var(--stDivider);
+}
+
+#stOverview
+{
+  width: var(--stMainWidth);
+  margin-left: 1em;
+  margin-bottom: 2em;
+
+  font-family: var(--stContentFont);
+  color: var(--stContentColor);
+}
+
+#stMain
+{
+  width: var(--stMainWidth);
+  margin-left: 1em;
+  margin-bottom: 2em;
+}
+
+.stSectionHeader
+{
+  display: flex;
+  margin-top: 2em;
+  font-family: var(--stHeaderFont);
+}
+.stSectionNumber
+{
+  width: var(--stColumnWidthLeft);
+  font-family: var(--stHeaderFont);
+}
+.stSectionTitle
+{
+
+}
+
+.stSubsectionHeader
+{
+  display: flex;
+  margin-top: 2em;
+  font-family: var(--stHeaderFont);
+}
+
+.stSubsectionNumber
+{
+  width: var(--stColumnWidthLeft);
+  font-family: var(--stHeaderFont);
+}
+
+.stParagraph
+{
+  display: flex;
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+.stParagraphNumber
+{
+  width: var(--stColumnWidthLeft);
+  font-family: var(--stHeaderFont);
+}
+.stParagraphContent
+{
+  width: var(--stColumnWidthMain);
+  font-family: var(--stContentFont);
+  color: var(--stContentColor);
+}
+
+.stFormalItemHeader
+{
+  display: flex;
+  font-family: var(--stHeaderFont);
+  margin-top: 2em;
+  margin-bottom: 1em;
+}
+.stFormalItemNumber
+{
+  width: var(--stColumnWidthLeft);
+}
+.stFormalItemTitle
+{
+  font-weight: bold;
+  font-family: var(--stHeaderFont);
+  color: var(--stContentColor);
+}
+.stFormalItemContent
+{
+  display: flex;
+  margin-bottom: 1em;
+}
+.stFormalItemContentMargin
+{
+  width: var(--stColumnWidthLeft);
+  font-family: var(--stHeaderFont);
+}
+.stFormalItemContentMain
+{
+  width: var(--stColumnWidthMain);
+  font-family: var(--stContentFont);
+  color: var(--stContentColor);
+}
+
+.stFootnoteContainer
+{
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.stFootnoteNumber
+{
+  width: var(--stColumnWidthLeft);
+  font-family: var(--stHeaderFont);
+}
+
+.stFootnoteContent
+{
+  width: var(--stColumnWidthMain);
+  font-family: var(--stContentFont);
+  color: var(--stContentColor);
+}
+
+.stMetadataTable
+{
+  font-family: monospace;
+}
+
+.stMetadataTable td:nth-child(1)
+{
+  width: 12em;
+}
+
+.stVerbatim
+{
+  border: var(--stVerbatimBorder);
+  padding: 1em;
+  overflow: auto;
+}

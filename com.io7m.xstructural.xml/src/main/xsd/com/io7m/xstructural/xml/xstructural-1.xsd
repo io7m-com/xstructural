@@ -1,0 +1,477 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+  SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+  IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            xmlns:xsl="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            xmlns:dc="http://purl.org/dc/elements/1.1/"
+            xmlns:s="urn:com.io7m.structural:7:0"
+            targetNamespace="urn:com.io7m.structural:7:0">
+
+  <xsd:import namespace="http://purl.org/dc/elements/1.1/"
+              schemaLocation="dc.xsd"/>
+  <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+              schemaLocation="xml.xsd"/>
+
+  <xsd:simpleType name="uuidType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A UUID value.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="typeType">
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z][a-zA-Z0-9_\.\-]*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:attributeGroup name="standardXMLAttributes">
+    <xsd:attribute ref="xml:base"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:attributeGroup>
+
+  <xsd:attributeGroup name="tableOfContentAttributes">
+    <xsd:attribute name="tableOfContents"
+                   use="optional"
+                   default="true"
+                   type="xsd:boolean"/>
+    <xsd:attribute name="tableOfContentsDepth"
+                   use="optional"
+                   default="3"
+                   type="xsd:positiveInteger"/>
+  </xsd:attributeGroup>
+
+  <xsd:element name="Image">
+    <xsd:complexType mixed="true">
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+      <xsd:attribute name="width"
+                     type="xsd:nonNegativeInteger"
+                     use="optional"/>
+      <xsd:attribute name="height"
+                     type="xsd:nonNegativeInteger"
+                     use="optional"/>
+      <xsd:attribute name="source"
+                     type="xsd:anyURI"
+                     use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Item">
+    <xsd:complexType mixed="true">
+      <xsd:sequence minOccurs="0"
+                    maxOccurs="unbounded">
+        <xsd:group ref="s:ListContent"/>
+      </xsd:sequence>
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:group name="ListContent">
+    <xsd:choice>
+      <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:ListOrdered"/>
+      <xsd:element ref="s:ListUnordered"/>
+      <xsd:group ref="s:ParagraphContent"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:element name="ListOrdered">
+    <xsd:complexType>
+      <xsd:sequence minOccurs="1"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:Item"/>
+      </xsd:sequence>
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="ListUnordered">
+    <xsd:complexType>
+      <xsd:sequence minOccurs="1"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:Item"/>
+      </xsd:sequence>
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Column">
+    <xsd:complexType mixed="true">
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Columns">
+    <xsd:complexType>
+      <xsd:sequence minOccurs="1"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:Column"/>
+      </xsd:sequence>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:group name="TableContent">
+    <xsd:choice>
+      <xsd:group ref="s:ParagraphContent"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:element name="Cell">
+    <xsd:complexType mixed="true">
+      <xsd:sequence minOccurs="0"
+                    maxOccurs="unbounded">
+        <xsd:group ref="s:TableContent"/>
+      </xsd:sequence>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Row">
+    <xsd:complexType>
+      <xsd:sequence minOccurs="1"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:Cell"/>
+      </xsd:sequence>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Table">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="s:Columns"/>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s:Row"/>
+        </xsd:sequence>
+      </xsd:sequence>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Term">
+    <xsd:complexType mixed="true">
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute type="s:typeType"
+                     name="type"
+                     use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Link">
+    <xsd:complexType mixed="true">
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute type="s:uuidType"
+                     name="target"
+                     use="required"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="LinkFootnote">
+    <xsd:complexType mixed="true">
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute type="s:uuidType"
+                     name="target"
+                     use="required"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="LinkExternal">
+    <xsd:complexType mixed="true">
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute type="xsd:anyURI"
+                     name="target"
+                     use="required"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Verbatim">
+    <xsd:complexType mixed="true">
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:group name="FormalItemContent">
+    <xsd:choice>
+      <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:ListOrdered"/>
+      <xsd:element ref="s:ListUnordered"/>
+      <xsd:element ref="s:Table"/>
+      <xsd:element ref="s:Verbatim"/>
+      <xsd:group ref="s:ParagraphContent"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:group name="ParagraphContent">
+    <xsd:choice>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
+      <xsd:element ref="s:Term"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:element name="Metadata">
+    <xsd:complexType>
+      <xsd:group ref="dc:elementsGroup"/>
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Paragraph">
+    <xsd:complexType mixed="true">
+      <xsd:sequence minOccurs="0"
+                    maxOccurs="unbounded">
+        <xsd:group ref="s:ParagraphContent"/>
+      </xsd:sequence>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+      <xsd:attribute name="id"
+                     type="s:uuidType"
+                     use="optional"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="FormalItem">
+    <xsd:complexType>
+      <xsd:group ref="s:FormalItemContent"/>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="id"
+                     type="s:uuidType"
+                     use="optional"/>
+      <xsd:attribute name="title"
+                     type="xsd:string"
+                     use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:group name="SubsectionContent">
+    <xsd:choice>
+      <xsd:element ref="s:Paragraph"/>
+      <xsd:element ref="s:FormalItem"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:element name="Subsection">
+    <xsd:complexType>
+      <xsl:choice>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s:Subsection"/>
+        </xsd:sequence>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:group ref="s:SubsectionContent"/>
+        </xsd:sequence>
+      </xsl:choice>
+
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+      <xsd:attribute name="id"
+                     type="s:uuidType"
+                     use="optional"/>
+      <xsd:attribute name="title"
+                     type="xsd:string"
+                     use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:group name="FootnoteContent">
+    <xsd:choice>
+      <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:ListOrdered"/>
+      <xsd:element ref="s:ListUnordered"/>
+      <xsd:element ref="s:Table"/>
+      <xsd:element ref="s:Verbatim"/>
+      <xsd:group ref="s:ParagraphContent"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:element name="Footnote">
+    <xsd:complexType mixed="true">
+      <xsd:sequence minOccurs="0"
+                    maxOccurs="unbounded">
+        <xsd:group ref="s:FootnoteContent"/>
+      </xsd:sequence>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attribute name="id"
+                     type="s:uuidType"
+                     use="required"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element name="Section">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:choice>
+          <xsd:sequence minOccurs="1"
+                        maxOccurs="unbounded">
+            <xsd:element ref="s:Section"/>
+          </xsd:sequence>
+          <xsd:sequence minOccurs="1"
+                        maxOccurs="unbounded">
+            <xsd:element ref="s:Subsection"/>
+          </xsd:sequence>
+          <xsd:sequence minOccurs="1"
+                        maxOccurs="unbounded">
+            <xsd:group ref="s:SubsectionContent"/>
+          </xsd:sequence>
+        </xsd:choice>
+        <xsd:sequence minOccurs="0"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s:Footnote"/>
+        </xsd:sequence>
+      </xsd:sequence>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attributeGroup ref="s:tableOfContentAttributes"/>
+
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional"/>
+      <xsd:attribute name="id"
+                     type="s:uuidType"
+                     use="optional"/>
+      <xsd:attribute name="title"
+                     type="xsd:string"
+                     use="required"/>
+    </xsd:complexType>
+
+    <xsd:unique name="SectionFootnoteKey">
+      <xsd:selector xpath="s:Footnote"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:keyref name="SectionFootnoteReferences"
+                refer="s:SectionFootnoteKey">
+      <xsd:selector xpath=".//s:LinkFootnote"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+  </xsd:element>
+
+  <xsd:element name="Document">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="s:Metadata"/>
+        <xsd:choice>
+          <xsd:sequence minOccurs="1"
+                        maxOccurs="unbounded">
+            <xsd:element ref="s:Section"/>
+          </xsd:sequence>
+          <xsd:sequence minOccurs="1"
+                        maxOccurs="unbounded">
+            <xsd:element ref="s:Subsection"/>
+          </xsd:sequence>
+        </xsd:choice>
+        <xsd:sequence minOccurs="0"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s:Footnote"/>
+        </xsd:sequence>
+      </xsd:sequence>
+
+      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:attributeGroup ref="s:tableOfContentAttributes"/>
+    </xsd:complexType>
+
+    <xsd:unique name="ItemIDsAreUnique">
+      <xsd:selector xpath=".//s:FormalItem|.//s:Paragraph|.//s:Subsection|.//s:Section|.//s:Footnote"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:unique name="LinkReferencesAreUnique">
+      <xsd:selector xpath=".//s:FormalItem|.//s:Paragraph|.//s:Subsection|.//s:Section"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:keyref name="LinkReferences"
+                refer="s:LinkReferencesAreUnique">
+      <xsd:selector xpath=".//s:Link"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+
+    <xsd:unique name="DocumentFootnoteKey">
+      <xsd:selector xpath="s:Footnote"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:keyref name="DocumentFootnoteReferences"
+                refer="s:DocumentFootnoteKey">
+      <xsd:selector xpath="s:Subsection/*/s:LinkFootnote"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+  </xsd:element>
+
+</xsd:schema>
