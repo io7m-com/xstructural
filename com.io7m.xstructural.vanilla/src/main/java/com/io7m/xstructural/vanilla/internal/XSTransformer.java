@@ -132,6 +132,19 @@ public final class XSTransformer implements XSProcessorType
         LOG.debug("execution completed");
       }
     }
+
+    if (this.request.writeResources()) {
+      Files.copy(
+        this.resources.xstructuralResourceOf("reset.css")
+          .openStream(),
+        this.request.outputDirectory().resolve("reset.css")
+      );
+      Files.copy(
+        this.resources.xstructuralResourceOf("structural.css")
+          .openStream(),
+        this.request.outputDirectory().resolve("structural.css")
+      );
+    }
   }
 
   private void compileCorePackage(

@@ -72,6 +72,14 @@ final class XSCommandTransformXHTML extends XSCommandRoot
   )
   private Path brandingFile;
 
+  @Parameter(
+    required = false,
+    description = "Should resources (such as CSS) be copied into the output directory?",
+    names = "--copyResources",
+    arity = 1
+  )
+  private boolean copyResources = true;
+
   XSCommandTransformXHTML()
   {
 
@@ -90,6 +98,7 @@ final class XSCommandTransformXHTML extends XSCommandRoot
     requestBuilder.setSourceFile(this.sourceFile);
     requestBuilder.setStylesheet(this.stylesheet);
     requestBuilder.setTask(Task.TRANSFORM_XHTML);
+    requestBuilder.setWriteResources(this.copyResources);
 
     if (this.traceFile != null) {
       requestBuilder.setTraceFile(this.traceFile);

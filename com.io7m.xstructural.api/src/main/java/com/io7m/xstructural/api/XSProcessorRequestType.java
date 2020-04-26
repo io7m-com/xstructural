@@ -63,6 +63,16 @@ public interface XSProcessorRequestType
   }
 
   /**
+   * @return {@code true} if resources (such as CSS) should be copied into the output directory
+   */
+
+  @Value.Default
+  default boolean writeResources()
+  {
+    return true;
+  }
+
+  /**
    * @return The file to which trace messages will be written
    */
 
