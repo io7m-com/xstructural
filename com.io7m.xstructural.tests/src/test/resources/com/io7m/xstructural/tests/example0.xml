@@ -192,7 +192,7 @@
     </Subsection>
     <Subsection title="Subsection 2"
                 xml:lang="en"
-                xml:base="example.xml">
+                xml:base="example0.xml">
       <Paragraph>
         Integer dictum, est quis tincidunt pretium, justo risus vestibulum libero, sed aliquam libero urna vel sapien.
         Suspendisse odio libero, vulputate eget eros ac, faucibus vehicula diam. Donec vulputate bibendum ipsum, id

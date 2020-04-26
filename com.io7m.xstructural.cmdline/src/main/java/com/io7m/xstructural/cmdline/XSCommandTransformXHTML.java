@@ -20,8 +20,6 @@ import com.beust.jcommander.Parameter;
 import com.beust.jcommander.Parameters;
 import com.io7m.xstructural.api.XSProcessorRequest;
 import com.io7m.xstructural.cmdline.internal.XSServices;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.nio.file.Path;
 
@@ -31,9 +29,6 @@ import static com.io7m.xstructural.api.XSProcessorRequestType.Task;
 @Parameters(commandDescription = "Transform a structural document to XHTML")
 final class XSCommandTransformXHTML extends XSCommandRoot
 {
-  private static final Logger LOG =
-    LoggerFactory.getLogger(XSCommandTransformXHTML.class);
-
   @Parameter(
     required = true,
     description = "The source document",

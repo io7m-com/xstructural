@@ -62,23 +62,6 @@ public final class XSCommandLineTest
   }
 
   @Test
-  public void testValidateMissingOutput()
-    throws Exception
-  {
-    final var main = new Main(new String[]{
-      "validate",
-      "--sourceFile",
-      XSTestDirectories.resourceOf(
-        XSCommandLineTest.class,
-        this.sourceDirectory,
-        "example.xml")
-        .toString()
-    });
-    main.run();
-    Assertions.assertEquals(1, main.exitCode());
-  }
-
-  @Test
   public void testValidateMissingSource()
     throws Exception
   {
@@ -101,10 +84,8 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example.xml")
+        "example0.xml")
         .toString(),
-      "--outputDirectory",
-      this.outputDirectory.toString(),
       "--verbose",
       "trace"
     });
@@ -123,7 +104,7 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example.xml")
+        "example0.xml")
         .toString()
     });
     main.run();
@@ -153,7 +134,7 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example.xml")
+        "example0.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
@@ -174,7 +155,7 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example.xml")
+        "example0.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
@@ -214,7 +195,7 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example.xml")
+        "example0.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
@@ -256,7 +237,7 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example.xml")
+        "example0.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
@@ -292,7 +273,7 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example.xml")
+        "example0.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),

@@ -82,10 +82,20 @@
                required="true"/>
 
     <xsl:variable name="sectionNumber">
-      <xsl:call-template name="sxc:sectionNumberTitleOf">
-        <xsl:with-param name="section"
-                        select="ancestor::s:Section[1]"/>
-      </xsl:call-template>
+      <xsl:choose>
+        <xsl:when test="count(ancestor::s:Section) > 0">
+          <xsl:variable name="numericPart">
+            <xsl:call-template name="sxc:sectionNumberTitleOf">
+              <xsl:with-param name="section"
+                              select="ancestor::s:Section[1]"/>
+            </xsl:call-template>
+          </xsl:variable>
+          <xsl:value-of select="concat($numericPart,'.')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="''"/>
+        </xsl:otherwise>
+      </xsl:choose>
     </xsl:variable>
 
     <xsl:variable name="subsectionNumber">
@@ -94,7 +104,7 @@
                   count="s:Subsection"/>
     </xsl:variable>
 
-    <xsl:value-of select="concat($sectionNumber,'.',$subsectionNumber)"/>
+    <xsl:value-of select="concat($sectionNumber,$subsectionNumber)"/>
   </xsl:template>
 
   <xsl:template name="sxc:nodeNumberTitleOf"

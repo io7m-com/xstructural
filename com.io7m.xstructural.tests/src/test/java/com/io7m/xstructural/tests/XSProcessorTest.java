@@ -70,7 +70,7 @@ public final class XSProcessorTest
   }
 
   @Test
-  public void testCompileExample()
+  public void testCompileExample0()
     throws Exception
   {
     final var request =
@@ -79,7 +79,26 @@ public final class XSProcessorTest
         .setSourceFile(XSTestDirectories.resourceOf(
           XSProcessorTest.class,
           this.sourceDirectory,
-          "example.xml"))
+          "example0.xml"))
+        .setTraceFile(this.directory.resolve("trace.xml"))
+        .setMessageFile(this.directory.resolve("messages.txt"))
+        .build();
+
+    final var processor = this.processors.create(request);
+    Assertions.assertTimeout(TIMEOUT, processor::execute);
+  }
+
+  @Test
+  public void testCompileExample1()
+    throws Exception
+  {
+    final var request =
+      XSProcessorRequest.builder()
+        .setOutputDirectory(this.outputDirectory)
+        .setSourceFile(XSTestDirectories.resourceOf(
+          XSProcessorTest.class,
+          this.sourceDirectory,
+          "example1.xml"))
         .setTraceFile(this.directory.resolve("trace.xml"))
         .setMessageFile(this.directory.resolve("messages.txt"))
         .build();

@@ -85,6 +85,12 @@ public final class XSTransformer implements XSProcessorType
       Feature.XSLT_ENABLE_ASSERTIONS, Boolean.TRUE
     );
 
+    final var outputPath =
+      this.request.outputDirectory()
+        .toAbsolutePath();
+
+    Files.createDirectories(outputPath);
+
     final var processor = new Processor(configuration);
     final var compiler = processor.newXsltCompiler();
     compiler.setErrorListener(new XSErrorListener(LOG));
@@ -115,14 +121,9 @@ public final class XSTransformer implements XSProcessorType
       try (var messageListener = new XSMessageListener(messagePath)) {
         transformer.setMessageListener(messageListener);
 
-        final var outputPath =
-          this.request.outputDirectory()
-            .toAbsolutePath()
-            .toString();
-
         transformer.setParameter(
           QName.fromEQName("outputDirectory"),
-          XdmValue.makeValue(outputPath)
+          XdmValue.makeValue(outputPath.toString())
         );
 
         LOG.debug("output directory: {}", outputPath);
