@@ -27,7 +27,7 @@
   </modules>
 
   <properties>
-    <com.codacy.id></com.codacy.id>
+    <com.codacy.id>859f49f33ee74121a68ac4536fd6559a</com.codacy.id>
     <com.io7m.immutables.version>2.8.3</com.io7m.immutables.version>
     <io7m.api.previousVersion>0.0.1-SNAPSHOT</io7m.api.previousVersion>
     <junit.version>5.7.0-M1</junit.version>
