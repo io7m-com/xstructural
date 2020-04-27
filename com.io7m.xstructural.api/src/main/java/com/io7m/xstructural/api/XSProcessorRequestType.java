@@ -138,4 +138,28 @@ public interface XSProcessorRequestType
 
     TRANSFORM_XHTML
   }
+
+  /**
+   * Check preconditions for the type.
+   */
+
+  @Value.Check
+  default void checkPreconditions()
+  {
+    checkAbsolute(this.outputDirectory());
+    checkAbsolute(this.messageFile());
+    checkAbsolute(this.traceFile());
+    this.brandingFile().ifPresent(XSProcessorRequestType::checkAbsolute);
+    checkAbsolute(this.sourceFile());
+  }
+
+  private static void checkAbsolute(
+    final Path directory)
+  {
+    if (!directory.isAbsolute()) {
+      throw new IllegalArgumentException(
+        String.format("Path %s is not absolute", directory)
+      );
+    }
+  }
 }

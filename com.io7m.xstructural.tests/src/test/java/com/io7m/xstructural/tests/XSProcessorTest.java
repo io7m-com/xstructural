@@ -17,6 +17,7 @@
 package com.io7m.xstructural.tests;
 
 import com.io7m.xstructural.api.XSProcessorRequest;
+import com.io7m.xstructural.api.XSProcessorRequestType;
 import com.io7m.xstructural.api.XSValidationException;
 import com.io7m.xstructural.vanilla.XSProcessors;
 import org.junit.jupiter.api.Assertions;
@@ -30,7 +31,7 @@ import java.time.Duration;
 
 public final class XSProcessorTest
 {
-  private static final Duration TIMEOUT = Duration.ofMinutes(30L);
+  private static final Duration TIMEOUT = Duration.ofSeconds(15L);
 
   private Path directory;
   private XSProcessors processors;
@@ -70,7 +71,7 @@ public final class XSProcessorTest
   }
 
   @Test
-  public void testCompileExample0()
+  public void testCompileSingleExample0()
     throws Exception
   {
     final var request =
@@ -82,6 +83,7 @@ public final class XSProcessorTest
           "example0.xml"))
         .setTraceFile(this.directory.resolve("trace.xml"))
         .setMessageFile(this.directory.resolve("messages.txt"))
+        .setStylesheet(XSProcessorRequestType.Stylesheet.SINGLE_FILE)
         .build();
 
     final var processor = this.processors.create(request);
@@ -89,7 +91,7 @@ public final class XSProcessorTest
   }
 
   @Test
-  public void testCompileExample1()
+  public void testCompileSingleExample1()
     throws Exception
   {
     final var request =
@@ -101,6 +103,47 @@ public final class XSProcessorTest
           "example1.xml"))
         .setTraceFile(this.directory.resolve("trace.xml"))
         .setMessageFile(this.directory.resolve("messages.txt"))
+        .setStylesheet(XSProcessorRequestType.Stylesheet.SINGLE_FILE)
+        .build();
+
+    final var processor = this.processors.create(request);
+    Assertions.assertTimeout(TIMEOUT, processor::execute);
+  }
+
+  @Test
+  public void testCompileMultipleExample0()
+    throws Exception
+  {
+    final var request =
+      XSProcessorRequest.builder()
+        .setOutputDirectory(this.outputDirectory)
+        .setSourceFile(XSTestDirectories.resourceOf(
+          XSProcessorTest.class,
+          this.sourceDirectory,
+          "example0.xml"))
+        .setTraceFile(this.directory.resolve("trace.xml"))
+        .setMessageFile(this.directory.resolve("messages.txt"))
+        .setStylesheet(XSProcessorRequestType.Stylesheet.MULTIPLE_FILE)
+        .build();
+
+    final var processor = this.processors.create(request);
+    Assertions.assertTimeout(TIMEOUT, processor::execute);
+  }
+
+  @Test
+  public void testCompileMultipleExample1()
+    throws Exception
+  {
+    final var request =
+      XSProcessorRequest.builder()
+        .setOutputDirectory(this.outputDirectory)
+        .setSourceFile(XSTestDirectories.resourceOf(
+          XSProcessorTest.class,
+          this.sourceDirectory,
+          "example1.xml"))
+        .setTraceFile(this.directory.resolve("trace.xml"))
+        .setMessageFile(this.directory.resolve("messages.txt"))
+        .setStylesheet(XSProcessorRequestType.Stylesheet.MULTIPLE_FILE)
         .build();
 
     final var processor = this.processors.create(request);

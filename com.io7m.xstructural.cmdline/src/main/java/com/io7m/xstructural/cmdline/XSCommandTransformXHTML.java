@@ -94,20 +94,20 @@ final class XSCommandTransformXHTML extends XSCommandRoot
     }
 
     final var requestBuilder = XSProcessorRequest.builder();
-    requestBuilder.setOutputDirectory(this.outputDirectory);
-    requestBuilder.setSourceFile(this.sourceFile);
+    requestBuilder.setOutputDirectory(this.outputDirectory.toAbsolutePath());
+    requestBuilder.setSourceFile(this.sourceFile.toAbsolutePath());
     requestBuilder.setStylesheet(this.stylesheet);
     requestBuilder.setTask(Task.TRANSFORM_XHTML);
     requestBuilder.setWriteResources(this.copyResources);
 
     if (this.traceFile != null) {
-      requestBuilder.setTraceFile(this.traceFile);
+      requestBuilder.setTraceFile(this.traceFile.toAbsolutePath());
     }
     if (this.messagesFile != null) {
-      requestBuilder.setMessageFile(this.messagesFile);
+      requestBuilder.setMessageFile(this.messagesFile.toAbsolutePath());
     }
     if (this.brandingFile != null) {
-      requestBuilder.setBrandingFile(this.brandingFile);
+      requestBuilder.setBrandingFile(this.brandingFile.toAbsolutePath());
     }
 
     final var request = requestBuilder.build();

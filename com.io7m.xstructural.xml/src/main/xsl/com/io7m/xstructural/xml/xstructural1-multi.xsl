@@ -10,8 +10,16 @@
                 version="3.0">
 
   <xsl:param name="outputDirectory"
+             as="xs:string"
              required="true"/>
+
   <xsl:param name="branding"
+             as="xs:anyURI?"
+             required="false"/>
+
+  <xsl:param name="indexFile"
+             select="'index-m.xhtml'"
+             as="xs:string"
              required="false"/>
 
   <xsl:use-package name="com.io7m.structural.xsl.core"
@@ -19,7 +27,8 @@
     <xsl:override>
       <xsl:function name="sxc:anchorOf"
                     as="xs:string">
-        <xsl:param name="node"/>
+        <xsl:param name="node"
+                   as="element()"/>
 
         <xsl:variable name="owningSection"
                       select="$node/ancestor-or-self::s:Section[1]"/>
@@ -37,119 +46,208 @@
       </xsl:function>
 
       <xsl:template name="sxc:section">
-        <xsl:variable name="documentTitle">
-          <xsl:choose>
-            <xsl:when test="ancestor::s:Document/s:Metadata/dc:title">
-              <xsl:value-of select="concat(ancestor::s:Document/s:Metadata/dc:title[1],': ')"/>
-            </xsl:when>
-          </xsl:choose>
+        <xsl:variable name="documentTitle"
+                      as="xs:string">
+          <xsl:value-of select="ancestor::s:Document[1]/s:Metadata/dc:title[1]"/>
         </xsl:variable>
 
         <xsl:variable name="sectionsPreceding"
                       select="ancestor::s:Document//s:Section[. &lt;&lt; current()]"/>
         <xsl:variable name="sectionsFollowing"
                       select="ancestor::s:Document//s:Section[. &gt;&gt; current()]"/>
-        <xsl:variable name="sectionUp"
+
+        <xsl:variable name="sectionUpNode"
                       select="parent::s:Section"/>
         <xsl:variable name="sectionsPrecedingUp"
-                      select="ancestor::s:Document//s:Section[. &lt;&lt; $sectionUp]"/>
+                      select="ancestor::s:Document//s:Section[. &lt;&lt; $sectionUpNode]"/>
+
         <xsl:variable name="sectionPrev"
-                      select="$sectionsPreceding[last()]"/>
+                      as="element()">
+          <xsl:choose>
+            <xsl:when test="count($sectionsPreceding) > 0">
+              <xsl:sequence select="$sectionsPreceding[last()]"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:sequence select="ancestor::s:Document[1]"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:assert test="$sectionPrev">$sectionPrev must be present</xsl:assert>
+
         <xsl:variable name="sectionNext"
-                      select="$sectionsFollowing[1]"/>
+                      as="element()">
+          <xsl:choose>
+            <xsl:when test="count($sectionsFollowing) > 0">
+              <xsl:sequence select="$sectionsFollowing[1]"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:sequence select="ancestor::s:Document[1]"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:assert test="$sectionNext">$sectionNext must be present</xsl:assert>
+
+        <xsl:variable name="sectionUp"
+                      as="element()">
+          <xsl:choose>
+            <xsl:when test="$sectionUpNode">
+              <xsl:sequence select="$sectionUpNode"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:sequence select="ancestor::s:Document[1]"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:assert test="$sectionUp">$sectionUp must be present</xsl:assert>
 
         <!-- -->
         <!-- Elements for the up file. -->
         <!-- -->
 
-        <xsl:variable name="sectionUpFile">
+        <xsl:variable name="sectionUpFile"
+                      as="xs:string">
           <xsl:choose>
-            <xsl:when test="$sectionUp">
+            <xsl:when test="local-name($sectionUp) = 'Document'">
+              <xsl:value-of select="$indexFile"/>
+            </xsl:when>
+            <xsl:otherwise>
               <xsl:value-of select="concat(generate-id($sectionUp),'.xhtml')"/>
-            </xsl:when>
+            </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="sectionUpNumber">
-          <xsl:choose>
-            <xsl:when test="count($sectionsPrecedingUp) > 0">
-              <xsl:call-template name="sxc:sectionNumberTitleOf">
-                <xsl:with-param name="section"
-                                select="$sectionUp"/>
-              </xsl:call-template>
-            </xsl:when>
-          </xsl:choose>
-        </xsl:variable>
+        <xsl:assert test="$sectionUpFile">$sectionUpFile must be non-empty</xsl:assert>
+
         <xsl:variable name="sectionUpTitle"
-                      select="concat($sectionUpNumber,'. ',$sectionUp/attribute::title)"/>
+                      as="xs:string">
+          <xsl:choose>
+            <xsl:when test="local-name($sectionUp) = 'Document'">
+              <xsl:value-of select="$sectionUp/s:Metadata/dc:title"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:variable name="sectionUpNumber">
+                <xsl:choose>
+                  <xsl:when test="count($sectionsPrecedingUp) > 0">
+                    <xsl:call-template name="sxc:sectionNumberTitleOf">
+                      <xsl:with-param name="section"
+                                      select="$sectionUp"/>
+                    </xsl:call-template>
+                  </xsl:when>
+                </xsl:choose>
+              </xsl:variable>
+              <xsl:value-of select="concat($sectionUpNumber,'. ',$sectionUp/attribute::title)"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:assert test="$sectionUpTitle">$sectionUpTitle must be non-empty</xsl:assert>
 
         <!-- -->
         <!-- Elements for the previous file. -->
         <!-- -->
 
-        <xsl:variable name="sectionPrevFile">
+        <xsl:variable name="sectionPrevFile"
+                      as="xs:string">
           <xsl:choose>
-            <xsl:when test="count($sectionsPreceding) > 0">
+            <xsl:when test="local-name($sectionPrev) = 'Document'">
+              <xsl:value-of select="$indexFile"/>
+            </xsl:when>
+            <xsl:otherwise>
               <xsl:value-of select="concat(generate-id($sectionPrev),'.xhtml')"/>
-            </xsl:when>
+            </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="sectionPrevNumber">
-          <xsl:choose>
-            <xsl:when test="count($sectionsPreceding) > 0">
-              <xsl:call-template name="sxc:sectionNumberTitleOf">
-                <xsl:with-param name="section"
-                                select="$sectionPrev"/>
-              </xsl:call-template>
-            </xsl:when>
-          </xsl:choose>
-        </xsl:variable>
+        <xsl:assert test="$sectionPrevFile">$sectionPrevFile must be non-empty</xsl:assert>
+
         <xsl:variable name="sectionPrevTitle"
-                      select="concat($sectionPrevNumber,'. ',$sectionPrev/attribute::title)"/>
+                      as="xs:string">
+          <xsl:choose>
+            <xsl:when test="local-name($sectionPrev) = 'Document'">
+              <xsl:value-of select="$documentTitle"/>
+            </xsl:when>
+            <xsl:when test="count($sectionsPreceding) > 0">
+              <xsl:variable name="sectionPrevNumber"
+                            as="xs:string">
+                <xsl:call-template name="sxc:sectionNumberTitleOf">
+                  <xsl:with-param name="section"
+                                  select="$sectionPrev"/>
+                </xsl:call-template>
+              </xsl:variable>
+              <xsl:value-of select="concat($sectionPrevNumber,'. ',$sectionPrev/attribute::title)"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:value-of select="$sectionPrev/attribute::title"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:assert test="$sectionPrevTitle">$sectionPrevTitle must be non-empty</xsl:assert>
 
         <!-- -->
         <!-- Elements for the next file. -->
         <!-- -->
 
-        <xsl:variable name="sectionNextFile">
+        <xsl:variable name="sectionNextFile"
+                      as="xs:string">
           <xsl:choose>
-            <xsl:when test="count($sectionsFollowing) > 0">
+            <xsl:when test="local-name($sectionNext) = 'Document'">
+              <xsl:value-of select="$indexFile"/>
+            </xsl:when>
+            <xsl:otherwise>
               <xsl:value-of select="concat(generate-id($sectionNext),'.xhtml')"/>
-            </xsl:when>
+            </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
-        <xsl:variable name="sectionNextNumber">
-          <xsl:choose>
-            <xsl:when test="count($sectionsFollowing) > 0">
-              <xsl:call-template name="sxc:sectionNumberTitleOf">
-                <xsl:with-param name="section"
-                                select="$sectionNext"/>
-              </xsl:call-template>
-            </xsl:when>
-          </xsl:choose>
-        </xsl:variable>
+        <xsl:assert test="$sectionNextFile">$sectionNextFile must be non-empty</xsl:assert>
+
         <xsl:variable name="sectionNextTitle"
-                      select="concat($sectionNextNumber,'. ',$sectionNext/attribute::title)"/>
+                      as="xs:string">
+          <xsl:choose>
+            <xsl:when test="local-name($sectionNext) = 'Document'">
+              <xsl:value-of select="$documentTitle"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:variable name="sectionNextNumber"
+                            as="xs:string">
+                <xsl:call-template name="sxc:sectionNumberTitleOf">
+                  <xsl:with-param name="section"
+                                  select="$sectionNext"/>
+                </xsl:call-template>
+              </xsl:variable>
+              <xsl:value-of select="concat($sectionNextNumber,'. ',$sectionNext/attribute::title)"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+        <xsl:assert test="$sectionNextTitle">$sectionNextTitle must be non-empty</xsl:assert>
 
         <!-- -->
         <!-- Elements for the current file. -->
         <!-- -->
 
         <xsl:variable name="sectionCurrFile"
-                      select="concat(generate-id(),'.xhtml')"/>
-        <xsl:variable name="sectionCurrNumber">
+                      as="xs:string">
+          <xsl:value-of select="concat(generate-id(),'.xhtml')"/>
+        </xsl:variable>
+        <xsl:assert test="$sectionCurrFile">$sectionCurrFile must be non-empty</xsl:assert>
+
+        <xsl:variable name="sectionCurrNumber"
+                      as="xs:string">
           <xsl:call-template name="sxc:sectionNumberTitleOf">
             <xsl:with-param name="section"
                             select="."/>
           </xsl:call-template>
         </xsl:variable>
+        <xsl:assert test="$sectionCurrNumber">$sectionCurrNumber must be non-empty</xsl:assert>
+
         <xsl:variable name="sectionCurrTitle"
-                      select="concat($documentTitle,$sectionCurrNumber,'. ',attribute::title)"/>
+                      as="xs:string">
+          <xsl:value-of select="concat($documentTitle,': ',$sectionCurrNumber,'. ',attribute::title)"/>
+        </xsl:variable>
+        <xsl:assert test="$sectionCurrTitle">$sectionCurrTitle must be non-empty</xsl:assert>
 
         <!-- -->
         <!-- Start a new file. -->
         <!-- -->
 
         <xsl:variable name="sectionFilePath"
+                      as="xs:string"
                       select="concat($outputDirectory,'/',$sectionCurrFile)"/>
 
         <xsl:result-document href="{$sectionFilePath}"
@@ -162,6 +260,8 @@
             <head>
               <meta http-equiv="content-type"
                     content="application/xhtml+xml; charset=utf-8"/>
+              <meta name="generator"
+                    content="${project.groupId}/${project.version}"/>
 
               <xsl:choose>
                 <xsl:when test="string-length($sectionPrevFile)">
@@ -199,7 +299,8 @@
             </head>
             <body>
               <xsl:call-template name="sxc:brandingHeader">
-                <xsl:with-param name="branding" select="$branding"/>
+                <xsl:with-param name="branding"
+                                select="$branding"/>
               </xsl:call-template>
 
               <xsl:call-template name="navigationHeader">
@@ -276,13 +377,7 @@
                                      mode="sxc:blockMode"/>
               </div>
 
-              <xsl:if test="count(.//s:Footnote) > 0">
-                <div id="stFootnotes">
-                  <h2>Footnotes</h2>
-                  <xsl:apply-templates select="./s:Footnote"
-                                       mode="sxc:blockMode"/>
-                </div>
-              </xsl:if>
+              <xsl:call-template name="sxc:footnotesOptional"/>
 
               <xsl:call-template name="navigationFooter">
                 <xsl:with-param name="sectionNext"
@@ -306,7 +401,8 @@
               </xsl:call-template>
 
               <xsl:call-template name="sxc:brandingFooter">
-                <xsl:with-param name="branding" select="$branding"/>
+                <xsl:with-param name="branding"
+                                select="$branding"/>
               </xsl:call-template>
             </body>
           </html>
@@ -317,231 +413,443 @@
 
   <xsl:template name="navigationHeader">
     <xsl:param name="sectionNext"
+               as="element()"
                required="true"/>
     <xsl:param name="sectionNextFile"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionNextTitle"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionPrev"
+               as="element()"
                required="true"/>
     <xsl:param name="sectionPrevFile"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionPrevTitle"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionUp"
+               as="element()"
                required="true"/>
     <xsl:param name="sectionUpFile"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionUpTitle"
+               as="xs:string"
                required="true"/>
 
+    <xsl:assert test="$sectionNext">$sectionNext must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionNextFile">$sectionNextFile must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionNextTitle">$sectionNextTitle must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionPrev">$sectionPrev must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionPrevFile">$sectionPrevFile must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionPrevTitle">$sectionPrevTitle must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionUp">$sectionUp must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionUpFile">$sectionUpFile must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionUpTitle">$sectionUpTitle must be non-empty</xsl:assert>
+
     <div id="stNavigationHeader">
-      <xsl:choose>
-        <xsl:when test="string-length($sectionPrevFile)">
-          <div class="stNavigationHeaderPrevTitle">
-            <xsl:value-of select="$sectionPrevTitle"/>
-          </div>
-          <div class="stNavigationHeaderPrevLink">
-            <xsl:element name="a">
-              <xsl:attribute name="href"
-                             select="$sectionPrevFile"/>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
-                  <xsl:with-param name="node"
-                                  select="$sectionPrev"/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:attribute name="rel">prev</xsl:attribute>
-              Previous
-            </xsl:element>
-          </div>
-        </xsl:when>
-        <xsl:otherwise>
-          <div class="stNavigationHeaderPrevTitle">
-            <xsl:comment>No previous title</xsl:comment>
-          </div>
-          <div class="stNavigationHeaderPrevLink">
-            <xsl:comment>No previous link</xsl:comment>
-          </div>
-        </xsl:otherwise>
-      </xsl:choose>
+      <div class="stNavigationHeaderPrevTitle">
+        <xsl:value-of select="$sectionPrevTitle"/>
+      </div>
+      <div class="stNavigationHeaderPrevLink">
+        <xsl:element name="a">
+          <xsl:attribute name="href"
+                         select="$sectionPrevFile"/>
+          <xsl:attribute name="title">
+            <xsl:call-template name="sxc:nodeNumberTitleOf">
+              <xsl:with-param name="node"
+                              select="$sectionPrev"/>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:attribute name="rel">prev</xsl:attribute>
+          Previous
+        </xsl:element>
+      </div>
 
-      <xsl:choose>
-        <xsl:when test="string-length($sectionUpFile)">
-          <div class="stNavigationHeaderUpTitle">
-            <xsl:value-of select="$sectionUpTitle"/>
-          </div>
-          <div class="stNavigationHeaderUpLink">
-            <xsl:element name="a">
-              <xsl:attribute name="href"
-                             select="$sectionUpFile"/>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
-                  <xsl:with-param name="node"
-                                  select="$sectionUp"/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:attribute name="rel">up</xsl:attribute>
-              Up
-            </xsl:element>
-          </div>
-        </xsl:when>
-        <xsl:otherwise>
-          <div class="stNavigationHeaderUpTitle">
-            <xsl:comment>No up title</xsl:comment>
-          </div>
-          <div class="stNavigationHeaderUpLink">
-            <xsl:comment>No up link</xsl:comment>
-          </div>
-        </xsl:otherwise>
-      </xsl:choose>
+      <div class="stNavigationHeaderUpTitle">
+        <xsl:value-of select="$sectionUpTitle"/>
+      </div>
+      <div class="stNavigationHeaderUpLink">
+        <xsl:element name="a">
+          <xsl:attribute name="href"
+                         select="$sectionUpFile"/>
+          <xsl:attribute name="title">
+            <xsl:call-template name="sxc:nodeNumberTitleOf">
+              <xsl:with-param name="node"
+                              select="$sectionUp"/>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:attribute name="rel">up</xsl:attribute>
+          Up
+        </xsl:element>
+      </div>
 
-      <xsl:choose>
-        <xsl:when test="string-length($sectionNextFile)">
-          <div class="stNavigationHeaderNextTitle">
-            <xsl:value-of select="$sectionNextTitle"/>
-          </div>
-          <div class="stNavigationHeaderNextLink">
-            <xsl:element name="a">
-              <xsl:attribute name="href"
-                             select="$sectionNextFile"/>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
-                  <xsl:with-param name="node"
-                                  select="$sectionNext"/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:attribute name="rel">next</xsl:attribute>
-              Next
-            </xsl:element>
-          </div>
-        </xsl:when>
-        <xsl:otherwise>
-          <div class="stNavigationHeaderNextTitle">
-            <xsl:comment>No next title</xsl:comment>
-          </div>
-          <div class="stNavigationHeaderNextLink">
-            <xsl:comment>No next link</xsl:comment>
-          </div>
-        </xsl:otherwise>
-      </xsl:choose>
+      <div class="stNavigationHeaderNextTitle">
+        <xsl:value-of select="$sectionNextTitle"/>
+      </div>
+      <div class="stNavigationHeaderNextLink">
+        <xsl:element name="a">
+          <xsl:attribute name="href"
+                         select="$sectionNextFile"/>
+          <xsl:attribute name="title">
+            <xsl:call-template name="sxc:nodeNumberTitleOf">
+              <xsl:with-param name="node"
+                              select="$sectionNext"/>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:attribute name="rel">next</xsl:attribute>
+          Next
+        </xsl:element>
+      </div>
     </div>
   </xsl:template>
 
   <xsl:template name="navigationFooter">
     <xsl:param name="sectionNext"
+               as="element()"
                required="true"/>
     <xsl:param name="sectionNextFile"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionNextTitle"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionPrev"
+               as="element()"
                required="true"/>
     <xsl:param name="sectionPrevFile"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionPrevTitle"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionUp"
+               as="element()"
                required="true"/>
     <xsl:param name="sectionUpFile"
+               as="xs:string"
                required="true"/>
     <xsl:param name="sectionUpTitle"
+               as="xs:string"
                required="true"/>
 
+    <xsl:assert test="$sectionNext">$sectionNext must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionNextFile">$sectionNextFile must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionNextTitle">$sectionNextTitle must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionPrev">$sectionPrev must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionPrevFile">$sectionPrevFile must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionPrevTitle">$sectionPrevTitle must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionUp">$sectionUp must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionUpFile">$sectionUpFile must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionUpTitle">$sectionUpTitle must be non-empty</xsl:assert>
+
     <div id="stNavigationFooter">
-      <xsl:choose>
-        <xsl:when test="string-length($sectionPrevFile)">
-          <div class="stNavigationFooterPrevTitle">
-            <xsl:value-of select="$sectionPrevTitle"/>
-          </div>
-          <div class="stNavigationFooterPrevLink">
-            <xsl:element name="a">
-              <xsl:attribute name="href"
-                             select="$sectionPrevFile"/>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
-                  <xsl:with-param name="node"
-                                  select="$sectionPrev"/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:attribute name="rel">prev</xsl:attribute>
-              Previous
-            </xsl:element>
-          </div>
-        </xsl:when>
-        <xsl:otherwise>
-          <div class="stNavigationFooterPrevTitle">
-            <xsl:comment>No previous title</xsl:comment>
-          </div>
-          <div class="stNavigationFooterPrevLink">
-            <xsl:comment>No previous link</xsl:comment>
-          </div>
-        </xsl:otherwise>
-      </xsl:choose>
+      <div class="stNavigationFooterPrevTitle">
+        <xsl:value-of select="$sectionPrevTitle"/>
+      </div>
+      <div class="stNavigationFooterPrevLink">
+        <xsl:element name="a">
+          <xsl:attribute name="href"
+                         select="$sectionPrevFile"/>
+          <xsl:attribute name="title">
+            <xsl:call-template name="sxc:nodeNumberTitleOf">
+              <xsl:with-param name="node"
+                              select="$sectionPrev"/>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:attribute name="rel">prev</xsl:attribute>
+          Previous
+        </xsl:element>
+      </div>
 
-      <xsl:choose>
-        <xsl:when test="string-length($sectionUpFile)">
-          <div class="stNavigationFooterUpTitle">
-            <xsl:value-of select="$sectionUpTitle"/>
-          </div>
-          <div class="stNavigationFooterUpLink">
-            <xsl:element name="a">
-              <xsl:attribute name="href"
-                             select="$sectionUpFile"/>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
-                  <xsl:with-param name="node"
-                                  select="$sectionUp"/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:attribute name="rel">up</xsl:attribute>
-              Up
-            </xsl:element>
-          </div>
-        </xsl:when>
-        <xsl:otherwise>
-          <div class="stNavigationFooterUpTitle">
-            <xsl:comment>No up title</xsl:comment>
-          </div>
-          <div class="stNavigationFooterUpLink">
-            <xsl:comment>No up link</xsl:comment>
-          </div>
-        </xsl:otherwise>
-      </xsl:choose>
+      <div class="stNavigationFooterUpTitle">
+        <xsl:value-of select="$sectionUpTitle"/>
+      </div>
+      <div class="stNavigationFooterUpLink">
+        <xsl:element name="a">
+          <xsl:attribute name="href"
+                         select="$sectionUpFile"/>
+          <xsl:attribute name="title">
+            <xsl:call-template name="sxc:nodeNumberTitleOf">
+              <xsl:with-param name="node"
+                              select="$sectionUp"/>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:attribute name="rel">up</xsl:attribute>
+          Up
+        </xsl:element>
+      </div>
 
-      <xsl:choose>
-        <xsl:when test="string-length($sectionNextFile)">
-          <div class="stNavigationFooterNextTitle">
-            <xsl:value-of select="$sectionNextTitle"/>
-          </div>
-          <div class="stNavigationFooterNextLink">
-            <xsl:element name="a">
-              <xsl:attribute name="href"
-                             select="$sectionNextFile"/>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
-                  <xsl:with-param name="node"
-                                  select="$sectionNext"/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:attribute name="rel">prev</xsl:attribute>
-              Next
-            </xsl:element>
-          </div>
-        </xsl:when>
-        <xsl:otherwise>
-          <div class="stNavigationFooterNextTitle">
-            <xsl:comment>No next title</xsl:comment>
-          </div>
-          <div class="stNavigationFooterNextLink">
-            <xsl:comment>No next link</xsl:comment>
-          </div>
-        </xsl:otherwise>
-      </xsl:choose>
+      <div class="stNavigationFooterNextTitle">
+        <xsl:value-of select="$sectionNextTitle"/>
+      </div>
+      <div class="stNavigationFooterNextLink">
+        <xsl:element name="a">
+          <xsl:attribute name="href"
+                         select="$sectionNextFile"/>
+          <xsl:attribute name="title">
+            <xsl:call-template name="sxc:nodeNumberTitleOf">
+              <xsl:with-param name="node"
+                              select="$sectionNext"/>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:attribute name="rel">next</xsl:attribute>
+          Next
+        </xsl:element>
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="navigationHeaderFrontPage">
+    <xsl:param name="sectionNext"
+               as="element()"
+               required="true"/>
+    <xsl:param name="sectionNextFile"
+               as="xs:string"
+               required="true"/>
+    <xsl:param name="sectionNextTitle"
+               as="xs:string"
+               required="true"/>
+
+    <xsl:assert test="$sectionNext">$sectionNext must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionNextFile">$sectionNextFile must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionNextTitle">$sectionNextTitle must be non-empty</xsl:assert>
+
+    <div id="stNavigationHeader">
+      <div class="stNavigationHeaderPrevTitle">
+        <xsl:comment>No previous title.</xsl:comment>
+      </div>
+      <div class="stNavigationHeaderPrevLink">
+        <xsl:comment>No previous link.</xsl:comment>
+      </div>
+
+      <div class="stNavigationHeaderUpTitle">
+        <xsl:comment>No upwards title.</xsl:comment>
+      </div>
+      <div class="stNavigationHeaderUpLink">
+        <xsl:comment>No upwards link.</xsl:comment>
+      </div>
+
+      <div class="stNavigationHeaderNextTitle">
+        <xsl:value-of select="$sectionNextTitle"/>
+      </div>
+      <div class="stNavigationHeaderNextLink">
+        <xsl:element name="a">
+          <xsl:attribute name="href"
+                         select="$sectionNextFile"/>
+          <xsl:attribute name="title">
+            <xsl:call-template name="sxc:nodeNumberTitleOf">
+              <xsl:with-param name="node"
+                              select="$sectionNext"/>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:attribute name="rel">next</xsl:attribute>
+          Next
+        </xsl:element>
+      </div>
+    </div>
+  </xsl:template>
+
+  <xsl:template name="navigationFooterFrontPage">
+    <xsl:param name="sectionNext"
+               as="element()"
+               required="true"/>
+    <xsl:param name="sectionNextFile"
+               as="xs:string"
+               required="true"/>
+    <xsl:param name="sectionNextTitle"
+               as="xs:string"
+               required="true"/>
+
+    <xsl:assert test="$sectionNext">$sectionNext must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionNextFile">$sectionNextFile must be non-empty</xsl:assert>
+    <xsl:assert test="$sectionNextTitle">$sectionNextTitle must be non-empty</xsl:assert>
+
+    <div id="stNavigationFooter">
+      <div class="stNavigationFooterPrevTitle">
+        <xsl:comment>No previous title.</xsl:comment>
+      </div>
+      <div class="stNavigationFooterPrevLink">
+        <xsl:comment>No previous link.</xsl:comment>
+      </div>
+
+      <div class="stNavigationFooterUpTitle">
+        <xsl:comment>No upwards title.</xsl:comment>
+      </div>
+      <div class="stNavigationFooterUpLink">
+        <xsl:comment>No upwards link.</xsl:comment>
+      </div>
+
+      <div class="stNavigationFooterNextTitle">
+        <xsl:value-of select="$sectionNextTitle"/>
+      </div>
+      <div class="stNavigationFooterNextLink">
+        <xsl:element name="a">
+          <xsl:attribute name="href"
+                         select="$sectionNextFile"/>
+          <xsl:attribute name="title">
+            <xsl:call-template name="sxc:nodeNumberTitleOf">
+              <xsl:with-param name="node"
+                              select="$sectionNext"/>
+            </xsl:call-template>
+          </xsl:attribute>
+          <xsl:attribute name="rel">next</xsl:attribute>
+          Next
+        </xsl:element>
+      </div>
     </div>
   </xsl:template>
 
   <xsl:template match="s:Document">
+    <xsl:variable name="documentFilePath"
+                  as="xs:string"
+                  select="concat($outputDirectory,'/',$indexFile)"/>
+
+    <xsl:result-document href="{$documentFilePath}"
+                         doctype-public="-//W3C//DTD XHTML 1.1//EN"
+                         exclude-result-prefixes="#all"
+                         indent="true"
+                         doctype-system="http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+      <xsl:text>&#x000a;</xsl:text>
+      <html xml:lang="en">
+        <head>
+          <meta http-equiv="content-type"
+                content="application/xhtml+xml; charset=utf-8"/>
+          <meta name="generator"
+                content="${project.groupId}/${project.version}"/>
+
+          <link rel="stylesheet"
+                type="text/css"
+                href="reset.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="structural.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="document.css"/>
+
+          <link rel="schema.DC"
+                href="http://purl.org/dc/elements/1.1/"/>
+
+          <xsl:apply-templates select="s:Metadata/*"
+                               mode="sxc:metadataHeader"/>
+
+          <title>
+            <xsl:value-of select="s:Metadata/dc:title"/>
+          </title>
+        </head>
+        <body>
+          <xsl:call-template name="sxc:brandingHeader">
+            <xsl:with-param name="branding"
+                            select="$branding"/>
+          </xsl:call-template>
+
+          <xsl:if test="count(s:Section) > 0">
+            <xsl:call-template name="navigationHeaderFrontPage">
+              <xsl:with-param name="sectionNext" select="s:Section[1]"/>
+              <xsl:with-param name="sectionNextTitle">
+                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                  <xsl:with-param name="node"
+                                  select="s:Section[1]"/>
+                </xsl:call-template>
+              </xsl:with-param>
+              <xsl:with-param name="sectionNextFile">
+                <xsl:value-of select="concat(generate-id(s:Section[1]),'.xhtml')"/>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:if>
+
+          <div id="stMain">
+            <xsl:comment>Main Content</xsl:comment>
+
+            <div class="stDocumentHeader">
+              <div class="stDocumentHeaderMargin">
+                <xsl:comment>Margin</xsl:comment>
+              </div>
+              <div class="stDocumentHeaderContent stDocumentHeaderTitle">
+                <h1>
+                  <xsl:value-of select="s:Metadata/dc:title"/>
+                </h1>
+                <table class="stMetadataTable">
+                  <xsl:apply-templates select="s:Metadata/*"
+                                       mode="sxc:metadataFrontMatter"/>
+                </table>
+              </div>
+            </div>
+
+            <div class="stDocumentHeader">
+              <div class="stDocumentHeaderMargin">
+                <xsl:comment>Margin</xsl:comment>
+              </div>
+              <div class="stDocumentHeaderContent stDocumentHeaderSubtitle">
+                <h3>Table Of Contents</h3>
+              </div>
+            </div>
+
+            <div class="stTableOfContents">
+              <div class="stTableOfContentsMargin">
+                <xsl:comment>Margin</xsl:comment>
+              </div>
+              <div class="stTableOfContentsContent">
+                <xsl:choose>
+                  <xsl:when test="count(s:Section) > 0">
+                    <xsl:apply-templates select="s:Section"
+                                         mode="sxc:tableOfContents">
+                      <xsl:with-param name="depthMaximum"
+                                      select="9999"/>
+                      <xsl:with-param name="depthCurrent"
+                                      select="0"/>
+                    </xsl:apply-templates>
+                  </xsl:when>
+                  <xsl:when test="count(s:Subsection) > 0">
+                    <xsl:apply-templates select="s:Subsection"
+                                         mode="sxc:tableOfContents">
+                      <xsl:with-param name="depthMaximum"
+                                      select="9999"/>
+                      <xsl:with-param name="depthCurrent"
+                                      select="0"/>
+                    </xsl:apply-templates>
+                  </xsl:when>
+                </xsl:choose>
+              </div>
+            </div>
+
+            <xsl:if test="count(s:Section) = 0">
+              <xsl:apply-templates select="s:Subsection"
+                                   mode="sxc:blockMode"/>
+            </xsl:if>
+          </div>
+
+          <xsl:if test="count(s:Section) = 0">
+            <xsl:call-template name="sxc:footnotesOptional"/>
+          </xsl:if>
+
+          <xsl:if test="count(s:Section) > 0">
+            <xsl:call-template name="navigationFooterFrontPage">
+              <xsl:with-param name="sectionNext" select="s:Section[1]"/>
+              <xsl:with-param name="sectionNextTitle">
+                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                  <xsl:with-param name="node"
+                                  select="s:Section[1]"/>
+                </xsl:call-template>
+              </xsl:with-param>
+              <xsl:with-param name="sectionNextFile">
+                <xsl:value-of select="concat(generate-id(s:Section[1]),'.xhtml')"/>
+              </xsl:with-param>
+            </xsl:call-template>
+          </xsl:if>
+
+          <xsl:call-template name="sxc:brandingFooter">
+            <xsl:with-param name="branding"
+                            select="$branding"/>
+          </xsl:call-template>
+        </body>
+      </html>
+    </xsl:result-document>
+
     <xsl:for-each select="s:Section">
       <xsl:call-template name="sxc:section"/>
     </xsl:for-each>

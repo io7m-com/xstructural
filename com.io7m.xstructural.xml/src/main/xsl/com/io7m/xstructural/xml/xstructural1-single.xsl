@@ -10,8 +10,16 @@
                 version="3.0">
 
   <xsl:param name="outputDirectory"
+             as="xs:string"
              required="true"/>
+
   <xsl:param name="branding"
+             as="xs:anyURI?"
+             required="false"/>
+
+  <xsl:param name="indexFile"
+             select="'index.xhtml'"
+             as="xs:string"
              required="false"/>
 
   <xsl:use-package name="com.io7m.structural.xsl.core"
@@ -19,7 +27,8 @@
     <xsl:override>
       <xsl:function name="sxc:anchorOf"
                     as="xs:string">
-        <xsl:param name="node"/>
+        <xsl:param name="node"
+                   as="element()"/>
         <xsl:choose>
           <xsl:when test="$node/attribute::id">
             <xsl:value-of select="concat('#id_',$node/attribute::id[1])"/>
@@ -33,12 +42,6 @@
       <xsl:template name="sxc:section">
         <h1 class="stSectionHeader">
           <span class="stSectionNumber">
-            <xsl:call-template name="sxc:sectionNumberTitleOf">
-              <xsl:with-param name="section"
-                              select="."/>
-            </xsl:call-template>
-          </span>
-          <span class="stSectionTitle">
             <xsl:element name="a">
               <xsl:choose>
                 <xsl:when test="@id">
@@ -72,8 +75,14 @@
                   </xsl:attribute>
                 </xsl:otherwise>
               </xsl:choose>
-              <xsl:value-of select="@title"/>
+              <xsl:call-template name="sxc:sectionNumberTitleOf">
+                <xsl:with-param name="section"
+                                select="."/>
+              </xsl:call-template>
             </xsl:element>
+          </span>
+          <span class="stSectionTitle">
+            <xsl:value-of select="@title"/>
           </span>
         </h1>
 
@@ -88,7 +97,7 @@
 
   <xsl:template match="s:Document">
     <xsl:variable name="filePath"
-                  select="concat($outputDirectory,'/index.xhtml')"/>
+                  select="concat($outputDirectory,'/',$indexFile)"/>
 
     <xsl:message select="concat('OUTPUT: ',$filePath)"/>
 
@@ -103,6 +112,8 @@
         <head>
           <meta http-equiv="content-type"
                 content="application/xhtml+xml; charset=utf-8"/>
+          <meta name="generator"
+                content="${project.groupId}/${project.version}"/>
 
           <link rel="stylesheet"
                 type="text/css"
@@ -130,43 +141,66 @@
                             select="$branding"/>
           </xsl:call-template>
 
-          <div id="stHeader">
-            <xsl:comment>Header</xsl:comment>
-            <h1>
-              <xsl:value-of select="s:Metadata/dc:title"/>
-            </h1>
-            <table class="stMetadataTable">
-              <xsl:apply-templates select="s:Metadata/*"
-                                   mode="sxc:metadataFrontMatter"/>
-            </table>
-          </div>
-
-          <div id="stMainTableOfContents">
-            <h2>Table Of Contents</h2>
-            <div class="stTableOfContentsContent stMainTableOfContentsContent">
-              <xsl:apply-templates select="s:Section|s:Subsection"
-                                   mode="sxc:tableOfContents">
-                <xsl:with-param name="depthCurrent"
-                                select="0"/>
-                <xsl:with-param name="depthMaximum"
-                                select="9999"/>
-              </xsl:apply-templates>
-            </div>
-          </div>
-
           <div id="stMain">
             <xsl:comment>Main Content</xsl:comment>
-            <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
+
+            <div class="stDocumentHeader">
+              <div class="stDocumentHeaderMargin">
+                <xsl:comment>Margin</xsl:comment>
+              </div>
+              <div class="stDocumentHeaderContent stDocumentHeaderTitle">
+                <h1>
+                  <xsl:value-of select="s:Metadata/dc:title"/>
+                </h1>
+                <table class="stMetadataTable">
+                  <xsl:apply-templates select="s:Metadata/*"
+                                       mode="sxc:metadataFrontMatter"/>
+                </table>
+              </div>
+            </div>
+
+            <div class="stDocumentHeader">
+              <div class="stDocumentHeaderMargin">
+                <xsl:comment>Margin</xsl:comment>
+              </div>
+              <div class="stDocumentHeaderContent stDocumentHeaderSubtitle">
+                <h3>Table Of Contents</h3>
+              </div>
+            </div>
+
+            <div class="stTableOfContents">
+              <div class="stTableOfContentsMargin">
+                <xsl:comment>Margin</xsl:comment>
+              </div>
+              <div class="stTableOfContentsContent">
+                <xsl:choose>
+                  <xsl:when test="count(s:Section) > 0">
+                    <xsl:apply-templates select="s:Section"
+                                         mode="sxc:tableOfContents">
+                      <xsl:with-param name="depthMaximum"
+                                      select="9999"/>
+                      <xsl:with-param name="depthCurrent"
+                                      select="0"/>
+                    </xsl:apply-templates>
+                  </xsl:when>
+                  <xsl:when test="count(s:Subsection) > 0">
+                    <xsl:apply-templates select="s:Subsection"
+                                         mode="sxc:tableOfContents">
+                      <xsl:with-param name="depthMaximum"
+                                      select="9999"/>
+                      <xsl:with-param name="depthCurrent"
+                                      select="0"/>
+                    </xsl:apply-templates>
+                  </xsl:when>
+                </xsl:choose>
+              </div>
+            </div>
+
+            <xsl:apply-templates select="s:Section|s:Subsection"
                                  mode="sxc:blockMode"/>
           </div>
 
-          <xsl:if test="count(.//s:Footnote) > 0">
-            <div id="stFootnotes">
-              <h2>Footnotes</h2>
-              <xsl:apply-templates select=".//s:Footnote"
-                                   mode="sxc:blockMode"/>
-            </div>
-          </xsl:if>
+          <xsl:call-template name="sxc:footnotesOptional"/>
 
           <xsl:call-template name="sxc:brandingFooter">
             <xsl:with-param name="branding"

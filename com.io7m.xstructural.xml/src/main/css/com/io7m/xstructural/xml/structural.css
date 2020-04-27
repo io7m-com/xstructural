@@ -274,6 +274,29 @@ h6
   margin-bottom: 2em;
 }
 
+.stDocumentHeader
+{
+  display: flex;
+  font-family: var(--stHeaderFont);
+}
+.stDocumentHeaderMargin
+{
+  width: var(--stColumnWidthLeft);
+  font-family: var(--stHeaderFont);
+}
+.stDocumentHeaderContent
+{
+
+}
+.stDocumentHeaderTitle
+{
+  margin-top: 2em;
+}
+.stDocumentHeaderSubtitle
+{
+
+}
+
 .stSectionHeader
 {
   display: flex;
@@ -296,7 +319,6 @@ h6
   margin-top: 2em;
   font-family: var(--stHeaderFont);
 }
-
 .stSubsectionNumber
 {
   width: var(--stColumnWidthLeft);
@@ -360,13 +382,11 @@ h6
   display: flex;
   margin-bottom: 1em;
 }
-
-.stFootnoteNumber
+.stFootnoteMargin
 {
   width: var(--stColumnWidthLeft);
   font-family: var(--stHeaderFont);
 }
-
 .stFootnoteContent
 {
   width: var(--stColumnWidthMain);

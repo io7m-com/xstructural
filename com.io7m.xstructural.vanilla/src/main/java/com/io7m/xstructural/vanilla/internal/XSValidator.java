@@ -75,7 +75,7 @@ public final class XSValidator implements XSProcessorType
         final var schema =
           schemaFactory.newSchema(new SAXSource(schemaSource));
 
-        final var sourcePath = this.request.sourceFile().toAbsolutePath();
+        final var sourcePath = this.request.sourceFile();
         LOG.info("validate (xstructural) {}", sourcePath);
 
         try (var sourceStream = Files.newInputStream(sourcePath)) {

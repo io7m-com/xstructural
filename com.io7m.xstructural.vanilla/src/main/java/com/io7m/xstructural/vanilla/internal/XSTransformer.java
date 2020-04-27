@@ -27,6 +27,7 @@ import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
+import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmValue;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
@@ -119,7 +120,7 @@ public final class XSTransformer implements XSProcessorType
       transformer.setDestination(out);
       transformer.setTraceListener(this.createTraceListener());
 
-      final var messagePath = this.request.messageFile().toAbsolutePath();
+      final var messagePath = this.request.messageFile();
       try (var messageListener = new XSMessageListener(messagePath)) {
         transformer.setMessageListener(messageListener);
 
@@ -127,6 +128,15 @@ public final class XSTransformer implements XSProcessorType
           QName.fromEQName("outputDirectory"),
           XdmValue.makeValue(outputPath.toString())
         );
+
+        this.request.brandingFile()
+          .ifPresent(path -> {
+            LOG.debug("branding file: {}", path);
+            transformer.setParameter(
+              QName.fromEQName("branding"),
+              new XdmAtomicValue(path.toUri())
+            );
+          });
 
         LOG.debug("output directory: {}", outputPath);
         LOG.debug("executing stylesheet");

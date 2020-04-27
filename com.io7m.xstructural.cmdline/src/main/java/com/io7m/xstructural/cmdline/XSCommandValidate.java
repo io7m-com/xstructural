@@ -54,7 +54,7 @@ final class XSCommandValidate extends XSCommandRoot
 
     final var requestBuilder = XSProcessorRequest.builder();
     requestBuilder.setOutputDirectory(directory);
-    requestBuilder.setSourceFile(this.sourceFile);
+    requestBuilder.setSourceFile(this.sourceFile.toAbsolutePath());
     requestBuilder.setTask(Task.VALIDATE);
 
     final var request = requestBuilder.build();
