@@ -22,8 +22,11 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public final class XSCommandLineTest
 {
@@ -299,5 +302,105 @@ public final class XSCommandLineTest
       Files.isRegularFile(this.directory.resolve("messages.log")),
       "Messages file exists"
     );
+  }
+
+  @Test
+  public void testSchema()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "schema",
+      "--outputDirectory",
+      this.outputDirectory.toString()
+    });
+    main.run();
+    Assertions.assertEquals(0, main.exitCode());
+    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+  }
+
+  @Test
+  public void testSchemaNoReplace()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "schema",
+      "--outputDirectory",
+      this.outputDirectory.toString()
+    });
+    main.run();
+    Assertions.assertEquals(0, main.exitCode());
+    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+
+    Files.list(this.outputDirectory)
+      .forEach(path -> {
+        try {
+          Files.write(path, "Hello".getBytes(UTF_8));
+        } catch (final IOException e) {
+          throw new UncheckedIOException(e);
+        }
+      });
+
+    final var mainAgain = new Main(new String[]{
+      "schema",
+      "--outputDirectory",
+      this.outputDirectory.toString()
+    });
+    mainAgain.run();
+    Assertions.assertEquals(0, mainAgain.exitCode());
+    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+
+    Files.list(this.outputDirectory)
+      .forEach(path -> {
+                 try {
+                   Assertions.assertEquals(5L, Files.size(path));
+                 } catch (final IOException e) {
+                   throw new UncheckedIOException(e);
+                 }
+               }
+      );
+  }
+
+  @Test
+  public void testSchemaReplace()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "schema",
+      "--outputDirectory",
+      this.outputDirectory.toString()
+    });
+    main.run();
+    Assertions.assertEquals(0, main.exitCode());
+    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+
+    Files.list(this.outputDirectory)
+      .forEach(path -> {
+        try {
+          Files.write(path, "Hello".getBytes(UTF_8));
+        } catch (final IOException e) {
+          throw new UncheckedIOException(e);
+        }
+      });
+
+    final var mainAgain = new Main(new String[]{
+      "schema",
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--replace",
+      "true"
+    });
+    mainAgain.run();
+    Assertions.assertEquals(0, mainAgain.exitCode());
+    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+
+    Files.list(this.outputDirectory)
+      .forEach(path -> {
+                 try {
+                   Assertions.assertNotEquals(5L, Files.size(path));
+                 } catch (final IOException e) {
+                   throw new UncheckedIOException(e);
+                 }
+               }
+      );
   }
 }

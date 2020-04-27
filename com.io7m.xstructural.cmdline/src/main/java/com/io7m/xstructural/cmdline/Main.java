@@ -46,17 +46,20 @@ public final class Main implements Runnable
       Objects.requireNonNull(inArgs, "Command line arguments");
 
     final XSCommandRoot r = new XSCommandRoot();
-    final XSCommandValidate validate = new XSCommandValidate();
-    final XSCommandTransformXHTML xhtml = new XSCommandTransformXHTML();
+    final var validate = new XSCommandValidate();
+    final var xhtml = new XSCommandTransformXHTML();
+    final var schema = new XSCommandSchema();
 
     this.commands = new HashMap<>(8);
     this.commands.put("validate", validate);
     this.commands.put("xhtml", xhtml);
+    this.commands.put("schema", schema);
 
     this.commander = new JCommander(r);
     this.commander.setProgramName("xstructural");
     this.commander.addCommand("validate", validate);
     this.commander.addCommand("xhtml", xhtml);
+    this.commander.addCommand("schema", schema);
   }
 
   /**

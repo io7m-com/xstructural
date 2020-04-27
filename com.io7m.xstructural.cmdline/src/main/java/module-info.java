@@ -27,6 +27,7 @@ module com.io7m.xstructural.cmdline
   requires ch.qos.logback.core;
   requires com.io7m.junreachable.core;
   requires com.io7m.xstructural.api;
+  requires com.io7m.xstructural.xml;
   requires jcommander;
   requires org.slf4j;
 
