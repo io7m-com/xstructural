@@ -43,6 +43,8 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.Objects;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+
 public final class XSTransformer implements XSProcessorType
 {
   private static final Logger LOG = LoggerFactory.getLogger(XSTransformer.class);
@@ -134,18 +136,24 @@ public final class XSTransformer implements XSProcessorType
     }
 
     if (this.request.writeResources()) {
+      this.copyXStructuralResource("reset.css");
+      this.copyXStructuralResource("structural.css");
+    }
+  }
+
+  private void copyXStructuralResource(final String name)
+    throws IOException
+  {
+    LOG.info("copy resource {}", name);
+    try (var stream = this.resources.xstructuralResourceOf(name).openStream()) {
       Files.copy(
-        this.resources.xstructuralResourceOf("reset.css")
-          .openStream(),
-        this.request.outputDirectory().resolve("reset.css")
-      );
-      Files.copy(
-        this.resources.xstructuralResourceOf("structural.css")
-          .openStream(),
-        this.request.outputDirectory().resolve("structural.css")
+        stream,
+        this.request.outputDirectory().resolve(name),
+        REPLACE_EXISTING
       );
     }
   }
+
 
   private void compileCorePackage(
     final XsltCompiler compiler)

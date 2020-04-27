@@ -144,7 +144,7 @@
           <div id="stMainTableOfContents">
             <h2>Table Of Contents</h2>
             <div class="stTableOfContentsContent stMainTableOfContentsContent">
-              <xsl:apply-templates select="s:Section"
+              <xsl:apply-templates select="s:Section|s:Subsection"
                                    mode="sxc:tableOfContents">
                 <xsl:with-param name="depthCurrent"
                                 select="0"/>
