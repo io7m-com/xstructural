@@ -73,6 +73,8 @@ final class XSCommandSchema extends XSCommandRoot
     }
 
     final var outputAbs = this.outputDirectory.toAbsolutePath();
+    Files.createDirectories(outputAbs);
+
     final var resources = new SXMLResources();
     resources.xstructuralResources().forEach(name -> {
       final Path outputPath = outputAbs.resolve(name);
