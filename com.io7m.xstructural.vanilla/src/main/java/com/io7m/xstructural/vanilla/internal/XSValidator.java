@@ -65,15 +65,20 @@ public final class XSValidator implements XSProcessorType
         final var schemaFactory =
           SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
 
-        schemaFactory.setErrorHandler(
-          new XSErrorHandler(LoggerFactory.getLogger(
-            XSValidator.class.getCanonicalName() + ".schemaCompilation"))
-        );
+        final var schemaErrorHandler =
+          new XSErrorHandler(
+            LoggerFactory.getLogger(XSValidator.class.getCanonicalName() + ".schemaCompilation")
+          );
+        schemaFactory.setErrorHandler(schemaErrorHandler);
         schemaFactory.setResourceResolver(
           new XSResourceResolver(this.resources));
 
         final var schema =
           schemaFactory.newSchema(new SAXSource(schemaSource));
+
+        if (schemaErrorHandler.isFailed()) {
+          throw new XSValidationException("Error compiling schema");
+        }
 
         final var sourcePath = this.request.sourceFile();
         LOG.info("validate (xstructural) {}", sourcePath);

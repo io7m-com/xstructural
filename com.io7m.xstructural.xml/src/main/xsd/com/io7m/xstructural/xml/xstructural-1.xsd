@@ -96,9 +96,12 @@
   <xsd:group name="ListContent">
     <xsd:choice>
       <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
       <xsd:element ref="s:ListOrdered"/>
       <xsd:element ref="s:ListUnordered"/>
-      <xsd:group ref="s:ParagraphContent"/>
+      <xsd:element ref="s:Term"/>
     </xsd:choice>
   </xsd:group>
 
@@ -153,7 +156,10 @@
 
   <xsd:group name="TableContent">
     <xsd:choice>
-      <xsd:group ref="s:ParagraphContent"/>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
+      <xsd:element ref="s:Term"/>
     </xsd:choice>
   </xsd:group>
 
@@ -259,11 +265,14 @@
   <xsd:group name="FormalItemContent">
     <xsd:choice>
       <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
       <xsd:element ref="s:ListOrdered"/>
       <xsd:element ref="s:ListUnordered"/>
       <xsd:element ref="s:Table"/>
+      <xsd:element ref="s:Term"/>
       <xsd:element ref="s:Verbatim"/>
-      <xsd:group ref="s:ParagraphContent"/>
     </xsd:choice>
   </xsd:group>
 
@@ -272,6 +281,8 @@
       <xsd:element ref="s:Link"/>
       <xsd:element ref="s:LinkExternal"/>
       <xsd:element ref="s:LinkFootnote"/>
+      <xsd:element ref="s:ListOrdered"/>
+      <xsd:element ref="s:ListUnordered"/>
       <xsd:element ref="s:Term"/>
     </xsd:choice>
   </xsd:group>
@@ -351,11 +362,14 @@
   <xsd:group name="FootnoteContent">
     <xsd:choice>
       <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
       <xsd:element ref="s:ListOrdered"/>
       <xsd:element ref="s:ListUnordered"/>
       <xsd:element ref="s:Table"/>
+      <xsd:element ref="s:Term"/>
       <xsd:element ref="s:Verbatim"/>
-      <xsd:group ref="s:ParagraphContent"/>
     </xsd:choice>
   </xsd:group>
 
