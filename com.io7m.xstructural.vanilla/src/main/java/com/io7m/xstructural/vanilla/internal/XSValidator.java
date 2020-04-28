@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
@@ -37,6 +38,7 @@ public final class XSValidator implements XSProcessorType
 
   private final SXMLResources resources;
   private final XSProcessorRequest request;
+  private final SAXParserFactory parsers;
 
   public XSValidator(
     final SXMLResources inResources,
@@ -46,6 +48,8 @@ public final class XSValidator implements XSProcessorType
       Objects.requireNonNull(inResources, "resources");
     this.request =
       Objects.requireNonNull(inRequest, "request");
+
+    this.parsers = SAXParserFactory.newInstance();
   }
 
   @Override
@@ -83,10 +87,39 @@ public final class XSValidator implements XSProcessorType
         final var sourcePath = this.request.sourceFile();
         LOG.info("validate (xstructural) {}", sourcePath);
 
+        final var parser = this.parsers.newSAXParser();
+        final var reader = parser.getXMLReader();
+
+        reader.setFeature(
+          XMLConstants.FEATURE_SECURE_PROCESSING,
+          true);
+        reader.setProperty(
+          XMLConstants.ACCESS_EXTERNAL_SCHEMA,
+          "");
+        reader.setProperty(
+          XMLConstants.ACCESS_EXTERNAL_DTD,
+          "");
+        reader.setFeature(
+          "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+          false);
+        reader.setFeature(
+          "http://apache.org/xml/features/xinclude",
+          true);
+        reader.setFeature(
+          "http://xml.org/sax/features/namespaces",
+          true);
+        reader.setFeature(
+          "http://xml.org/sax/features/validation",
+          false);
+        reader.setFeature(
+          "http://apache.org/xml/features/validation/schema",
+          false);
+
         try (var sourceStream = Files.newInputStream(sourcePath)) {
           final var fileSource = new InputSource();
           fileSource.setByteStream(sourceStream);
           fileSource.setSystemId(sourcePath.toString());
+          final var saxSource = new SAXSource(reader, fileSource);
 
           final Validator validator = schema.newValidator();
           final XSErrorHandler errorHandler =
@@ -94,7 +127,7 @@ public final class XSValidator implements XSProcessorType
               XSValidator.class.getCanonicalName() + ".validation"));
 
           validator.setErrorHandler(errorHandler);
-          validator.validate(new SAXSource(fileSource));
+          validator.validate(saxSource);
           if (errorHandler.isFailed()) {
             LOG.error("one or more validation errors occurred");
             throw new XSValidationException(

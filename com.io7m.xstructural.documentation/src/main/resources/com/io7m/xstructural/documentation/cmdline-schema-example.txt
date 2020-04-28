@@ -1,0 +1,34 @@
+$ xstructural schema --outputDirectory xsd
+
+$ ls -alF xsd/
+total 40
+drwxr-xr-x  2 xs xs  4096 Apr 28 09:59 ./
+drwxr-xr-x 13 xs xs  4096 Apr 28 09:59 ../
+-rw-r--r--  1 xs xs  4944 Apr 28 09:59 dc.xsd
+-rw-r--r--  1 xs xs  4726 Apr 28 09:59 xml.xsd
+-rw-r--r--  1 xs xs 15599 Apr 28 09:59 xstructural-1.xsd
+
+$ xstructural schema --outputDirectory xsd
+xstructural: XSCommandSchema: INFO: output file xsd/dc.xsd already exists, ignoring
+xstructural: XSCommandSchema: INFO: output file xsd/xml.xsd already exists, ignoring
+xstructural: XSCommandSchema: INFO: output file xsd/xstructural-1.xsd already exists, ignoring
+
+$ echo hello > xsd/xstructural-1.xsd
+
+$ ls -alF xsd/
+total 40
+drwxr-xr-x  2 xs xs  4096 Apr 28 09:59 ./
+drwxr-xr-x 13 xs xs  4096 Apr 28 09:59 ../
+-rw-r--r--  1 xs xs  4944 Apr 28 09:59 dc.xsd
+-rw-r--r--  1 xs xs  4726 Apr 28 09:59 xml.xsd
+-rw-r--r--  1 xs xs     6 Apr 28 10:13 xstructural-1.xsd
+
+$ xstructural schema --outputDirectory xsd --replace true
+
+$ ls -alF xsd/
+total 40
+drwxr-xr-x  2 xs xs  4096 Apr 28 10:14 ./
+drwxr-xr-x 13 xs xs  4096 Apr 28 10:10 ../
+-rw-r--r--  1 xs xs  4944 Apr 28 10:14 dc.xsd
+-rw-r--r--  1 xs xs  4726 Apr 28 10:14 xml.xsd
+-rw-r--r--  1 xs xs 15599 Apr 28 10:14 xstructural-1.xsd

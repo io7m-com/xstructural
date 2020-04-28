@@ -1,0 +1,53 @@
+$ xstructural xhtml \
+  --sourceFile com.io7m.xstructural.documentation/target/documentation/main.xml \
+  --stylesheet SINGLE_FILE \
+  --outputDirectory out
+xstructural: XSValidator: INFO: validate (xstructural) com.io7m.xstructural.documentation/target/documentation/main.xml
+xstructural: XSTransformer: INFO: copy resource reset.css
+xstructural: XSTransformer: INFO: copy resource structural.css
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/index.xhtml
+
+$ ls -alF out/
+total 116
+drwxr-xr-x  2 xs xs  4096 Apr 28 10:26 ./
+drwxr-xr-x 14 xs xs  4096 Apr 28 10:26 ../
+-rw-r--r--  1 xs xs 30783 Apr 28 10:26 index.xhtml
+-rw-r--r--  1 xs xs   272 Apr 28 10:26 messages.log
+-rw-r--r--  1 xs xs  6138 Apr 28 10:26 reset.css
+-rw-r--r--  1 xs xs  6881 Apr 28 10:26 structural.css
+-rw-r--r--  1 xs xs 57239 Apr 28 10:26 trace.xml
+
+$ xstructural xhtml \
+  --sourceFile com.io7m.xstructural.documentation/target/documentation/main.xml \
+  --stylesheet MULTIPLE_FILE \
+  --outputDirectory out
+xstructural: XSValidator: INFO: validate (xstructural) com.io7m.xstructural.documentation/target/documentation/main.xml
+xstructural: XSTransformer: INFO: copy resource reset.css
+xstructural: XSTransformer: INFO: copy resource structural.css
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e104.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e298.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e300.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e12.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e163.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e28.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/index-m.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/index.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e14.xhtml
+
+$ ls -alF out/
+total 172
+drwxr-xr-x  2 xs xs  4096 Apr 28 10:35 ./
+drwxr-xr-x 14 xs xs  4096 Apr 28 10:26 ../
+-rw-r--r--  1 xs xs  7187 Apr 28 10:35 d2e104.xhtml
+-rw-r--r--  1 xs xs  5251 Apr 28 10:35 d2e12.xhtml
+-rw-r--r--  1 xs xs  5914 Apr 28 10:35 d2e14.xhtml
+-rw-r--r--  1 xs xs  7405 Apr 28 10:35 d2e163.xhtml
+-rw-r--r--  1 xs xs  8016 Apr 28 10:35 d2e28.xhtml
+-rw-r--r--  1 xs xs  3175 Apr 28 10:35 d2e298.xhtml
+-rw-r--r--  1 xs xs  3366 Apr 28 10:35 d2e300.xhtml
+-rw-r--r--  1 xs xs  5746 Apr 28 10:35 index-m.xhtml
+-rw-r--r--  1 xs xs 30783 Apr 28 10:26 index.xhtml
+-rw-r--r--  1 xs xs     0 Apr 28 10:35 messages.log
+-rw-r--r--  1 xs xs  6138 Apr 28 10:35 reset.css
+-rw-r--r--  1 xs xs  6881 Apr 28 10:35 structural.css
+-rw-r--r--  1 xs xs 60237 Apr 28 10:35 trace.xml

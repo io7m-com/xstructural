@@ -24,6 +24,7 @@
     <module>com.io7m.xstructural.tests</module>
     <module>com.io7m.xstructural.vanilla</module>
     <module>com.io7m.xstructural.xml</module>
+    <module>com.io7m.xstructural.documentation</module>
   </modules>
 
   <properties>
@@ -94,6 +95,11 @@
         <groupId>com.beust</groupId>
         <artifactId>jcommander</artifactId>
         <version>1.78</version>
+      </dependency>
+      <dependency>
+        <groupId>com.io7m.primogenitor</groupId>
+        <artifactId>com.io7m.primogenitor.support</artifactId>
+        <version>5.0.0</version>
       </dependency>
     </dependencies>
   </dependencyManagement>

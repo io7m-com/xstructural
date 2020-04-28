@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:7:0" title="API">
+  <Subsection title="Usage">
+    <FormalItem title="Usage">
+      <Verbatim><![CDATA[
+var factory =
+  ServiceLoader.load(XSProcessorFactoryType.class)
+    .findFirst()
+    .orElseThrow(() -> new IllegalStateException("Missing factory service"));
+
+final var request =
+  XSProcessorRequest.builder()
+    .setOutputDirectory(Paths.get(...))
+    .setSourceFile(Paths.get(...))
+    .setTask(Task.TRANSFORM_XHTML)
+    .setStylesheet(Stylesheet.SINGLE_FILE)
+    .build();
+
+final var processor = processors.create(request);
+processor.execute();
+]]>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="JavaDoc">
+    <Paragraph>
+      Please see the included <LinkExternal target="apidocs">JavaDoc</LinkExternal>
+      for API reference documentation.
+    </Paragraph>
+  </Subsection>
+</Section>

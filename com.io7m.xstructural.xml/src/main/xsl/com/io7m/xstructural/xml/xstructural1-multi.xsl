@@ -125,14 +125,10 @@
             </xsl:when>
             <xsl:otherwise>
               <xsl:variable name="sectionUpNumber">
-                <xsl:choose>
-                  <xsl:when test="count($sectionsPrecedingUp) > 0">
-                    <xsl:call-template name="sxc:sectionNumberTitleOf">
-                      <xsl:with-param name="section"
-                                      select="$sectionUp"/>
-                    </xsl:call-template>
-                  </xsl:when>
-                </xsl:choose>
+                <xsl:call-template name="sxc:sectionNumberTitleOf">
+                  <xsl:with-param name="section"
+                                  select="$sectionUp"/>
+                </xsl:call-template>
               </xsl:variable>
               <xsl:value-of select="concat($sectionUpNumber,'. ',$sectionUp/attribute::title)"/>
             </xsl:otherwise>
