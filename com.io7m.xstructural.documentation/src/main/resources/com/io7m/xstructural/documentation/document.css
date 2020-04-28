@@ -14,6 +14,11 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+.branding
+{
+  font-family: monospace;
+}
+
 .command,
 .package,
 .parameter
