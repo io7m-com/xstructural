@@ -261,14 +261,10 @@
                 visibility="public">
     <xsl:choose>
       <xsl:when test="@tableOfContents = 'false'">
-        <div class="stTableOfContents">
-          <xsl:comment>No table of contents requested.</xsl:comment>
-        </div>
+        <xsl:comment>No table of contents requested.</xsl:comment>
       </xsl:when>
       <xsl:when test="count(s:Section) = 0 and count(s:Subsection) = 0">
-        <div class="stTableOfContents">
-          <xsl:comment>No sections or subsections in this section.</xsl:comment>
-        </div>
+        <xsl:comment>No sections or subsections in this section.</xsl:comment>
       </xsl:when>
       <xsl:otherwise>
         <xsl:variable name="maximumDepth">
