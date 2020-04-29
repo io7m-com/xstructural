@@ -25,7 +25,7 @@
   --stContentFont: sans-serif;
   --stHeaderColor: #202020;
   --stHeaderFont: sans-serif;
-  --stMainWidth: 50em;
+  --stMainWidth: 55em;
   --stBackgroundColor: #fff;
   --stNavigationRowGap: 0.25em;
 
@@ -328,8 +328,7 @@ h6
 .stParagraph
 {
   display: flex;
-  margin-top: 2em;
-  margin-bottom: 1em;
+  margin-top: 1em;
 }
 .stParagraphNumber
 {
@@ -347,7 +346,7 @@ h6
 {
   display: flex;
   font-family: var(--stHeaderFont);
-  margin-top: 2em;
+  margin-top: 1em;
   margin-bottom: 1em;
 }
 .stFormalItemNumber
