@@ -159,15 +159,6 @@
               </div>
             </div>
 
-            <div class="stDocumentHeader">
-              <div class="stDocumentHeaderMargin">
-                <xsl:comment>Margin</xsl:comment>
-              </div>
-              <div class="stDocumentHeaderContent stDocumentHeaderSubtitle">
-                <h3>Table Of Contents</h3>
-              </div>
-            </div>
-
             <div class="stTableOfContents">
               <div class="stTableOfContentsMargin">
                 <xsl:comment>Margin</xsl:comment>
