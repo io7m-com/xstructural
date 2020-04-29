@@ -265,6 +265,11 @@
           <xsl:comment>No table of contents requested.</xsl:comment>
         </div>
       </xsl:when>
+      <xsl:when test="count(s:Section) = 0 and count(s:Subsection) = 0">
+        <div class="stTableOfContents">
+          <xsl:comment>No sections or subsections in this section.</xsl:comment>
+        </div>
+      </xsl:when>
       <xsl:otherwise>
         <xsl:variable name="maximumDepth">
           <xsl:choose>
