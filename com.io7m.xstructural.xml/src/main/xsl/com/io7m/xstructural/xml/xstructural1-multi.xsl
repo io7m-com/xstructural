@@ -338,7 +338,7 @@
                             <xsl:value-of select="concat('#id_', @id)"/>
                           </xsl:attribute>
                           <xsl:attribute name="title">
-                            <xsl:call-template name="sxc:nodeNumberTitleOf">
+                            <xsl:call-template name="sxc:anchorTitleFor">
                               <xsl:with-param name="node"
                                               select="."/>
                             </xsl:call-template>
@@ -354,7 +354,7 @@
                             <xsl:value-of select="concat('#', $stId)"/>
                           </xsl:attribute>
                           <xsl:attribute name="title">
-                            <xsl:call-template name="sxc:nodeNumberTitleOf">
+                            <xsl:call-template name="sxc:anchorTitleFor">
                               <xsl:with-param name="node"
                                               select="."/>
                             </xsl:call-template>
@@ -455,7 +455,7 @@
           <xsl:attribute name="href"
                          select="$sectionPrevFile"/>
           <xsl:attribute name="title">
-            <xsl:call-template name="sxc:nodeNumberTitleOf">
+            <xsl:call-template name="sxc:anchorTitleFor">
               <xsl:with-param name="node"
                               select="$sectionPrev"/>
             </xsl:call-template>
@@ -473,7 +473,7 @@
           <xsl:attribute name="href"
                          select="$sectionUpFile"/>
           <xsl:attribute name="title">
-            <xsl:call-template name="sxc:nodeNumberTitleOf">
+            <xsl:call-template name="sxc:anchorTitleFor">
               <xsl:with-param name="node"
                               select="$sectionUp"/>
             </xsl:call-template>
@@ -491,7 +491,7 @@
           <xsl:attribute name="href"
                          select="$sectionNextFile"/>
           <xsl:attribute name="title">
-            <xsl:call-template name="sxc:nodeNumberTitleOf">
+            <xsl:call-template name="sxc:anchorTitleFor">
               <xsl:with-param name="node"
                               select="$sectionNext"/>
             </xsl:call-template>
@@ -551,7 +551,7 @@
           <xsl:attribute name="href"
                          select="$sectionPrevFile"/>
           <xsl:attribute name="title">
-            <xsl:call-template name="sxc:nodeNumberTitleOf">
+            <xsl:call-template name="sxc:anchorTitleFor">
               <xsl:with-param name="node"
                               select="$sectionPrev"/>
             </xsl:call-template>
@@ -569,7 +569,7 @@
           <xsl:attribute name="href"
                          select="$sectionUpFile"/>
           <xsl:attribute name="title">
-            <xsl:call-template name="sxc:nodeNumberTitleOf">
+            <xsl:call-template name="sxc:anchorTitleFor">
               <xsl:with-param name="node"
                               select="$sectionUp"/>
             </xsl:call-template>
@@ -587,7 +587,7 @@
           <xsl:attribute name="href"
                          select="$sectionNextFile"/>
           <xsl:attribute name="title">
-            <xsl:call-template name="sxc:nodeNumberTitleOf">
+            <xsl:call-template name="sxc:anchorTitleFor">
               <xsl:with-param name="node"
                               select="$sectionNext"/>
             </xsl:call-template>
@@ -637,7 +637,7 @@
           <xsl:attribute name="href"
                          select="$sectionNextFile"/>
           <xsl:attribute name="title">
-            <xsl:call-template name="sxc:nodeNumberTitleOf">
+            <xsl:call-template name="sxc:anchorTitleFor">
               <xsl:with-param name="node"
                               select="$sectionNext"/>
             </xsl:call-template>
@@ -687,7 +687,7 @@
           <xsl:attribute name="href"
                          select="$sectionNextFile"/>
           <xsl:attribute name="title">
-            <xsl:call-template name="sxc:nodeNumberTitleOf">
+            <xsl:call-template name="sxc:anchorTitleFor">
               <xsl:with-param name="node"
                               select="$sectionNext"/>
             </xsl:call-template>
@@ -747,7 +747,7 @@
             <xsl:call-template name="navigationHeaderFrontPage">
               <xsl:with-param name="sectionNext" select="s:Section[1]"/>
               <xsl:with-param name="sectionNextTitle">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:displayTitleFor">
                   <xsl:with-param name="node"
                                   select="s:Section[1]"/>
                 </xsl:call-template>
@@ -827,7 +827,7 @@
             <xsl:call-template name="navigationFooterFrontPage">
               <xsl:with-param name="sectionNext" select="s:Section[1]"/>
               <xsl:with-param name="sectionNextTitle">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:displayTitleFor">
                   <xsl:with-param name="node"
                                   select="s:Section[1]"/>
                 </xsl:call-template>

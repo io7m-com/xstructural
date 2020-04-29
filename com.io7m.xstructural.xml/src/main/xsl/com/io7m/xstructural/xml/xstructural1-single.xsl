@@ -52,7 +52,7 @@
                     <xsl:value-of select="concat('#id_', @id)"/>
                   </xsl:attribute>
                   <xsl:attribute name="title">
-                    <xsl:call-template name="sxc:nodeNumberTitleOf">
+                    <xsl:call-template name="sxc:anchorTitleFor">
                       <xsl:with-param name="node"
                                       select="."/>
                     </xsl:call-template>
@@ -68,7 +68,7 @@
                     <xsl:value-of select="concat('#', $stId)"/>
                   </xsl:attribute>
                   <xsl:attribute name="title">
-                    <xsl:call-template name="sxc:nodeNumberTitleOf">
+                    <xsl:call-template name="sxc:anchorTitleFor">
                       <xsl:with-param name="node"
                                       select="."/>
                     </xsl:call-template>

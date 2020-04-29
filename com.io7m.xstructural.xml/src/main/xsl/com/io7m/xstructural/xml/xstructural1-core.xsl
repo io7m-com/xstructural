@@ -102,7 +102,31 @@
     <xsl:value-of select="concat($sectionNumber,$subsectionNumber)"/>
   </xsl:template>
 
-  <xsl:template name="sxc:nodeNumberTitleOf"
+  <xsl:template name="sxc:displayTitleFor"
+                as="xs:string"
+                visibility="final">
+    <xsl:param name="node"
+               as="element()"
+               required="true"/>
+
+    <xsl:variable name="number"
+                  as="xs:string">
+      <xsl:number level="multiple"
+                  select="$node"
+                  count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
+    </xsl:variable>
+
+    <xsl:choose>
+      <xsl:when test="$node/attribute::title">
+        <xsl:value-of select="concat($number,': ',$node/attribute::title)"/>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$number"/>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="sxc:anchorTitleFor"
                 as="xs:string"
                 visibility="final">
     <xsl:param name="node"
@@ -165,7 +189,7 @@
               <xsl:attribute name="href"
                              select="sxc:anchorOf(.)"/>
               <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:anchorTitleFor">
                   <xsl:with-param name="node"
                                   select="."/>
                 </xsl:call-template>
@@ -210,7 +234,7 @@
               <xsl:attribute name="href"
                              select="sxc:anchorOf(.)"/>
               <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:anchorTitleFor">
                   <xsl:with-param name="node"
                                   select="."/>
                 </xsl:call-template>
@@ -292,7 +316,7 @@
       <xsl:attribute name="href"
                      select="sxc:anchorOf(key('LinkKey',@target))"/>
       <xsl:attribute name="title">
-        <xsl:call-template name="sxc:nodeNumberTitleOf">
+        <xsl:call-template name="sxc:anchorTitleFor">
           <xsl:with-param name="node"
                           select="key('LinkKey',@target)"/>
         </xsl:call-template>
@@ -490,7 +514,7 @@
                 <xsl:value-of select="concat('#id_', @id)"/>
               </xsl:attribute>
               <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:anchorTitleFor">
                   <xsl:with-param name="node"
                                   select="."/>
                 </xsl:call-template>
@@ -510,7 +534,7 @@
                 <xsl:value-of select="concat('#', $stId)"/>
               </xsl:attribute>
               <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:anchorTitleFor">
                   <xsl:with-param name="node"
                                   select="."/>
                 </xsl:call-template>
@@ -542,7 +566,7 @@
                 <xsl:value-of select="concat('#id_', @id)"/>
               </xsl:attribute>
               <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:anchorTitleFor">
                   <xsl:with-param name="node"
                                   select="."/>
                 </xsl:call-template>
@@ -562,7 +586,7 @@
                 <xsl:value-of select="concat('#', $stId)"/>
               </xsl:attribute>
               <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:anchorTitleFor">
                   <xsl:with-param name="node"
                                   select="."/>
                 </xsl:call-template>
@@ -654,7 +678,7 @@
                       <xsl:attribute name="href">
                         <xsl:value-of select="sxc:anchorOf(.)"/>
                       </xsl:attribute>
-                      <xsl:call-template name="sxc:nodeNumberTitleOf">
+                      <xsl:call-template name="sxc:anchorTitleFor">
                         <xsl:with-param name="node"
                                         select="."/>
                       </xsl:call-template>
@@ -683,7 +707,7 @@
                 <xsl:value-of select="concat('#id_', @id)"/>
               </xsl:attribute>
               <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:anchorTitleFor">
                   <xsl:with-param name="node"
                                   select="."/>
                 </xsl:call-template>
@@ -699,7 +723,7 @@
                 <xsl:value-of select="concat('#', $stId)"/>
               </xsl:attribute>
               <xsl:attribute name="title">
-                <xsl:call-template name="sxc:nodeNumberTitleOf">
+                <xsl:call-template name="sxc:anchorTitleFor">
                   <xsl:with-param name="node"
                                   select="."/>
                 </xsl:call-template>
