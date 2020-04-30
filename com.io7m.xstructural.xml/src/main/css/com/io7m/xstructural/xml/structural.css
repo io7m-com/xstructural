@@ -31,6 +31,13 @@
 
   --stDivider: 1px solid #dddddd;
   --stVerbatimBorder: 1px solid #dddddd;
+
+  --stH1Size: 1.1em;
+  --stH2Size: 1.066em;
+  --stH3Size: 1.049em;
+  --stH4Size: 1.033em;
+  --stH5Size: 1.016em;
+  --stH6Size: 1.0em;
 }
 
 body
@@ -44,36 +51,51 @@ h1, h2, h3, h4, h5, h6
 {
   font-family: var(--stHeaderFont);
   color: var(--stHeaderColor);
+  margin: 0;
+  font-weight: bold;
 }
+
 h1
 {
-  font-size: 1.1em;
-  font-weight: bold;
+  font-size: var(--stH1Size);
 }
 h2
 {
-  font-size: 1.066em;
-  font-weight: bold;
+  font-size: var(--stH2Size);
 }
 h3
 {
-  font-size: 1.049em;
-  font-weight: bold;
+  font-size: var(--stH3Size);
 }
 h4
 {
-  font-size: 1.033em;
-  font-weight: bold;
+  font-size: var(--stH4Size);
 }
 h5
 {
-  font-size: 1.016em;
-  font-weight: bold;
+  font-size: var(--stH5Size);
 }
 h6
 {
-  font-size: 1.0em;
-  font-weight: bold
+  font-size: var(--stH6Size);
+}
+
+.stRegion
+{
+  width: var(--stMainWidth);
+
+  margin-left: 1em;
+}
+.stRegionMargin
+{
+  width: var(--stColumnWidthLeft);
+  float: left;
+}
+.stRegionContent
+{
+  width:         var(--stColumnWidthMain);
+  margin-left:   var(--stColumnWidthLeft);
+  margin-bottom: 1em;
 }
 
 #stNavigationHeader
@@ -183,116 +205,47 @@ h6
   margin: 1em;
 }
 
-#stHeader
-{
-  width: var(--stMainWidth);
-  margin-left: 1em;
-  margin-bottom: 2em;
-
-  padding-bottom: 2em;
-  border-bottom: var(--stDivider);
-}
-
-#stMainTableOfContents
-{
-  width: var(--stMainWidth);
-  margin-left: 1em;
-  margin-bottom: 2em;
-
-  padding-bottom: 2em;
-  border-bottom: var(--stDivider);
-}
-
-.stMainTableOfContentsContent
-{
-  margin-left: 2em;
-}
-
 .stTableOfContents
 {
-  display: flex;
-  margin-bottom: 1em;
   font-family: var(--stContentFont);
-}
-.stTableOfContentsMargin
-{
-  width: var(--stColumnWidthLeft);
-  font-family: var(--stHeaderFont);
-}
-.stTableOfContentsContent
-{
-  width: var(--stColumnWidthMain);
-  font-family: var(--stContentFont);
-  color: var(--stContentColor);
 }
 
-.stTableOfContentsContent ul
+.stTableOfContents ul
 {
   padding: 0;
   margin: 0;
 }
-.stTableOfContentsContent li > ul
+.stTableOfContents li > ul
 {
   padding-left: 1em;
 }
-.stTableOfContentsContent li
+.stTableOfContents li
 {
   list-style: none;
 }
 
-#stFootnotes
-{
-  width: var(--stMainWidth);
-  margin-left: 1em;
-  margin-bottom: 2em;
-  padding-top: 1em;
-
-  border-top: var(--stDivider);
-}
-
 #stFooter
 {
-  width: var(--stMainWidth);
-  margin-left: 1em;
-  margin-bottom: 2em;
 
-  border-top: var(--stDivider);
 }
 
 #stOverview
 {
-  width: var(--stMainWidth);
-  margin-left: 1em;
-  margin-bottom: 2em;
 
-  font-family: var(--stContentFont);
-  color: var(--stContentColor);
 }
 
 #stMain
 {
-  width: var(--stMainWidth);
-  margin-left: 1em;
-  margin-bottom: 2em;
+
 }
 
 .stDocumentHeader
-{
-  display: flex;
-  font-family: var(--stHeaderFont);
-}
-.stDocumentHeaderMargin
-{
-  width: var(--stColumnWidthLeft);
-  font-family: var(--stHeaderFont);
-}
-.stDocumentHeaderContent
 {
 
 }
 .stDocumentHeaderTitle
 {
-  margin-top: 2em;
+
 }
 .stDocumentHeaderSubtitle
 {
@@ -301,14 +254,13 @@ h6
 
 .stSectionHeader
 {
-  display: flex;
-  margin-top: 2em;
-  font-family: var(--stHeaderFont);
+
 }
 .stSectionNumber
 {
-  width: var(--stColumnWidthLeft);
   font-family: var(--stHeaderFont);
+  font-size:   var(--stH1Size);
+  font-weight: bold;
 }
 .stSectionTitle
 {
@@ -317,88 +269,92 @@ h6
 
 .stSubsectionHeader
 {
-  display: flex;
-  margin-top: 2em;
-  font-family: var(--stHeaderFont);
+
 }
 .stSubsectionNumber
 {
-  width: var(--stColumnWidthLeft);
   font-family: var(--stHeaderFont);
+  font-size:   var(--stH2Size);
+  font-weight: bold;
+}
+.stSubsectionTitle
+{
+
 }
 
 .stParagraph
 {
-  display: flex;
-  margin-top: 1em;
+
 }
 .stParagraphNumber
 {
-  width: var(--stColumnWidthLeft);
   font-family: var(--stHeaderFont);
 }
-.stParagraphContent
+.stParagraph .stRegionContent
 {
-  width: var(--stColumnWidthMain);
   font-family: var(--stContentFont);
-  color: var(--stContentColor);
+  color:       var(--stContentColor);
 }
 
 .stFormalItemHeader
 {
-  display: flex;
-  font-family: var(--stHeaderFont);
-  margin-top: 1em;
-  margin-bottom: 1em;
+
 }
 .stFormalItemNumber
 {
-  width: var(--stColumnWidthLeft);
+  font-family: var(--stHeaderFont);
+  font-size:   var(--stH3Size);
+  font-weight: bold;
 }
 .stFormalItemTitle
 {
-  font-weight: bold;
-  font-family: var(--stHeaderFont);
-  color: var(--stContentColor);
+
 }
 .stFormalItemContent
 {
-  display: flex;
-  margin-bottom: 1em;
+
 }
-.stFormalItemContentMargin
+.stFormalItemContent .stRegionContent
 {
-  width: var(--stColumnWidthLeft);
-  font-family: var(--stHeaderFont);
-}
-.stFormalItemContentMain
-{
-  width: var(--stColumnWidthMain);
   font-family: var(--stContentFont);
-  color: var(--stContentColor);
+  color:       var(--stContentColor);
 }
 
-.stFootnoteContainer
+.stFootnotesHeader
 {
-  display: flex;
-  margin-bottom: 1em;
+  margin-top:  2em;
+  padding-top: 2em;
+  border-top:  var(--stDivider);
 }
-.stFootnoteMargin
+.stFootnotes
 {
-  width: var(--stColumnWidthLeft);
+
+}
+.stFootnoteReferences
+{
+  font-family: var(--stContentFont);
+  color:       var(--stContentColor);
+}
+.stFootnote
+{
+
+}
+.stFootnote .stRegionContent
+{
+  font-family: var(--stContentFont);
+  color:       var(--stContentColor);
+}
+.stFootnoteNumber
+{
   font-family: var(--stHeaderFont);
 }
-.stFootnoteContent
-{
-  width: var(--stColumnWidthMain);
-  font-family: var(--stContentFont);
-  color: var(--stContentColor);
-}
+
 
 .stMetadataTable
 {
-  font-family: monospace;
+  font-family:   monospace;
   margin-bottom: 2em;
+  margin-top:    2em;
 }
 
 .stMetadataTable td:nth-child(1)

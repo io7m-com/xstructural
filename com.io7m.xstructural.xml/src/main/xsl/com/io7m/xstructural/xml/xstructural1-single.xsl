@@ -40,51 +40,65 @@
       </xsl:function>
 
       <xsl:template name="sxc:section">
-        <h1 class="stSectionHeader">
-          <span class="stSectionNumber">
-            <xsl:element name="a">
-              <xsl:choose>
-                <xsl:when test="@id">
-                  <xsl:attribute name="id">
-                    <xsl:value-of select="concat('id_', @id)"/>
-                  </xsl:attribute>
-                  <xsl:attribute name="href">
-                    <xsl:value-of select="concat('#id_', @id)"/>
-                  </xsl:attribute>
-                  <xsl:attribute name="title">
-                    <xsl:call-template name="sxc:anchorTitleFor">
-                      <xsl:with-param name="node"
-                                      select="."/>
-                    </xsl:call-template>
-                  </xsl:attribute>
-                </xsl:when>
-                <xsl:otherwise>
-                  <xsl:variable name="stId"
-                                select="generate-id(.)"/>
-                  <xsl:attribute name="id">
-                    <xsl:value-of select="$stId"/>
-                  </xsl:attribute>
-                  <xsl:attribute name="href">
-                    <xsl:value-of select="concat('#', $stId)"/>
-                  </xsl:attribute>
-                  <xsl:attribute name="title">
-                    <xsl:call-template name="sxc:anchorTitleFor">
-                      <xsl:with-param name="node"
-                                      select="."/>
-                    </xsl:call-template>
-                  </xsl:attribute>
-                </xsl:otherwise>
-              </xsl:choose>
-              <xsl:call-template name="sxc:sectionNumberTitleOf">
-                <xsl:with-param name="section"
-                                select="."/>
-              </xsl:call-template>
-            </xsl:element>
-          </span>
-          <span class="stSectionTitle">
+        <xsl:variable name="stSectionNumber"
+                      as="element()">
+          <xsl:element name="a">
+            <xsl:attribute name="class"
+                           select="'stSectionNumber'"/>
+            <xsl:choose>
+              <xsl:when test="@id">
+                <xsl:attribute name="id">
+                  <xsl:value-of select="concat('id_', @id)"/>
+                </xsl:attribute>
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#id_', @id)"/>
+                </xsl:attribute>
+                <xsl:attribute name="title">
+                  <xsl:call-template name="sxc:anchorTitleFor">
+                    <xsl:with-param name="node"
+                                    select="."/>
+                  </xsl:call-template>
+                </xsl:attribute>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:variable name="stId"
+                              select="generate-id(.)"/>
+                <xsl:attribute name="id">
+                  <xsl:value-of select="$stId"/>
+                </xsl:attribute>
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#', $stId)"/>
+                </xsl:attribute>
+                <xsl:attribute name="title">
+                  <xsl:call-template name="sxc:anchorTitleFor">
+                    <xsl:with-param name="node"
+                                    select="."/>
+                  </xsl:call-template>
+                </xsl:attribute>
+              </xsl:otherwise>
+            </xsl:choose>
+            <xsl:call-template name="sxc:sectionNumberTitleOf">
+              <xsl:with-param name="section"
+                              select="."/>
+            </xsl:call-template>
+          </xsl:element>
+        </xsl:variable>
+
+        <xsl:variable name="stSectionTitle"
+                      as="element()">
+          <h1 class="stSectionTitle">
             <xsl:value-of select="@title"/>
-          </span>
-        </h1>
+          </h1>
+        </xsl:variable>
+
+        <xsl:call-template name="sxc:standardRegion">
+          <xsl:with-param name="class"
+                          select="'stSectionHeader'"/>
+          <xsl:with-param name="stMarginNode"
+                          select="$stSectionNumber"/>
+          <xsl:with-param name="stContentNode"
+                          select="$stSectionTitle"/>
+        </xsl:call-template>
 
         <xsl:apply-templates select="."
                              mode="sxc:tableOfContentsOptional"/>
@@ -144,11 +158,13 @@
           <div id="stMain">
             <xsl:comment>Main Content</xsl:comment>
 
-            <div class="stDocumentHeader">
-              <div class="stDocumentHeaderMargin">
+            <xsl:call-template name="sxc:standardRegion">
+              <xsl:with-param name="class"
+                              select="'stDocumentHeader'"/>
+              <xsl:with-param name="stMarginNode">
                 <xsl:comment>Margin</xsl:comment>
-              </div>
-              <div class="stDocumentHeaderContent stDocumentHeaderTitle">
+              </xsl:with-param>
+              <xsl:with-param name="stContentNode">
                 <h1>
                   <xsl:value-of select="s:Metadata/dc:title"/>
                 </h1>
@@ -156,14 +172,16 @@
                   <xsl:apply-templates select="s:Metadata/*"
                                        mode="sxc:metadataFrontMatter"/>
                 </table>
-              </div>
-            </div>
+              </xsl:with-param>
+            </xsl:call-template>
 
-            <div class="stTableOfContents">
-              <div class="stTableOfContentsMargin">
+            <xsl:call-template name="sxc:standardRegion">
+              <xsl:with-param name="class"
+                              select="'stTableOfContents'"/>
+              <xsl:with-param name="stMarginNode">
                 <xsl:comment>Margin</xsl:comment>
-              </div>
-              <div class="stTableOfContentsContent">
+              </xsl:with-param>
+              <xsl:with-param name="stContentNode">
                 <xsl:choose>
                   <xsl:when test="count(s:Section) > 0">
                     <xsl:apply-templates select="s:Section"
@@ -184,8 +202,8 @@
                     </xsl:apply-templates>
                   </xsl:when>
                 </xsl:choose>
-              </div>
-            </div>
+              </xsl:with-param>
+            </xsl:call-template>
 
             <xsl:apply-templates select="s:Section|s:Subsection"
                                  mode="sxc:blockMode"/>

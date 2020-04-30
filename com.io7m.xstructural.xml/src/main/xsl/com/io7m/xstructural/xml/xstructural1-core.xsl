@@ -21,6 +21,7 @@
              xmlns:s="urn:com.io7m.structural:7:0"
              xmlns="http://www.w3.org/1999/xhtml"
              xmlns:dc="http://purl.org/dc/elements/1.1/"
+             xmlns:xsd="http://www.w3.org/1999/XSL/Transform"
              name="com.io7m.structural.xsl.core"
              exclude-result-prefixes="#all"
              declared-modes="yes"
@@ -165,6 +166,32 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:template name="sxc:standardRegion"
+                as="element()"
+                visibility="final">
+    <xsl:param name="class"
+               as="xs:string"/>
+    <xsl:param name="stMarginNode"
+               as="item()*"/>
+    <xsl:param name="stContentNode"
+               as="item()*"/>
+
+    <xsl:element name="div">
+      <xsl:attribute name="class"
+                     select="concat('stRegion ',$class)"/>
+      <xsl:element name="div">
+        <xsl:attribute name="class"
+                       select="'stRegionMargin'"/>
+        <xsd:sequence select="$stMarginNode"/>
+      </xsl:element>
+      <xsl:element name="div">
+        <xsl:attribute name="class"
+                       select="'stRegionContent'"/>
+        <xsd:sequence select="$stContentNode"/>
+      </xsl:element>
+    </xsl:element>
+  </xsl:template>
+
   <xsl:template match="s:Subsection"
                 mode="sxc:tableOfContents">
     <xsl:param name="depthMaximum"
@@ -278,20 +305,28 @@
           </xsl:choose>
         </xsl:variable>
 
-        <div class="stTableOfContents">
-          <div class="stTableOfContentsMargin">
-            <xsl:comment>Margin</xsl:comment>
-          </div>
-          <div class="stTableOfContentsContent">
-            <xsl:apply-templates select="."
-                                 mode="sxc:tableOfContents">
-              <xsl:with-param name="depthCurrent"
-                              select="0"/>
-              <xsl:with-param name="depthMaximum"
-                              select="$maximumDepth"/>
-            </xsl:apply-templates>
-          </div>
-        </div>
+        <xsl:variable name="stTableOfContentsContent">
+          <xsl:apply-templates select="."
+                               mode="sxc:tableOfContents">
+            <xsl:with-param name="depthCurrent"
+                            select="0"/>
+            <xsl:with-param name="depthMaximum"
+                            select="$maximumDepth"/>
+          </xsl:apply-templates>
+        </xsl:variable>
+
+        <xsl:variable name="stTableOfContentsMargin">
+          <xsl:comment>Margin</xsl:comment>
+        </xsl:variable>
+
+        <xsl:call-template name="sxc:standardRegion">
+          <xsl:with-param name="class"
+                          select="'stTableOfContents'"/>
+          <xsl:with-param name="stMarginNode"
+                          select="$stTableOfContentsMargin"/>
+          <xsl:with-param name="stContentNode"
+                          select="$stTableOfContentsContent"/>
+        </xsl:call-template>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -503,119 +538,145 @@
   <xsl:template match="s:Paragraph"
                 as="element()"
                 mode="sxc:blockMode">
-    <div class="stParagraph">
-      <div class="stParagraphNumber">
+
+    <xsl:variable name="stParagraphNumber"
+                  as="element()">
+      <xsl:element name="a">
+        <xsl:attribute name="class"
+                       select="'stParagraphNumber'"/>
         <xsl:choose>
           <xsl:when test="@id">
-            <xsl:element name="a">
-              <xsl:attribute name="id">
-                <xsl:value-of select="concat('id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:anchorTitleFor">
-                  <xsl:with-param name="node"
-                                  select="."/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
-            </xsl:element>
+            <xsl:attribute name="id">
+              <xsl:value-of select="concat('id_', @id)"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat('#id_', @id)"/>
+            </xsl:attribute>
+            <xsl:attribute name="title">
+              <xsl:call-template name="sxc:anchorTitleFor">
+                <xsl:with-param name="node"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:attribute>
+            <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:element name="a">
-              <xsl:variable name="stId">
-                <xsl:value-of select="generate-id(.)"/>
-              </xsl:variable>
-              <xsl:attribute name="id">
-                <xsl:value-of select="$stId"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#', $stId)"/>
-              </xsl:attribute>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:anchorTitleFor">
-                  <xsl:with-param name="node"
-                                  select="."/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
-            </xsl:element>
+            <xsl:variable name="stId">
+              <xsl:value-of select="generate-id(.)"/>
+            </xsl:variable>
+            <xsl:attribute name="id">
+              <xsl:value-of select="$stId"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat('#', $stId)"/>
+            </xsl:attribute>
+            <xsl:attribute name="title">
+              <xsl:call-template name="sxc:anchorTitleFor">
+                <xsl:with-param name="node"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:attribute>
+            <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
           </xsl:otherwise>
         </xsl:choose>
-      </div>
+      </xsl:element>
+    </xsl:variable>
 
-      <div class="stParagraphContent">
-        <xsl:apply-templates select="child::node()"
-                             mode="sxc:content"/>
-      </div>
-    </div>
+    <xsl:variable name="stParagraphContent"
+                  as="item()*">
+      <xsl:apply-templates select="child::node()"
+                           mode="sxc:content"/>
+    </xsl:variable>
+
+    <xsl:call-template name="sxc:standardRegion">
+      <xsl:with-param name="class"
+                      select="'stParagraph'"/>
+      <xsl:with-param name="stMarginNode"
+                      select="$stParagraphNumber"/>
+      <xsl:with-param name="stContentNode"
+                      select="$stParagraphContent"/>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="s:FormalItem"
                 mode="sxc:blockMode">
-    <div class="stFormalItemHeader">
-      <span class="stFormalItemNumber">
+
+    <xsl:variable name="stFormalItemNumber"
+                  as="element()">
+
+      <xsl:element name="a">
+        <xsl:attribute name="class"
+                       select="'stFormalItemNumber'"/>
         <xsl:choose>
           <xsl:when test="@id">
-            <xsl:element name="a">
-              <xsl:attribute name="id">
-                <xsl:value-of select="concat('id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:anchorTitleFor">
-                  <xsl:with-param name="node"
-                                  select="."/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
-            </xsl:element>
+            <xsl:attribute name="id">
+              <xsl:value-of select="concat('id_', @id)"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat('#id_', @id)"/>
+            </xsl:attribute>
+            <xsl:attribute name="title">
+              <xsl:call-template name="sxc:anchorTitleFor">
+                <xsl:with-param name="node"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:attribute>
+            <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:element name="a">
-              <xsl:variable name="stId">
-                <xsl:value-of select="generate-id(.)"/>
-              </xsl:variable>
-              <xsl:attribute name="id">
-                <xsl:value-of select="$stId"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#', $stId)"/>
-              </xsl:attribute>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:anchorTitleFor">
-                  <xsl:with-param name="node"
-                                  select="."/>
-                </xsl:call-template>
-              </xsl:attribute>
-              <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
-            </xsl:element>
+            <xsl:variable name="stId">
+              <xsl:value-of select="generate-id(.)"/>
+            </xsl:variable>
+            <xsl:attribute name="id">
+              <xsl:value-of select="$stId"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat('#', $stId)"/>
+            </xsl:attribute>
+            <xsl:attribute name="title">
+              <xsl:call-template name="sxc:anchorTitleFor">
+                <xsl:with-param name="node"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:attribute>
+            <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
           </xsl:otherwise>
         </xsl:choose>
-      </span>
-      <span class="stFormalItemTitle">
-        <xsl:variable name="stNumber">
-          <xsl:number select="."
-                      level="multiple"
-                      count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
-        </xsl:variable>
-        <xsl:value-of select="concat($stNumber,' ',@title)"/>
-      </span>
-    </div>
+      </xsl:element>
+    </xsl:variable>
 
-    <div class="stFormalItemContent">
-      <div class="stFormalItemContentMargin">
-        <xsl:comment>Margin</xsl:comment>
-      </div>
-      <div class="stFormalItemContentMain">
+    <xsl:variable name="stFormalItemTitle"
+                  as="element()">
+      <xsl:variable name="stNumber">
+        <xsl:number select="."
+                    level="multiple"
+                    count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
+      </xsl:variable>
+      <h3 class="stFormalItemTitle">
+        <xsl:value-of select="concat($stNumber,' ',@title)"/>
+      </h3>
+    </xsl:variable>
+
+    <xsl:call-template name="sxc:standardRegion">
+      <xsl:with-param name="class"
+                      select="'stFormalItemHeader'"/>
+      <xsl:with-param name="stMarginNode"
+                      select="$stFormalItemNumber"/>
+      <xsl:with-param name="stContentNode"
+                      select="$stFormalItemTitle"/>
+    </xsl:call-template>
+
+    <xsl:call-template name="sxc:standardRegion">
+      <xsl:with-param name="class"
+                      select="'stFormalItemContent'"/>
+      <xsl:with-param name="stMarginNode">
+        <xsl:comment>Formal item margin</xsl:comment>
+      </xsl:with-param>
+      <xsl:with-param name="stContentNode">
         <xsl:apply-templates select="child::node()"
                              mode="sxc:content"/>
-      </div>
-    </div>
+      </xsl:with-param>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:key name="FootnoteReferenceKey"
@@ -623,124 +684,160 @@
            use="@target"/>
 
   <xsl:template match="s:Footnote"
-                as="element()"
+                as="element()*"
                 mode="sxc:blockMode">
+    <xsl:variable name="stFootnoteMargin"
+                  as="element()">
+      <xsl:variable name="stNumber"
+                    as="xs:string">
+        <xsl:number level="single"
+                    select="."
+                    count="s:Footnote"/>
+      </xsl:variable>
 
-    <xsl:variable name="stNumber"
-                  as="xs:string">
-      <xsl:number level="single"
-                  select="."
-                  count="s:Footnote"/>
-    </xsl:variable>
-
-    <div class="stFootnoteContainer">
-      <div class="stFootnoteMargin">
+      <xsl:element name="a">
+        <xsl:attribute name="class"
+                       select="'stFootnoteNumber'"/>
         <xsl:choose>
           <xsl:when test="@id">
-            <xsl:element name="a">
-              <xsl:attribute name="id">
-                <xsl:value-of select="concat('id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#id_', @id)"/>
-              </xsl:attribute>
-              <xsl:value-of select="$stNumber"/>
-            </xsl:element>
+            <xsl:attribute name="id">
+              <xsl:value-of select="concat('id_', @id)"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat('#id_', @id)"/>
+            </xsl:attribute>
+            <xsl:value-of select="$stNumber"/>
           </xsl:when>
           <xsl:otherwise>
-            <xsl:element name="a">
-              <xsl:variable name="stId">
-                <xsl:value-of select="generate-id(.)"/>
-              </xsl:variable>
-              <xsl:attribute name="id">
-                <xsl:value-of select="$stId"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#', $stId)"/>
-              </xsl:attribute>
-              <xsl:value-of select="$stNumber"/>
-            </xsl:element>
+            <xsl:variable name="stId">
+              <xsl:value-of select="generate-id(.)"/>
+            </xsl:variable>
+            <xsl:attribute name="id">
+              <xsl:value-of select="$stId"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat('#', $stId)"/>
+            </xsl:attribute>
+            <xsl:value-of select="$stNumber"/>
           </xsl:otherwise>
         </xsl:choose>
-      </div>
-      <div class="stFootnoteContent">
-        <div>
-          <xsl:apply-templates select="child::node()"
-                               mode="sxc:content"/>
-        </div>
-        <xsl:choose>
-          <xsl:when test="count(key('FootnoteReferenceKey',@id)) > 0">
-            <div>
-              <h4>Footnote References</h4>
-              <ul>
-                <xsl:for-each select="key('FootnoteReferenceKey',@id)">
-                  <li>
-                    <xsl:element name="a">
-                      <xsl:attribute name="href">
-                        <xsl:value-of select="sxc:anchorOf(.)"/>
-                      </xsl:attribute>
-                      <xsl:call-template name="sxc:anchorTitleFor">
-                        <xsl:with-param name="node"
-                                        select="."/>
-                      </xsl:call-template>
-                    </xsl:element>
-                  </li>
-                </xsl:for-each>
-              </ul>
-            </div>
-          </xsl:when>
-        </xsl:choose>
-      </div>
-    </div>
+      </xsl:element>
+    </xsl:variable>
+
+    <xsl:variable name="stFootnoteContent"
+                  as="item()*">
+      <xsl:apply-templates select="child::node()"
+                           mode="sxc:content"/>
+    </xsl:variable>
+
+    <xsl:variable name="stFootnoteReferencesContent"
+                  as="item()*">
+      <xsl:choose>
+        <xsl:when test="count(key('FootnoteReferenceKey',@id)) > 0">
+          <div>
+            <h4>Footnote References</h4>
+            <ul>
+              <xsl:for-each select="key('FootnoteReferenceKey',@id)">
+                <li>
+                  <xsl:element name="a">
+                    <xsl:attribute name="href">
+                      <xsl:value-of select="sxc:anchorOf(.)"/>
+                    </xsl:attribute>
+                    <xsl:call-template name="sxc:anchorTitleFor">
+                      <xsl:with-param name="node"
+                                      select="."/>
+                    </xsl:call-template>
+                  </xsl:element>
+                </li>
+              </xsl:for-each>
+            </ul>
+          </div>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:call-template name="sxc:standardRegion">
+      <xsl:with-param name="class"
+                      select="'stFootnote'"/>
+      <xsl:with-param name="stMarginNode"
+                      select="$stFootnoteMargin"/>
+      <xsl:with-param name="stContentNode"
+                      select="$stFootnoteContent"/>
+    </xsl:call-template>
+
+    <xsl:call-template name="sxc:standardRegion">
+      <xsl:with-param name="class"
+                      select="'stFootnoteReferences'"/>
+      <xsl:with-param name="stMarginNode">
+        <xsl:comment>Margin</xsl:comment>
+      </xsl:with-param>
+      <xsl:with-param name="stContentNode"
+                      select="$stFootnoteReferencesContent"/>
+    </xsl:call-template>
   </xsl:template>
 
   <xsl:template match="s:Subsection"
                 mode="sxc:blockMode">
-    <h2 class="stSubsectionHeader">
-      <span class="stSubsectionNumber">
-        <xsl:element name="a">
-          <xsl:choose>
-            <xsl:when test="@id">
-              <xsl:attribute name="id">
-                <xsl:value-of select="concat('id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:anchorTitleFor">
-                  <xsl:with-param name="node"
-                                  select="."/>
-                </xsl:call-template>
-              </xsl:attribute>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:variable name="stId"
-                            select="generate-id(.)"/>
-              <xsl:attribute name="id">
-                <xsl:value-of select="$stId"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#', $stId)"/>
-              </xsl:attribute>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:anchorTitleFor">
-                  <xsl:with-param name="node"
-                                  select="."/>
-                </xsl:call-template>
-              </xsl:attribute>
-            </xsl:otherwise>
-          </xsl:choose>
-          <xsl:call-template name="sxc:subsectionNumberTitleOf">
-            <xsl:with-param name="subsection"
-                            select="."/>
-          </xsl:call-template>
-        </xsl:element>
-      </span>
-      <span class="stSubsectionTitle">
+
+    <xsl:variable name="stSubsectionNumber"
+                  as="element()">
+      <xsl:element name="a">
+        <xsl:attribute name="class"
+                       select="'stSubsectionNumber'"/>
+        <xsl:choose>
+          <xsl:when test="@id">
+            <xsl:attribute name="id">
+              <xsl:value-of select="concat('id_', @id)"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat('#id_', @id)"/>
+            </xsl:attribute>
+            <xsl:attribute name="title">
+              <xsl:call-template name="sxc:anchorTitleFor">
+                <xsl:with-param name="node"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:attribute>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:variable name="stId"
+                          select="generate-id(.)"/>
+            <xsl:attribute name="id">
+              <xsl:value-of select="$stId"/>
+            </xsl:attribute>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat('#', $stId)"/>
+            </xsl:attribute>
+            <xsl:attribute name="title">
+              <xsl:call-template name="sxc:anchorTitleFor">
+                <xsl:with-param name="node"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:attribute>
+          </xsl:otherwise>
+        </xsl:choose>
+        <xsl:call-template name="sxc:subsectionNumberTitleOf">
+          <xsl:with-param name="subsection"
+                          select="."/>
+        </xsl:call-template>
+      </xsl:element>
+    </xsl:variable>
+
+    <xsl:variable name="stSubsectionTitle"
+                  as="element()">
+      <h2 class="stSubsectionTitle">
         <xsl:value-of select="@title"/>
-      </span>
-    </h2>
+      </h2>
+    </xsl:variable>
+
+    <xsl:call-template name="sxc:standardRegion">
+      <xsl:with-param name="class"
+                      select="'stSubsectionHeader'"/>
+      <xsl:with-param name="stContentNode"
+                      select="$stSubsectionTitle"/>
+      <xsl:with-param name="stMarginNode"
+                      select="$stSubsectionNumber"/>
+    </xsl:call-template>
 
     <xsl:apply-templates select="s:Subsection|s:Paragraph|s:FormalItem"
                          mode="sxc:blockMode"/>
@@ -1009,18 +1106,20 @@
 
   <xsl:template name="sxc:footnotes"
                 visibility="final">
-    <div id="stFootnotes">
-      <div class="stFootnoteContainer">
-        <div class="stFootnoteMargin">
-          <xsl:comment>Margin</xsl:comment>
-        </div>
-        <div class="stFootnoteContent">
-          <h2>Footnotes</h2>
-        </div>
-      </div>
-      <xsl:apply-templates select=".//s:Footnote"
-                           mode="sxc:blockMode"/>
-    </div>
+
+    <xsl:call-template name="sxc:standardRegion">
+      <xsl:with-param name="class"
+                      select="'stFootnotesHeader'"/>
+      <xsl:with-param name="stMarginNode">
+        <xsl:comment>Margin</xsl:comment>
+      </xsl:with-param>
+      <xsl:with-param name="stContentNode">
+        <h2>Footnotes</h2>
+      </xsl:with-param>
+    </xsl:call-template>
+
+    <xsl:apply-templates select=".//s:Footnote"
+                         mode="sxc:blockMode"/>
   </xsl:template>
 
 </xsl:package>
