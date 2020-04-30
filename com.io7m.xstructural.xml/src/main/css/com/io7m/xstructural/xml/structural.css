@@ -102,9 +102,11 @@ h6
 {
   width: var(--stMainWidth);
   font-family: var(--stHeaderFont);
+
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
   grid-row-gap: var(--stNavigationRowGap);
+
   margin: 1em;
   border-bottom: var(--stDivider);
   padding-bottom: 1em;
@@ -113,10 +115,13 @@ h6
 {
   width: var(--stMainWidth);
   font-family: var(--stHeaderFont);
+
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
   grid-row-gap: var(--stNavigationRowGap);
+
   margin: 1em;
+  margin-top: 2em;
   border-top: var(--stDivider);
   padding-top: 1em;
 }
@@ -241,7 +246,7 @@ h6
 
 .stDocumentHeader
 {
-
+  margin-top: 2em;
 }
 .stDocumentHeaderTitle
 {
