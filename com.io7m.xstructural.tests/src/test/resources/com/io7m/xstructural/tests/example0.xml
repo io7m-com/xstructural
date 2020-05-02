@@ -293,6 +293,9 @@
     <Paragraph>
       Paragraph.
     </Paragraph>
+    <FormalItem title="Poppy">
+      <Image source="poppy.jpg">A poppy.</Image>
+    </FormalItem>
   </Section>
 
   <Section title="Section 7">

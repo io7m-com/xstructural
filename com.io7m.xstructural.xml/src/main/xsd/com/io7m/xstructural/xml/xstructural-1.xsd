@@ -39,6 +39,12 @@
     </xsd:restriction>
   </xsd:simpleType>
 
+  <xsd:simpleType name="imageTextType">
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:simpleType name="typeType">
     <xsd:restriction base="xsd:string">
       <xsd:pattern value="[a-zA-Z][a-zA-Z0-9_\.\-]*"/>
@@ -63,20 +69,24 @@
 
   <xsd:element name="Image">
     <xsd:complexType mixed="true">
-      <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+      <xsd:simpleContent>
+        <xsd:extension base="s:imageTextType">
+          <xsd:attributeGroup ref="s:standardXMLAttributes"/>
 
-      <xsd:attribute name="type"
-                     type="s:typeType"
-                     use="optional"/>
-      <xsd:attribute name="width"
-                     type="xsd:nonNegativeInteger"
-                     use="optional"/>
-      <xsd:attribute name="height"
-                     type="xsd:nonNegativeInteger"
-                     use="optional"/>
-      <xsd:attribute name="source"
-                     type="xsd:anyURI"
-                     use="required"/>
+          <xsd:attribute name="type"
+                         type="s:typeType"
+                         use="optional"/>
+          <xsd:attribute name="width"
+                         type="xsd:nonNegativeInteger"
+                         use="optional"/>
+          <xsd:attribute name="height"
+                         type="xsd:nonNegativeInteger"
+                         use="optional"/>
+          <xsd:attribute name="source"
+                         type="xsd:anyURI"
+                         use="required"/>
+        </xsd:extension>
+      </xsd:simpleContent>
     </xsd:complexType>
   </xsd:element>
 
@@ -344,7 +354,6 @@
           <xsd:group ref="s:SubsectionContent"/>
         </xsd:sequence>
       </xsl:choice>
-
 
       <xsd:attributeGroup ref="s:standardXMLAttributes"/>
       <xsd:attribute name="type"
