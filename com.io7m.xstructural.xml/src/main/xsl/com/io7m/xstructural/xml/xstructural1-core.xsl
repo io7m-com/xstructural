@@ -331,13 +331,22 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template name="stMaybeType">
+  <xsl:template name="sxc:addOptionalClassAttribute"
+                as="attribute()?">
+    <xsl:param name="extraTypes"
+               as="xs:string"
+               required="true"/>
     <xsl:choose>
       <xsl:when test="@type">
         <xsl:attribute name="class">
-          <xsl:value-of select="@type"/>
+          <xsl:value-of select="concat($extraTypes,' ',@type)"/>
         </xsl:attribute>
       </xsl:when>
+      <xsl:otherwise>
+        <xsl:attribute name="class">
+          <xsl:value-of select="$extraTypes"/>
+        </xsl:attribute>
+      </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
@@ -348,7 +357,9 @@
   <xsl:template match="s:Link"
                 mode="sxc:content">
     <xsl:element name="a">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stLink'"/>
+      </xsl:call-template>
       <xsl:attribute name="href"
                      select="sxc:anchorOf(key('LinkKey',@target))"/>
       <xsl:attribute name="title">
@@ -364,7 +375,9 @@
   <xsl:template match="s:LinkExternal"
                 mode="sxc:content">
     <xsl:element name="a">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stLinkExternal'"/>
+      </xsl:call-template>
       <xsl:attribute name="href"
                      select="@target"/>
       <xsl:attribute name="title"
@@ -382,7 +395,9 @@
     <xsl:variable name="node"
                   select="key('FootnoteKey',@target)"/>
     <xsl:element name="a">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stLinkFootnote'"/>
+      </xsl:call-template>
       <xsl:attribute name="id"
                      select="generate-id()"/>
       <xsl:attribute name="href"
@@ -417,7 +432,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="td">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stCell'"/>
+      </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
     </xsl:element>
@@ -427,7 +444,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="tr">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stRow'"/>
+      </xsl:call-template>
       <xsl:apply-templates select="s:Cell"
                            mode="sxc:content"/>
     </xsl:element>
@@ -437,7 +456,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="th">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stColumn'"/>
+      </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
     </xsl:element>
@@ -447,7 +468,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="thead">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stColumns'"/>
+      </xsl:call-template>
       <tr>
         <xsl:apply-templates select="s:Column"
                              mode="sxc:content"/>
@@ -459,7 +482,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="table">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stTable'"/>
+      </xsl:call-template>
       <xsl:apply-templates select="s:Columns"
                            mode="sxc:content"/>
       <tbody>
@@ -473,7 +498,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="li">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stItem'"/>
+      </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
     </xsl:element>
@@ -483,7 +510,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="ul">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stListUnordered'"/>
+      </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
     </xsl:element>
@@ -493,7 +522,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="ol">
-      <xsl:call-template name="stMaybeType"/>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stListOrdered'"/>
+      </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
     </xsl:element>
@@ -503,9 +534,9 @@
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="span">
-      <xsl:attribute name="class">
-        <xsl:value-of select="@type"/>
-      </xsl:attribute>
+      <xsl:call-template name="sxc:addOptionalClassAttribute">
+        <xsl:with-param name="extraTypes" select="'stTerm'"/>
+      </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
     </xsl:element>
@@ -522,9 +553,9 @@
         <xsl:value-of select="."/>
       </xsl:attribute>
       <xsl:element name="img">
-        <xsl:attribute name="class">
-          <xsl:value-of select="'stImage'"/>
-        </xsl:attribute>
+        <xsl:call-template name="sxc:addOptionalClassAttribute">
+          <xsl:with-param name="extraTypes" select="'stImage'"/>
+        </xsl:call-template>
         <xsl:attribute name="alt">
           <xsl:value-of select="."/>
         </xsl:attribute>
