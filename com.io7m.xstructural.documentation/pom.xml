@@ -129,6 +129,22 @@
             </configuration>
           </execution>
           <execution>
+            <id>unpack-schema-sources</id>
+            <phase>package</phase>
+            <goals>
+              <goal>unpack-dependencies</goal>
+            </goals>
+            <configuration>
+              <excludes>module-info.java</excludes>
+              <includes>com/io7m/xstructural/xml/xstructural-1.xsd</includes>
+              <includeGroupIds>${project.groupId}</includeGroupIds>
+              <includeArtifactIds>com.io7m.xstructural.xml</includeArtifactIds>
+              <classifier>sources</classifier>
+              <failOnMissingClassifierArtifact>false</failOnMissingClassifierArtifact>
+              <outputDirectory>${project.build.directory}/documentation</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
             <id>make-classpath</id>
             <phase>package</phase>
             <goals>

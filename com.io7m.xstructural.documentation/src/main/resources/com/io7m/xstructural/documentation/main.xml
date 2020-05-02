@@ -11,4 +11,5 @@
 
   <xi:include href="cmdline.xml"/>
   <xi:include href="api.xml"/>
+  <xi:include href="schema.xml"/>
 </Document>
