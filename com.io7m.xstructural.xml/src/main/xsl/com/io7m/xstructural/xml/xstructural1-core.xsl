@@ -18,6 +18,7 @@
 
 <xsl:package xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
              xmlns:xs="http://www.w3.org/2001/XMLSchema"
+             xmlns:xd="http://www.pnp-software.com/XSLTdoc"
              xmlns:s="urn:com.io7m.structural:7:0"
              xmlns="http://www.w3.org/1999/xhtml"
              xmlns:dc="http://purl.org/dc/elements/1.1/"
@@ -29,6 +30,11 @@
              package-version="1.0.0"
              version="3.0">
 
+  <xd:doc>
+    Return the link target of the given node as it appears in the target XHTML document. That is, the text that, when
+    placed in the 'href' attribute of an 'a' element, will yield a link directly to the target node (including the path
+    to whatever page it may be in).
+  </xd:doc>
   <xsl:function name="sxc:anchorOf"
                 as="xs:string"
                 visibility="abstract">
@@ -36,27 +42,11 @@
                as="element()"/>
   </xsl:function>
 
-  <xsl:mode name="sxc:tableOfContentsOptional"
-            visibility="final"
-            warning-on-no-match="true"/>
 
-  <xsl:mode name="sxc:tableOfContents"
-            visibility="final"
-            warning-on-no-match="true"/>
-
-  <xsl:mode name="sxc:blockMode"
-            visibility="final"
-            warning-on-no-match="true"/>
-
-  <xsl:mode name="sxc:content"
-            visibility="final"
-            warning-on-no-match="true"/>
-
-  <xsl:template match="text()"
-                mode="sxc:content">
-    <xsl:value-of select="."/>
-  </xsl:template>
-
+  <xd:doc>
+    Generate text to be used as the displayed number of a given section. This will yield text values such as "1.2.3" if
+    the current section is the third child section, of the second child section, of the first section in the document.
+  </xd:doc>
   <xsl:template name="sxc:sectionNumberTitleOf"
                 as="xs:string"
                 visibility="final">
@@ -68,6 +58,11 @@
                 count="s:Section"/>
   </xsl:template>
 
+  <xd:doc>
+    Generate text to be used as the displayed number of a given subsection. This will yield text values such as "1.2.3"
+    if the current subsection is the third child subsection, of the second child subsection, of the first subsection in
+    the document.
+  </xd:doc>
   <xsl:template name="sxc:subsectionNumberTitleOf"
                 as="xs:string"
                 visibility="final">
@@ -103,6 +98,10 @@
     <xsl:value-of select="concat($sectionNumber,$subsectionNumber)"/>
   </xsl:template>
 
+  <xd:doc>
+    Generate text that is to be used to display the readable title of a given node. This typically yields text that
+    describes the number and the title of the target node, such as "1. A Section".
+  </xd:doc>
   <xsl:template name="sxc:displayTitleFor"
                 as="xs:string"
                 visibility="final">
@@ -127,6 +126,10 @@
     </xsl:choose>
   </xsl:template>
 
+  <xd:doc>
+    Generate text that is to be used as the 'title' attribute of an XHTML 'a' element. This typically yields text that
+    describes the type, number, and the title of the target node, such as "Section 1. A Section".
+  </xd:doc>
   <xsl:template name="sxc:anchorTitleFor"
                 as="xs:string"
                 visibility="final">
@@ -166,6 +169,10 @@
     </xsl:choose>
   </xsl:template>
 
+  <xd:doc>
+    A template used to generate a "standard region". A standard region is a set of nested 'div' elements with an
+    'stRegion' CSS class, and a margin and content node.
+  </xd:doc>
   <xsl:template name="sxc:standardRegion"
                 as="element()"
                 visibility="final">
@@ -191,6 +198,13 @@
       </xsl:element>
     </xsl:element>
   </xsl:template>
+
+  <xd:doc>
+    The set of templates that generate the entries within tables of content.
+  </xd:doc>
+  <xsl:mode name="sxc:tableOfContents"
+            visibility="final"
+            warning-on-no-match="true"/>
 
   <xsl:template match="s:Subsection"
                 mode="sxc:tableOfContents">
@@ -282,6 +296,10 @@
     </xsl:choose>
   </xsl:template>
 
+  <xsl:mode name="sxc:tableOfContentsOptional"
+            visibility="final"
+            warning-on-no-match="true"/>
+
   <xsl:template match="s:Section"
                 name="sxc:tableOfContents"
                 mode="sxc:tableOfContentsOptional"
@@ -331,6 +349,10 @@
     </xsl:choose>
   </xsl:template>
 
+  <xd:doc>
+    Generate a CSS class attribute that concatenates a given list of CSS classes with the contents of a 'type'
+    attribute, if one is present.
+  </xd:doc>
   <xsl:template name="sxc:addOptionalClassAttribute"
                 as="attribute()?">
     <xsl:param name="extraTypes"
@@ -350,6 +372,18 @@
     </xsl:choose>
   </xsl:template>
 
+  <xd:doc>
+    The set of templates used to generate XHTML for ordinary inline content such as links, terms, lists, images, etc.
+  </xd:doc>
+  <xsl:mode name="sxc:content"
+            visibility="final"
+            warning-on-no-match="true"/>
+
+  <xsl:template match="text()"
+                mode="sxc:content">
+    <xsl:value-of select="."/>
+  </xsl:template>
+
   <xsl:key name="LinkKey"
            match="/s:Document//(s:Paragraph|s:FormalItem|s:Section|s:Subsection)"
            use="@id"/>
@@ -358,7 +392,8 @@
                 mode="sxc:content">
     <xsl:element name="a">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stLink'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stLink'"/>
       </xsl:call-template>
       <xsl:attribute name="href"
                      select="sxc:anchorOf(key('LinkKey',@target))"/>
@@ -376,7 +411,8 @@
                 mode="sxc:content">
     <xsl:element name="a">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stLinkExternal'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stLinkExternal'"/>
       </xsl:call-template>
       <xsl:attribute name="href"
                      select="@target"/>
@@ -396,7 +432,8 @@
                   select="key('FootnoteKey',@target)"/>
     <xsl:element name="a">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stLinkFootnote'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stLinkFootnote'"/>
       </xsl:call-template>
       <xsl:attribute name="id"
                      select="generate-id()"/>
@@ -433,7 +470,8 @@
                 mode="sxc:content">
     <xsl:element name="td">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stCell'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stCell'"/>
       </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
@@ -445,7 +483,8 @@
                 mode="sxc:content">
     <xsl:element name="tr">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stRow'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stRow'"/>
       </xsl:call-template>
       <xsl:apply-templates select="s:Cell"
                            mode="sxc:content"/>
@@ -457,7 +496,8 @@
                 mode="sxc:content">
     <xsl:element name="th">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stColumn'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stColumn'"/>
       </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
@@ -469,7 +509,8 @@
                 mode="sxc:content">
     <xsl:element name="thead">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stColumns'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stColumns'"/>
       </xsl:call-template>
       <tr>
         <xsl:apply-templates select="s:Column"
@@ -483,7 +524,8 @@
                 mode="sxc:content">
     <xsl:element name="table">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stTable'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stTable'"/>
       </xsl:call-template>
       <xsl:apply-templates select="s:Columns"
                            mode="sxc:content"/>
@@ -499,7 +541,8 @@
                 mode="sxc:content">
     <xsl:element name="li">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stItem'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stItem'"/>
       </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
@@ -511,7 +554,8 @@
                 mode="sxc:content">
     <xsl:element name="ul">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stListUnordered'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stListUnordered'"/>
       </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
@@ -523,7 +567,8 @@
                 mode="sxc:content">
     <xsl:element name="ol">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stListOrdered'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stListOrdered'"/>
       </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
@@ -535,7 +580,8 @@
                 mode="sxc:content">
     <xsl:element name="span">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
-        <xsl:with-param name="extraTypes" select="'stTerm'"/>
+        <xsl:with-param name="extraTypes"
+                        select="'stTerm'"/>
       </xsl:call-template>
       <xsl:apply-templates select="child::node()"
                            mode="sxc:content"/>
@@ -554,7 +600,8 @@
       </xsl:attribute>
       <xsl:element name="img">
         <xsl:call-template name="sxc:addOptionalClassAttribute">
-          <xsl:with-param name="extraTypes" select="'stImage'"/>
+          <xsl:with-param name="extraTypes"
+                          select="'stImage'"/>
         </xsl:call-template>
         <xsl:attribute name="alt">
           <xsl:value-of select="."/>
@@ -565,6 +612,14 @@
       </xsl:element>
     </xsl:element>
   </xsl:template>
+
+  <xd:doc>
+    The set of templates used to generate XHTML for block content such as paragraphs, formal items, subsections, etc.
+  </xd:doc>
+
+  <xsl:mode name="sxc:blockMode"
+            visibility="final"
+            warning-on-no-match="true"/>
 
   <xsl:template match="s:Paragraph"
                 as="element()"
@@ -918,6 +973,9 @@
     </xsl:if>
   </xsl:template>
 
+  <xd:doc>
+    Templates to generate 'meta' elements for the 'head' element of an XHTML document.
+  </xd:doc>
   <xsl:mode name="sxc:metadataHeader"
             visibility="final"/>
   <xsl:template match="dc:creator"
@@ -1128,6 +1186,9 @@
   <xsl:template match="dc:rights"
                 mode="sxc:metadataFrontMatter"/>
 
+  <xd:doc>
+    Generate a region containing the current set of footnotes, iff the set of footnotes is non-empty.
+  </xd:doc>
   <xsl:template name="sxc:footnotesOptional"
                 visibility="final">
     <xsl:if test="count(.//s:Footnote) > 0">
