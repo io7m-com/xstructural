@@ -80,6 +80,10 @@ h6
   font-size: var(--stH6Size);
 }
 
+/*
+ * Standard regions.
+ */
+
 .stRegion
 {
   width: var(--stMainWidth);
@@ -97,6 +101,10 @@ h6
   margin-left:   var(--stColumnWidthLeft);
   margin-bottom: 1em;
 }
+
+/*
+ * Navigation headers and footers.
+ */
 
 #stNavigationHeader
 {
@@ -196,6 +204,11 @@ h6
   text-align: right;
 }
 
+#stMain
+{
+
+}
+
 #stBrandingHeader
 {
   width: var(--stMainWidth);
@@ -210,11 +223,14 @@ h6
   margin: 1em;
 }
 
+/*
+ * Table of contents.
+ */
+
 .stTableOfContents
 {
   font-family: var(--stContentFont);
 }
-
 .stTableOfContents ul
 {
   padding: 0;
@@ -229,20 +245,9 @@ h6
   list-style: none;
 }
 
-#stFooter
-{
-
-}
-
-#stOverview
-{
-
-}
-
-#stMain
-{
-
-}
+/*
+ * Document headers.
+ */
 
 .stDocumentHeader
 {
@@ -256,6 +261,10 @@ h6
 {
 
 }
+
+/*
+ * Sections.
+ */
 
 .stSectionHeader
 {
@@ -272,6 +281,10 @@ h6
 
 }
 
+/*
+ * Subsections.
+ */
+
 .stSubsectionHeader
 {
 
@@ -287,6 +300,10 @@ h6
 
 }
 
+/*
+ * Paragraphs.
+ */
+
 .stParagraph
 {
 
@@ -300,6 +317,10 @@ h6
   font-family: var(--stContentFont);
   color:       var(--stContentColor);
 }
+
+/*
+ * Formal items.
+ */
 
 .stFormalItemHeader
 {
@@ -324,6 +345,10 @@ h6
   font-family: var(--stContentFont);
   color:       var(--stContentColor);
 }
+
+/*
+ * Footnotes.
+ */
 
 .stFootnotesHeader
 {
@@ -354,6 +379,9 @@ h6
   font-family: var(--stHeaderFont);
 }
 
+/*
+ * Document metadata.
+ */
 
 .stMetadataTable
 {
@@ -361,7 +389,6 @@ h6
   margin-bottom: 2em;
   margin-top:    2em;
 }
-
 .stMetadataTable td:nth-child(1)
 {
   width: 12em;
