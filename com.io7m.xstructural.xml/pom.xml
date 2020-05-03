@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>com.io7m.xstructural</groupId>
+    <artifactId>com.io7m.xstructural</artifactId>
+    <version>0.0.1</version>
+  </parent>
+
+  <artifactId>com.io7m.xstructural.xml</artifactId>
+  <packaging>jar</packaging>
+
+  <description>Structural document format (XML resources)</description>
+  <name>com.io7m.xstructural.xml</name>
+  <url>https://www.github.com/io7m/xstructural</url>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.bundle</artifactId>
+      <scope>provided</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.osgi</groupId>
+      <artifactId>org.osgi.annotation.versioning</artifactId>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+    <resources>
+      <resource>
+        <directory>src/main/css</directory>
+        <filtering>true</filtering>
+      </resource>
+      <resource>
+        <directory>src/main/xsd</directory>
+      </resource>
+      <resource>
+        <directory>src/main/xsl</directory>
+        <filtering>true</filtering>
+      </resource>
+    </resources>
+  </build>
+
+</project>

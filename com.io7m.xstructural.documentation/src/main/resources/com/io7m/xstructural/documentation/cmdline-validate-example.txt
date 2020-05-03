@@ -1,0 +1,14 @@
+$ xstructural validate --sourceFile com.io7m.xstructural.documentation/target/documentation/main.xml
+xstructural: XSValidator: INFO: validate (xstructural) com.io7m.xstructural.documentation/target/documentation/main.xml
+
+$ echo $?
+0
+
+$ xstructural validate --sourceFile README-CHANGES.xml
+xstructural: XSValidator: INFO: validate (xstructural) README-CHANGES.xml
+xstructural: validation: ERROR: README-CHANGES.xml:2:82: cvc-elt.1.a: Cannot find the declaration of element 'c:changelog'.
+xstructural: XSValidator: ERROR: one or more validation errors occurred
+xstructural: Main: ERROR: com.io7m.xstructural.api.XSValidationException: Document README-CHANGES.xml is not a valid structural document
+
+$ echo $?
+1

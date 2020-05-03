@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:7:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="Schema">
+  <Subsection title="Name">
+    <Paragraph>
+      <Term type="command">schema</Term>
+      - Export schemas
+    </Paragraph>
+  </Subsection>
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="command">schema</Term> command exports the Structural schema files into a specified directory.
+    </Paragraph>
+    <FormalItem title="Parameters">
+      <Table type="parametersTable">
+        <Columns>
+          <Column>Parameter</Column>
+          <Column>Type</Column>
+          <Column>Required</Column>
+          <Column>Description</Column>
+        </Columns>
+        <Row>
+          <Cell><Term type="parameter">--outputDirectory</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>true</Cell>
+          <Cell>The path to the output directory.</Cell>
+        </Row>
+        <Row>
+          <Cell><Term type="parameter">--replace</Term></Cell>
+          <Cell>Boolean</Cell>
+          <Cell>false</Cell>
+          <Cell>If set to <Term type="constant">true</Term>, any existing files will be replaced.</Cell>
+        </Row>
+      </Table>
+    </FormalItem>
+  </Subsection>
+  <Subsection title="Example">
+    <FormalItem title="Example">
+      <Verbatim>
+        <xi:include parse="text"
+                    href="cmdline-schema-example.txt"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+</Section>
