@@ -344,6 +344,10 @@ h6
 {
   font-family: var(--stContentFont);
   color:       var(--stContentColor);
+
+  border:     var(--stVerbatimBorder);
+  padding:    1em;
+  margin-top: 0em;
 }
 
 /*
@@ -396,8 +400,6 @@ h6
 
 .stVerbatim
 {
-  border: var(--stVerbatimBorder);
-  padding: 1em;
-  margin-top: 0em;
+  margin:   0em;
   overflow: auto;
 }
