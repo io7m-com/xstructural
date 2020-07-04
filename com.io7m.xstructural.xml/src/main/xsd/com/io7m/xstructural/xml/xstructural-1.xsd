@@ -640,6 +640,16 @@
 
       <xsd:attributeGroup ref="s:standardXMLAttributes"/>
 
+      <xsd:attribute name="type"
+                     type="s:typeType"
+                     use="optional">
+        <xsd:annotation>
+          <xsd:documentation xml:lang="en">
+            The type of the formal item.
+          </xsd:documentation>
+        </xsd:annotation>
+      </xsd:attribute>
+
       <xsd:attribute name="id"
                      type="s:uuidType"
                      use="optional">

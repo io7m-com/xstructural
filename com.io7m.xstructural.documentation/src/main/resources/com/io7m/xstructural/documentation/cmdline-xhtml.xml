@@ -3,11 +3,13 @@
 <Section xmlns="urn:com.io7m.structural:7:0"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          title="XHTML">
+
   <Subsection title="Name">
     <Paragraph>
       <Term type="command">xhtml</Term> - Produce XHTML
     </Paragraph>
   </Subsection>
+
   <Subsection title="Description">
     <Paragraph>
       The <Term type="command">xhtml</Term> command produces XHTML pages for the given input document.
@@ -66,8 +68,9 @@
       </Table>
     </FormalItem>
   </Subsection>
+
   <Subsection title="Example">
-    <FormalItem title="Example">
+    <FormalItem title="Example" type="example">
       <Verbatim>
         <xi:include parse="text"
                     href="cmdline-xhtml-example.txt"/>

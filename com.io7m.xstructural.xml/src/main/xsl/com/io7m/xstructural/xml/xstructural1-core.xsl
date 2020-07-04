@@ -350,26 +350,38 @@
   </xsl:template>
 
   <xd:doc>
-    Generate a CSS class attribute that concatenates a given list of CSS classes with the contents of a 'type'
+    Generate a CSS class attribute value that concatenates a given list of CSS classes with the contents of a 'type'
     attribute, if one is present.
   </xd:doc>
-  <xsl:template name="sxc:addOptionalClassAttribute"
-                as="attribute()?">
+  <xsl:template name="sxc:generateClassAttributeValue"
+                as="xs:string">
     <xsl:param name="extraTypes"
                as="xs:string"
                required="true"/>
     <xsl:choose>
       <xsl:when test="@type">
-        <xsl:attribute name="class">
-          <xsl:value-of select="concat($extraTypes,' ',@type)"/>
-        </xsl:attribute>
+        <xsl:value-of select="concat($extraTypes,' ',@type)"/>
       </xsl:when>
       <xsl:otherwise>
-        <xsl:attribute name="class">
-          <xsl:value-of select="$extraTypes"/>
-        </xsl:attribute>
+        <xsl:value-of select="$extraTypes"/>
       </xsl:otherwise>
     </xsl:choose>
+  </xsl:template>
+
+  <xd:doc>
+    Generate a CSS class attribute that concatenates a given list of CSS classes with the contents of a 'type'
+    attribute, if one is present.
+  </xd:doc>
+  <xsl:template name="sxc:addOptionalClassAttribute"
+                as="attribute()">
+    <xsl:param name="extraTypes"
+               as="xs:string"
+               required="true"/>
+    <xsl:attribute name="class">
+      <xsl:call-template name="sxc:generateClassAttributeValue">
+        <xsl:with-param name="extraTypes" select="$extraTypes"/>
+      </xsl:call-template>
+    </xsl:attribute>
   </xsl:template>
 
   <xd:doc>
@@ -753,11 +765,17 @@
     </xsl:call-template>
 
     <xsl:call-template name="sxc:standardRegion">
-      <xsl:with-param name="class"
-                      select="'stFormalItemContent'"/>
+      <xsl:with-param name="class">
+        <xsl:call-template name="sxc:generateClassAttributeValue">
+          <xsl:with-param name="extraTypes"
+                          select="'stFormalItemContent'"/>
+        </xsl:call-template>
+      </xsl:with-param>
+
       <xsl:with-param name="stMarginNode">
         <xsl:comment>Formal item margin</xsl:comment>
       </xsl:with-param>
+
       <xsl:with-param name="stContentNode">
         <xsl:apply-templates select="child::node()"
                              mode="sxc:content"/>
