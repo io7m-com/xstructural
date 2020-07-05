@@ -805,8 +805,16 @@
                   <xsl:when test="count(s:Section) > 0">
                     <xsl:apply-templates select="s:Section"
                                          mode="sxc:tableOfContents">
-                      <xsl:with-param name="depthMaximum"
-                                      select="9999"/>
+                      <xsl:with-param name="depthMaximum">
+                        <xsl:choose>
+                          <xsl:when test="@tableOfContentsDepth">
+                            <xsl:value-of select="@tableOfContentsDepth"/>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:value-of select="3"/>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                      </xsl:with-param>
                       <xsl:with-param name="depthCurrent"
                                       select="0"/>
                     </xsl:apply-templates>
@@ -814,8 +822,16 @@
                   <xsl:when test="count(s:Subsection) > 0">
                     <xsl:apply-templates select="s:Subsection"
                                          mode="sxc:tableOfContents">
-                      <xsl:with-param name="depthMaximum"
-                                      select="9999"/>
+                      <xsl:with-param name="depthMaximum">
+                        <xsl:choose>
+                          <xsl:when test="@tableOfContentsDepth">
+                            <xsl:value-of select="@tableOfContentsDepth"/>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:value-of select="3"/>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                      </xsl:with-param>
                       <xsl:with-param name="depthCurrent"
                                       select="0"/>
                     </xsl:apply-templates>
