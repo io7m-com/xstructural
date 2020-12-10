@@ -103,7 +103,7 @@ public final class XSXHTMLValidator implements XSProcessorType
             try (var sourceStream = Files.newInputStream(file)) {
               final var fileSource = new InputSource();
               fileSource.setByteStream(sourceStream);
-              fileSource.setSystemId(file.toString());
+              fileSource.setSystemId(file.toUri().toString());
 
               final XSErrorHandler errorHandler =
                 new XSErrorHandler(logger);

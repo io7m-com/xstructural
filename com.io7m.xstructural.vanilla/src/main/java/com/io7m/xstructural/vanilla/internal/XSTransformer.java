@@ -126,7 +126,7 @@ public final class XSTransformer implements XSProcessorType
 
         transformer.setParameter(
           QName.fromEQName("outputDirectory"),
-          XdmValue.makeValue(outputPath.toString())
+          XdmValue.makeValue(outputPath.toUri().toString())
         );
 
         this.request.brandingFile()
@@ -219,5 +219,4 @@ public final class XSTransformer implements XSProcessorType
     traceListener.setOutputDestination(traceLogger);
     return traceListener;
   }
-
 }
