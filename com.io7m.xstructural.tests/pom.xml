@@ -8,7 +8,7 @@
   <parent>
     <artifactId>com.io7m.xstructural</artifactId>
     <groupId>com.io7m.xstructural</groupId>
-    <version>0.0.4</version>
+    <version>0.0.5</version>
   </parent>
 
   <artifactId>com.io7m.xstructural.tests</artifactId>
@@ -58,6 +58,10 @@
     <dependency>
       <groupId>org.junit.jupiter</groupId>
       <artifactId>junit-jupiter-engine</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>com.github.marschall</groupId>
+      <artifactId>memoryfilesystem</artifactId>
     </dependency>
   </dependencies>
 

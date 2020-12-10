@@ -16,15 +16,18 @@
 
 package com.io7m.xstructural.tests;
 
+import com.github.marschall.memoryfilesystem.MemoryFileSystemBuilder;
 import com.io7m.xstructural.api.XSProcessorRequest;
 import com.io7m.xstructural.api.XSProcessorRequestType;
 import com.io7m.xstructural.api.XSValidationException;
 import com.io7m.xstructural.vanilla.XSProcessors;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
+import java.nio.file.FileSystem;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.Duration;
@@ -37,6 +40,7 @@ public final class XSProcessorTest
   private XSProcessors processors;
   private Path outputDirectory;
   private Path sourceDirectory;
+  private FileSystem windowsFilesystem;
 
   @BeforeEach
   public void testSetup()
@@ -49,6 +53,17 @@ public final class XSProcessorTest
 
     Files.createDirectories(this.sourceDirectory);
     Files.createDirectories(this.outputDirectory);
+
+    this.windowsFilesystem =
+      MemoryFileSystemBuilder.newWindows()
+        .build();
+  }
+
+  @AfterEach
+  public void tearDown()
+    throws IOException
+  {
+    this.windowsFilesystem.close();
   }
 
   @Test
@@ -184,6 +199,26 @@ public final class XSProcessorTest
         .setTraceFile(this.directory.resolve("trace.xml"))
         .setMessageFile(this.directory.resolve("messages.txt"))
         .setStylesheet(XSProcessorRequestType.Stylesheet.MULTIPLE_FILE)
+        .build();
+
+    final var processor = this.processors.create(request);
+    Assertions.assertTimeout(TIMEOUT, processor::execute);
+  }
+
+  @Test
+  public void testCompileSingleExampleWindows0()
+    throws Exception
+  {
+    final var request =
+      XSProcessorRequest.builder()
+        .setOutputDirectory(this.outputDirectory)
+        .setSourceFile(XSTestDirectories.resourceOf(
+          XSProcessorTest.class,
+          this.sourceDirectory,
+          "example0.xml"))
+        .setTraceFile(this.directory.resolve("trace.xml"))
+        .setMessageFile(this.directory.resolve("messages.txt"))
+        .setStylesheet(XSProcessorRequestType.Stylesheet.SINGLE_FILE)
         .build();
 
     final var processor = this.processors.create(request);
