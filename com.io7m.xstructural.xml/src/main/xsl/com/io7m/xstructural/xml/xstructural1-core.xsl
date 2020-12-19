@@ -117,6 +117,9 @@
     </xsl:variable>
 
     <xsl:choose>
+      <xsl:when test="local-name($node) = 'Document'">
+        <xsl:value-of select="'Front Matter'"/>
+      </xsl:when>
       <xsl:when test="$node/attribute::title">
         <xsl:value-of select="concat($number,': ',$node/attribute::title)"/>
       </xsl:when>
@@ -160,6 +163,9 @@
     </xsl:variable>
 
     <xsl:choose>
+      <xsl:when test="$type = 'Document'">
+        <xsl:value-of select="'Front Matter'"/>
+      </xsl:when>
       <xsl:when test="$node/attribute::title">
         <xsl:value-of select="concat($type,' ',$number,': ',$node/attribute::title)"/>
       </xsl:when>
