@@ -405,3 +405,17 @@ h6
 {
   margin: 0em;
 }
+
+/*
+ * Tables.
+ */
+
+.stTable td
+{
+  vertical-align: top;
+}
+.stTable th
+{
+  text-align: left;
+  padding-right: 1em;
+}
