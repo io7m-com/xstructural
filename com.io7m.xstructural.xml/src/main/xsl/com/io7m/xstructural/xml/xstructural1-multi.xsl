@@ -121,7 +121,7 @@
                       as="xs:string">
           <xsl:choose>
             <xsl:when test="local-name($sectionUp) = 'Document'">
-              <xsl:value-of select="$sectionUp/s:Metadata/dc:title"/>
+              <xsl:value-of select="'Front Matter'"/>
             </xsl:when>
             <xsl:otherwise>
               <xsl:variable name="sectionUpNumber">
@@ -157,7 +157,7 @@
                       as="xs:string">
           <xsl:choose>
             <xsl:when test="local-name($sectionPrev) = 'Document'">
-              <xsl:value-of select="$documentTitle"/>
+              <xsl:value-of select="'Front Matter'"/>
             </xsl:when>
             <xsl:when test="count($sectionsPreceding) > 0">
               <xsl:variable name="sectionPrevNumber"
@@ -197,7 +197,7 @@
                       as="xs:string">
           <xsl:choose>
             <xsl:when test="local-name($sectionNext) = 'Document'">
-              <xsl:value-of select="$documentTitle"/>
+              <xsl:value-of select="'Front Matter'"/>
             </xsl:when>
             <xsl:otherwise>
               <xsl:variable name="sectionNextNumber"

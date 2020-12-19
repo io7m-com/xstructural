@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <c:changelog project="com.io7m.xstructural" xmlns:c="urn:com.io7m.changelog:4.0">
   <c:releases>
-    <c:release date="2020-12-11T13:54:54+00:00" ticket-system="com.github.io7m.xstructural" version="1.0.0">
+    <c:release date="2020-12-11T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.0.0">
       <c:changes>
-        <c:change date="2020-12-11T13:54:54+00:00" summary="Initial public release"/>
+        <c:change date="2020-12-11T00:00:00+00:00" summary="Initial public release"/>
+      </c:changes>
+    </c:release>
+    <c:release date="2020-12-19T17:37:29+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="1.1.0">
+      <c:changes>
+        <c:change date="2020-12-19T17:37:29+00:00" summary="Use &quot;Front Matter&quot; in XHTML documents">
+          <c:tickets>
+            <c:ticket id="12"/>
+          </c:tickets>
+        </c:change>
       </c:changes>
     </c:release>
   </c:releases>
