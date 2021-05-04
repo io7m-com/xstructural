@@ -34,6 +34,10 @@ import java.nio.file.Path;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+/**
+ * An XHTML validator.
+ */
+
 public final class XSXHTMLValidator implements XSProcessorType
 {
   private static final Logger LOG = LoggerFactory.getLogger(XSXHTMLValidator.class);
@@ -41,6 +45,13 @@ public final class XSXHTMLValidator implements XSProcessorType
   private final SXMLResources resources;
   private final XSProcessorRequest request;
   private final SAXParserFactory saxParsers;
+
+  /**
+   * A XHTML validator.
+   *
+   * @param inResources The SXML resources
+   * @param inRequest   The processor request
+   */
 
   public XSXHTMLValidator(
     final SXMLResources inResources,

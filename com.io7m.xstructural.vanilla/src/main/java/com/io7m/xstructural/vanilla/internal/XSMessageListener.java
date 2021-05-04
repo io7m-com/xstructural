@@ -31,6 +31,10 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 
+/**
+ * A message listener.
+ */
+
 public final class XSMessageListener implements MessageListener2, Closeable
 {
   private static final Logger LOG =

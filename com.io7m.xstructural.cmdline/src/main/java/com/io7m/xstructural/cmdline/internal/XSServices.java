@@ -20,12 +20,20 @@ import com.io7m.xstructural.api.XSProcessorFactoryType;
 
 import java.util.ServiceLoader;
 
+/**
+ * Functions over services.
+ */
+
 public final class XSServices
 {
   private XSServices()
   {
 
   }
+
+  /**
+   * @return The available processors
+   */
 
   public static XSProcessorFactoryType findProcessors()
   {

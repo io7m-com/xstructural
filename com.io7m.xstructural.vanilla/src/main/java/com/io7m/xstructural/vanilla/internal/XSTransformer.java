@@ -46,12 +46,23 @@ import java.util.Objects;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
+/**
+ * An XSL transformer.
+ */
+
 public final class XSTransformer implements XSProcessorType
 {
   private static final Logger LOG = LoggerFactory.getLogger(XSTransformer.class);
 
   private final SXMLResources resources;
   private final XSProcessorRequest request;
+
+  /**
+   * An XSL transformer.
+   *
+   * @param inResources The SXML resources
+   * @param inRequest   The transform request
+   */
 
   public XSTransformer(
     final SXMLResources inResources,
