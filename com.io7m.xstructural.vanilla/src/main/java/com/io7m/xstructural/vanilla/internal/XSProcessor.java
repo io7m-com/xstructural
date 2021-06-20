@@ -23,6 +23,10 @@ import com.io7m.xstructural.xml.SXMLResources;
 
 import java.util.Objects;
 
+/**
+ * An XSL processor.
+ */
+
 public final class XSProcessor implements XSProcessorType
 {
   private final SXMLResources resources;
@@ -30,6 +34,12 @@ public final class XSProcessor implements XSProcessorType
   private final XSTransformer transformer;
   private final XSValidator validator;
   private final XSXHTMLValidator xhtmlValidator;
+
+  /**
+   * An XSL processor.
+   *
+   * @param inRequest An XSL processor request
+   */
 
   public XSProcessor(
     final XSProcessorRequest inRequest)

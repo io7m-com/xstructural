@@ -32,6 +32,10 @@ import javax.xml.validation.Validator;
 import java.nio.file.Files;
 import java.util.Objects;
 
+/**
+ * A validator.
+ */
+
 public final class XSValidator implements XSProcessorType
 {
   private static final Logger LOG = LoggerFactory.getLogger(XSValidator.class);
@@ -39,6 +43,13 @@ public final class XSValidator implements XSProcessorType
   private final SXMLResources resources;
   private final XSProcessorRequest request;
   private final SAXParserFactory parsers;
+
+  /**
+   * A validator.
+   *
+   * @param inResources The SXML resources
+   * @param inRequest   The processor request
+   */
 
   public XSValidator(
     final SXMLResources inResources,

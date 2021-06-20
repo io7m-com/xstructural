@@ -23,16 +23,30 @@ import org.xml.sax.SAXParseException;
 
 import java.util.Objects;
 
+/**
+ * An error handler that logs messages and tracks the failure state.
+ */
+
 public final class XSErrorHandler implements ErrorHandler
 {
   private final Logger logger;
   private boolean failed;
+
+  /**
+   * An error handler.
+   *
+   * @param inLogger The target logger
+   */
 
   public XSErrorHandler(
     final Logger inLogger)
   {
     this.logger = Objects.requireNonNull(inLogger, "logger");
   }
+
+  /**
+   * @return {@code true} if an error has occurred
+   */
 
   public boolean isFailed()
   {

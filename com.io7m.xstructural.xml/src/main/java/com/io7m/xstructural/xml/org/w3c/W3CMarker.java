@@ -16,6 +16,10 @@
 
 package com.io7m.xstructural.xml.org.w3c;
 
+/**
+ * W3C marker class.
+ */
+
 public final class W3CMarker
 {
   private W3CMarker()

@@ -16,8 +16,16 @@
 
 package com.io7m.xstructural.xml.org.w3c.xhtml;
 
+/**
+ * W3C XHTML marker class.
+ */
+
 public final class W3CXHTMLMarker
 {
+  /**
+   * W3C XHTML marker class.
+   */
+
   public W3CXHTMLMarker()
   {
 

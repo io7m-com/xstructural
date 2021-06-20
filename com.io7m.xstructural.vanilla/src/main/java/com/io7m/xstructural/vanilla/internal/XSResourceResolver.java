@@ -29,6 +29,10 @@ import java.io.UncheckedIOException;
 import java.nio.file.NoSuchFileException;
 import java.util.Objects;
 
+/**
+ * A resource resolver.
+ */
+
 public final class XSResourceResolver implements LSResourceResolver
 {
   private static final Logger LOG =
@@ -36,6 +40,14 @@ public final class XSResourceResolver implements LSResourceResolver
 
   private final SXMLResources resources;
   private final DOMImplementationLS domImplementationLS;
+
+  /**
+   * A resource resolver.
+   *
+   * @param inResources The SXML resources
+   *
+   * @throws Exception On errors
+   */
 
   public XSResourceResolver(
     final SXMLResources inResources)

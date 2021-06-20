@@ -37,6 +37,14 @@ public final class SXMLResources
 
   }
 
+  /**
+   * Find a W3C XHTML schema resource.
+   *
+   * @param name The name
+   *
+   * @return The resource URL
+   */
+
   public URL w3cXHTMLResourceOf(
     final String name)
   {
@@ -51,6 +59,10 @@ public final class SXMLResources
     }
     return resource;
   }
+
+  /**
+   * @return The available W3C XHTML schema resources
+   */
 
   public Stream<String> w3cXHTMLResources()
   {
@@ -96,6 +108,14 @@ public final class SXMLResources
     );
   }
 
+  /**
+   * Find an XSD resource with the given name.
+   *
+   * @param name The name
+   *
+   * @return The resource URL
+   */
+
   public URL xsdResourceOf(
     final String name)
   {
@@ -111,6 +131,10 @@ public final class SXMLResources
     return resource;
   }
 
+  /**
+   * @return The available XSD resources
+   */
+
   public Stream<String> xsdResources()
   {
     return Stream.of(
@@ -118,6 +142,14 @@ public final class SXMLResources
       "XMLSchema.dtd"
     );
   }
+
+  /**
+   * Find the xstructural resource with the given name.
+   *
+   * @param name The name
+   *
+   * @return The resource URL
+   */
 
   public URL xstructuralResourceOf(
     final String name)
@@ -134,6 +166,10 @@ public final class SXMLResources
     return resource;
   }
 
+  /**
+   * @return The available xstructural resources
+   */
+
   public Stream<String> xstructuralResources()
   {
     return Stream.of(
@@ -143,25 +179,45 @@ public final class SXMLResources
     );
   }
 
+  /**
+   * @return The W3C XHTML schema
+   */
+
   public URL w3cXHTMLSchema()
   {
     return this.w3cXHTMLResourceOf("xhtml11.xsd");
   }
+
+  /**
+   * @return The xstructural XSD schema
+   */
 
   public URL schema()
   {
     return SXMLResources.class.getResource("xstructural-1.xsd");
   }
 
+  /**
+   * @return The xstructural core XSL stylesheet
+   */
+
   public URL core()
   {
     return SXMLResources.class.getResource("xstructural1-core.xsl");
   }
 
+  /**
+   * @return The xstructural multi-page XSL stylesheet
+   */
+
   public URL multi()
   {
     return SXMLResources.class.getResource("xstructural1-multi.xsl");
   }
+
+  /**
+   * @return The xstructural single-page XSL stylesheet
+   */
 
   public URL single()
   {
