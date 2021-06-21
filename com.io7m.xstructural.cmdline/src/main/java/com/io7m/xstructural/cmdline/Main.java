@@ -54,18 +54,21 @@ public final class Main implements Runnable
     final XSCommandRoot r = new XSCommandRoot();
     final var validate = new XSCommandValidate();
     final var xhtml = new XSCommandTransformXHTML();
+    final var epub = new XSCommandTransformEPUB();
     final var schema = new XSCommandSchema();
 
     this.commands = new HashMap<>(8);
+    this.commands.put("epub", epub);
+    this.commands.put("schema", schema);
     this.commands.put("validate", validate);
     this.commands.put("xhtml", xhtml);
-    this.commands.put("schema", schema);
 
     this.commander = new JCommander(r);
     this.commander.setProgramName("xstructural");
+    this.commander.addCommand("epub", epub);
+    this.commander.addCommand("schema", schema);
     this.commander.addCommand("validate", validate);
     this.commander.addCommand("xhtml", xhtml);
-    this.commander.addCommand("schema", schema);
   }
 
   /**

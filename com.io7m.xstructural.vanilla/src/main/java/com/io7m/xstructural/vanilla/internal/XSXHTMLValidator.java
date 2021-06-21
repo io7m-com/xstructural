@@ -99,6 +99,7 @@ public final class XSXHTMLValidator implements XSProcessorType
           final var files =
             directoryStream
               .filter(path -> path.toString().endsWith(".xhtml"))
+              .filter(path -> !path.toString().endsWith("toc.xhtml"))
               .map(Path::toAbsolutePath)
               .collect(Collectors.toList());
 

@@ -14,29 +14,8 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
-import com.io7m.xstructural.api.XSProcessorFactoryType;
-import com.io7m.xstructural.vanilla.XSProcessors;
-
 /**
- * XStructural (Vanilla)
+ * XStructural (XSLT extension functions)
  */
 
-module com.io7m.xstructural.vanilla
-{
-  requires static org.osgi.annotation.bundle;
-  requires static org.osgi.annotation.versioning;
-  requires static org.osgi.service.component.annotations;
-
-  requires Saxon.HE;
-  requires com.io7m.xstructural.api;
-  requires com.io7m.xstructural.xml;
-  requires java.xml;
-  requires org.apache.commons.compress;
-  requires org.apache.commons.io;
-  requires org.slf4j;
-  requires org.w3c.epubcheck;
-
-  provides XSProcessorFactoryType with XSProcessors;
-
-  exports com.io7m.xstructural.vanilla;
-}
+package com.io7m.xstructural.vanilla.internal.xslt_extensions;

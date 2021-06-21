@@ -403,4 +403,166 @@ public final class XSCommandLineTest
                }
       );
   }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample0()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+    main.run();
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample1()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example1.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+    main.run();
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample2()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example2.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+    main.run();
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
+  }
 }

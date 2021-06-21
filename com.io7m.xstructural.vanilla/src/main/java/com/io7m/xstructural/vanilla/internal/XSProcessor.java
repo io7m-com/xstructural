@@ -34,6 +34,7 @@ public final class XSProcessor implements XSProcessorType
   private final XSTransformer transformer;
   private final XSValidator validator;
   private final XSXHTMLValidator xhtmlValidator;
+  private final XSEPUBCreator epubCreator;
 
   /**
    * An XSL processor.
@@ -55,6 +56,8 @@ public final class XSProcessor implements XSProcessorType
       new XSTransformer(this.resources, this.request);
     this.xhtmlValidator =
       new XSXHTMLValidator(this.resources, this.request);
+    this.epubCreator =
+      new XSEPUBCreator(this.resources, this.request);
   }
 
   @Override
@@ -72,6 +75,11 @@ public final class XSProcessor implements XSProcessorType
         this.xhtmlValidator.execute();
         break;
       }
+      case TRANSFORM_EPUB:
+        this.transformer.execute();
+        this.xhtmlValidator.execute();
+        this.epubCreator.execute();
+        break;
     }
   }
 }

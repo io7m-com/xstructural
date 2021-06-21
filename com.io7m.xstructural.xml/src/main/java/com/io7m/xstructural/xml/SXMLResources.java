@@ -223,4 +223,49 @@ public final class SXMLResources
   {
     return SXMLResources.class.getResource("xstructural1-single.xsl");
   }
+
+  /**
+   * @return The xstructural EPUB XSL stylesheet
+   */
+
+  public URL epub()
+  {
+    return SXMLResources.class.getResource("xstructural1-epub.xsl");
+  }
+
+  /**
+   * @return The xstructural EPUB package XSL stylesheet
+   */
+
+  public URL epubPackage()
+  {
+    return SXMLResources.class.getResource("xstructural1-epub-package.xsl");
+  }
+
+  /**
+   * @return The xstructural CSS stylesheet
+   */
+
+  public URL cssStructural()
+  {
+    return SXMLResources.class.getResource("structural.css");
+  }
+
+  /**
+   * @return The xstructural EPUB CSS stylesheet
+   */
+
+  public URL cssStructuralEPUB()
+  {
+    return SXMLResources.class.getResource("structural-epub.css");
+  }
+
+  /**
+   * @return The xstructural reset CSS stylesheet
+   */
+
+  public URL cssReset()
+  {
+    return SXMLResources.class.getResource("reset.css");
+  }
 }

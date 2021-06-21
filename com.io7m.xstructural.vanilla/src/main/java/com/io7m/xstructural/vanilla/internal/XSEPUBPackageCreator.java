@@ -19,6 +19,7 @@ package com.io7m.xstructural.vanilla.internal;
 import com.io7m.xstructural.api.XSProcessorRequest;
 import com.io7m.xstructural.api.XSProcessorType;
 import com.io7m.xstructural.api.XSTransformException;
+import com.io7m.xstructural.vanilla.internal.xslt_extensions.XSMIMEExtensionFunction;
 import com.io7m.xstructural.xml.SXMLResources;
 import net.sf.saxon.Configuration;
 import net.sf.saxon.lib.Feature;
@@ -27,11 +28,10 @@ import net.sf.saxon.s9api.Processor;
 import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SaxonApiException;
 import net.sf.saxon.s9api.Serializer;
-import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmValue;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
-import net.sf.saxon.s9api.XsltPackage;
+import net.sf.saxon.s9api.XsltTransformer;
 import net.sf.saxon.trace.XSLTTraceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,15 +44,14 @@ import java.net.URL;
 import java.nio.file.Files;
 import java.util.Objects;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
-
 /**
- * An XSL transformer.
+ * An XSL EPUB package creator.
  */
 
-public final class XSTransformer implements XSProcessorType
+public final class XSEPUBPackageCreator implements XSProcessorType
 {
-  private static final Logger LOG = LoggerFactory.getLogger(XSTransformer.class);
+  private static final Logger LOG =
+    LoggerFactory.getLogger(XSEPUBPackageCreator.class);
 
   private final SXMLResources resources;
   private final XSProcessorRequest request;
@@ -64,7 +63,7 @@ public final class XSTransformer implements XSProcessorType
    * @param inRequest   The transform request
    */
 
-  public XSTransformer(
+  public XSEPUBPackageCreator(
     final SXMLResources inResources,
     final XSProcessorRequest inRequest)
   {
@@ -72,6 +71,37 @@ public final class XSTransformer implements XSProcessorType
       Objects.requireNonNull(inResources, "resources");
     this.request =
       Objects.requireNonNull(inRequest, "request");
+  }
+
+  /**
+   * When the XSLT processor transforms a document, it uses a document number
+   * allocator that will be called when XSLT code calls generate-id(). The
+   * document number allocator increments a counter for each document
+   * encountered. This means that an XSLT transformer that has transformed
+   * multiple documents will give different values for generate-id() than
+   * one that has transformed only one document. Because the XSLT transformer
+   * that is used before this EPUB package creator will transform multiple
+   * documents due to having to compile multiple stylesheets, we need to
+   * manually increment the document number allocator for _this_ transformer
+   * in order to get the same filename values in the generated EPUB package.
+   */
+
+  private static void fixDocumentNumber(
+    final XsltTransformer transformer)
+  {
+    final var numberNow =
+      transformer.getUnderlyingController()
+        .getConfiguration()
+        .getDocumentNumberAllocator()
+        .allocateDocumentNumber();
+
+    if (numberNow != 1L) {
+      throw new IllegalStateException(
+        String.format(
+          "Document number must be 1 (was %d)",
+          Long.valueOf(numberNow))
+      );
+    }
   }
 
   @Override
@@ -99,21 +129,27 @@ public final class XSTransformer implements XSProcessorType
       Feature.XSLT_ENABLE_ASSERTIONS, Boolean.TRUE
     );
 
-    final var outputPath =
+    final var outputFile =
       this.request.outputDirectory()
+        .resolve("epub")
+        .resolve("content.opf")
         .toAbsolutePath();
 
-    Files.createDirectories(outputPath);
+    Files.createDirectories(outputFile.getParent());
 
     final var processor = new Processor(configuration);
+    processor.registerExtensionFunction(new XSMIMEExtensionFunction());
+
     final var compiler = processor.newXsltCompiler();
     compiler.setErrorListener(new XSErrorListener(LOG));
 
-    this.compileCorePackage(compiler);
-    final XsltExecutable executable = this.compileStylesheet(compiler);
+    final var executable =
+      this.compileStylesheet(compiler);
 
     LOG.debug("loading stylesheet");
     final var transformer = executable.load();
+
+    fixDocumentNumber(transformer);
 
     try (var stream = Files.newInputStream(this.request.sourceFile())) {
       final var source = new InputSource();
@@ -121,13 +157,13 @@ public final class XSTransformer implements XSProcessorType
       source.setSystemId(this.request.sourceFile().toString());
       transformer.setSource(new SAXSource(source));
 
-      final Serializer out =
+      final var out =
         processor.newSerializer(
           this.request.outputDirectory()
             .resolve("extra.xml")
             .toFile()
         );
-      out.setOutputProperty(Serializer.Property.METHOD, "xhtml");
+      out.setOutputProperty(Serializer.Property.METHOD, "xml");
       out.setOutputProperty(Serializer.Property.INDENT, "yes");
       transformer.setDestination(out);
       transformer.setTraceListener(this.createTraceListener());
@@ -137,58 +173,15 @@ public final class XSTransformer implements XSProcessorType
         transformer.setMessageListener(messageListener);
 
         transformer.setParameter(
-          QName.fromEQName("outputDirectory"),
-          XdmValue.makeValue(outputPath.toUri().toString())
+          QName.fromEQName("outputFile"),
+          XdmValue.makeValue(outputFile.toUri().toString())
         );
 
-        this.request.brandingFile()
-          .ifPresent(path -> {
-            LOG.debug("branding file: {}", path);
-            transformer.setParameter(
-              QName.fromEQName("branding"),
-              new XdmAtomicValue(path.toUri())
-            );
-          });
-
-        LOG.debug("output directory: {}", outputPath);
+        LOG.debug("output file: {}", outputFile);
         LOG.debug("executing stylesheet");
         transformer.transform();
         LOG.debug("execution completed");
       }
-    }
-
-    if (this.request.writeResources()) {
-      this.copyXStructuralResource("reset.css");
-      this.copyXStructuralResource("structural.css");
-    }
-  }
-
-  private void copyXStructuralResource(final String name)
-    throws IOException
-  {
-    LOG.info("copy resource {}", name);
-    try (var stream = this.resources.xstructuralResourceOf(name).openStream()) {
-      Files.copy(
-        stream,
-        this.request.outputDirectory().resolve(name),
-        REPLACE_EXISTING
-      );
-    }
-  }
-
-
-  private void compileCorePackage(
-    final XsltCompiler compiler)
-    throws IOException, SaxonApiException
-  {
-    LOG.debug("compiling core package");
-    final XsltPackage core;
-    try (var stream = this.resources.core().openStream()) {
-      final var source = new InputSource();
-      source.setByteStream(stream);
-      source.setSystemId(this.resources.core().toString());
-      core = compiler.compilePackage(new SAXSource(source));
-      compiler.importPackage(core);
     }
   }
 
@@ -197,21 +190,7 @@ public final class XSTransformer implements XSProcessorType
     throws IOException, SaxonApiException
   {
     LOG.debug("compiling stylesheet");
-    final URL url;
-    switch (this.request.stylesheet()) {
-      case SINGLE_FILE:
-        url = this.resources.single();
-        break;
-      case MULTIPLE_FILE:
-        url = this.resources.multi();
-        break;
-      case EPUB:
-        url = this.resources.epub();
-        break;
-      default: {
-        throw new IllegalStateException();
-      }
-    }
+    final URL url = this.resources.epubPackage();
 
     final XsltExecutable executable;
     try (var stream = url.openStream()) {
@@ -234,4 +213,5 @@ public final class XSTransformer implements XSProcessorType
     traceListener.setOutputDestination(traceLogger);
     return traceListener;
   }
+
 }

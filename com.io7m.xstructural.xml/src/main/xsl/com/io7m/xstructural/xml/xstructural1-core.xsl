@@ -360,6 +360,7 @@
     attribute, if one is present.
   </xd:doc>
   <xsl:template name="sxc:generateClassAttributeValue"
+                visibility="final"
                 as="xs:string">
     <xsl:param name="extraTypes"
                as="xs:string"
@@ -379,6 +380,7 @@
     attribute, if one is present.
   </xd:doc>
   <xsl:template name="sxc:addOptionalClassAttribute"
+                visibility="final"
                 as="attribute()">
     <xsl:param name="extraTypes"
                as="xs:string"
@@ -394,7 +396,7 @@
     The set of templates used to generate XHTML for ordinary inline content such as links, terms, lists, images, etc.
   </xd:doc>
   <xsl:mode name="sxc:content"
-            visibility="final"
+            visibility="public"
             warning-on-no-match="true"/>
 
   <xsl:template match="text()"

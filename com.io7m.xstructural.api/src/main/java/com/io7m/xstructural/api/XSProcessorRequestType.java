@@ -116,7 +116,14 @@ public interface XSProcessorRequestType
      * per section.
      */
 
-    MULTIPLE_FILE
+    MULTIPLE_FILE,
+
+    /**
+     * The EPUB stylesheet. Produces a set of output files suitable for
+     * use in an EPUB file.
+     */
+
+    EPUB
   }
 
   /**
@@ -136,7 +143,13 @@ public interface XSProcessorRequestType
      * The input document will be transformed to XHTML.
      */
 
-    TRANSFORM_XHTML
+    TRANSFORM_XHTML,
+
+    /**
+     * The input document will be transformed to an EPUB.
+     */
+
+    TRANSFORM_EPUB
   }
 
   /**
