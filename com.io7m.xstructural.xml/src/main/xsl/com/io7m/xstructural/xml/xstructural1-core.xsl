@@ -638,7 +638,7 @@
   </xd:doc>
 
   <xsl:mode name="sxc:blockMode"
-            visibility="final"
+            visibility="public"
             warning-on-no-match="true"/>
 
   <xsl:template match="s:Paragraph"
