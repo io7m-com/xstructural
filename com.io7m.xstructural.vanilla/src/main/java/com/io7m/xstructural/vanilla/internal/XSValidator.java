@@ -70,7 +70,7 @@ public final class XSValidator implements XSProcessorType
     LOG.debug("validating source file");
 
     try {
-      final var schemaUrl = this.resources.schema();
+      final var schemaUrl = this.resources.schema7p0();
       try (var schemaStream = schemaUrl.openStream()) {
         final var schemaSource = new InputSource();
         schemaSource.setByteStream(schemaStream);

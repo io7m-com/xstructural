@@ -189,10 +189,21 @@ public final class SXMLResources
   }
 
   /**
+   * @deprecated Use {@link #schema7p0()}
    * @return The xstructural XSD schema
    */
 
+  @Deprecated(since = "1.3.0")
   public URL schema()
+  {
+    return SXMLResources.class.getResource("xstructural-7.xsd");
+  }
+
+  /**
+   * @return The xstructural XSD 7.0 schema
+   */
+
+  public URL schema7p0()
   {
     return SXMLResources.class.getResource("xstructural-7.xsd");
   }
