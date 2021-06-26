@@ -17,7 +17,6 @@
 -->
 
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            xmlns:xsl="http://www.w3.org/2001/XMLSchema"
             elementFormDefault="qualified"
             xmlns:dc="http://purl.org/dc/elements/1.1/"
             xmlns:s="urn:com.io7m.structural:7:0"
@@ -687,7 +686,7 @@
     </xsd:annotation>
 
     <xsd:complexType>
-      <xsl:choice>
+      <xsd:choice>
         <xsd:sequence minOccurs="1"
                       maxOccurs="unbounded">
           <xsd:element ref="s:Subsection"/>
@@ -696,7 +695,7 @@
                       maxOccurs="unbounded">
           <xsd:group ref="s:SubsectionContent"/>
         </xsd:sequence>
-      </xsl:choice>
+      </xsd:choice>
 
       <xsd:attributeGroup ref="s:standardXMLAttributes"/>
 
