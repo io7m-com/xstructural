@@ -146,3 +146,16 @@ h6
 {
   font-style: italic;
 }
+
+/*
+ * Paragraphs.
+ */
+
+.stParagraph
+{
+  hyphens: auto;
+  -webkit-hyphens: auto;
+  -epub-hyphens: auto;
+  -moz-hyphens: auto;
+  -epub-hyphens: auto;
+}
