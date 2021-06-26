@@ -20,6 +20,10 @@
              as="xs:string"
              required="false"/>
 
+  <xsl:output method="text"
+              indent="no"
+              name="textOutput"/>
+
   <xsl:use-package name="com.io7m.structural.xsl.core"
                    package-version="1.0.0">
     <xsl:override>
@@ -47,7 +51,17 @@
                    as="element()"/>
 
         <xsl:variable name="owningSection"
-                      select="$node/ancestor-or-self::s:Section[1]"/>
+                      as="element()">
+          <xsl:choose>
+            <xsl:when test="$node/ancestor-or-self::s:Section[1]">
+              <xsl:sequence select="$node/ancestor-or-self::s:Section[1]"/>
+            </xsl:when>
+            <xsl:otherwise>
+              <xsl:sequence select="$node/ancestor::s:Document"/>
+            </xsl:otherwise>
+          </xsl:choose>
+        </xsl:variable>
+
         <xsl:variable name="owningFile"
                       select="concat(generate-id($owningSection),'.xhtml')"/>
 
@@ -140,53 +154,54 @@
             </head>
             <body>
               <div id="stMain">
-                <xsl:element name="a">
-                  <xsl:attribute name="class"
-                                 select="'stSectionNumber'"/>
-                  <xsl:choose>
-                    <xsl:when test="@id">
-                      <xsl:attribute name="id">
-                        <xsl:value-of select="concat('id_', @id)"/>
-                      </xsl:attribute>
-                      <xsl:attribute name="href">
-                        <xsl:value-of select="concat('#id_', @id)"/>
-                      </xsl:attribute>
-                      <xsl:attribute name="title">
-                        <xsl:call-template name="sxc:anchorTitleFor">
-                          <xsl:with-param name="node"
-                                          select="."/>
-                        </xsl:call-template>
-                      </xsl:attribute>
-                    </xsl:when>
-                    <xsl:otherwise>
-                      <xsl:variable name="stId"
-                                    select="generate-id(.)"/>
-                      <xsl:attribute name="id">
-                        <xsl:value-of select="$stId"/>
-                      </xsl:attribute>
-                      <xsl:attribute name="href">
-                        <xsl:value-of select="concat('#', $stId)"/>
-                      </xsl:attribute>
-                      <xsl:attribute name="title">
-                        <xsl:call-template name="sxc:anchorTitleFor">
-                          <xsl:with-param name="node"
-                                          select="."/>
-                        </xsl:call-template>
-                      </xsl:attribute>
-                    </xsl:otherwise>
-                  </xsl:choose>
-                </xsl:element>
-
-                <xsl:variable name="sectionNumber">
-                  <xsl:call-template name="sxc:sectionNumberTitleOf">
-                    <xsl:with-param name="section"
-                                    select="."/>
-                  </xsl:call-template>
-                </xsl:variable>
-
-                <xsl:variable name="sectionTitle">
+                <xsl:variable name="sectionTitle"
+                              as="element()">
                   <h1 class="stSectionTitle">
-                    <xsl:value-of select="concat($sectionNumber, '. ', @title)"/>
+                    <xsl:element name="a">
+                      <xsl:attribute name="class"
+                                     select="'stSectionNumber'"/>
+                      <xsl:choose>
+                        <xsl:when test="@id">
+                          <xsl:attribute name="id">
+                            <xsl:value-of select="concat('id_', @id)"/>
+                          </xsl:attribute>
+                          <xsl:attribute name="href">
+                            <xsl:value-of select="concat('#id_', @id)"/>
+                          </xsl:attribute>
+                          <xsl:attribute name="title">
+                            <xsl:call-template name="sxc:anchorTitleFor">
+                              <xsl:with-param name="node"
+                                              select="."/>
+                            </xsl:call-template>
+                          </xsl:attribute>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:variable name="stId"
+                                        select="generate-id(.)"/>
+                          <xsl:attribute name="id">
+                            <xsl:value-of select="$stId"/>
+                          </xsl:attribute>
+                          <xsl:attribute name="href">
+                            <xsl:value-of select="concat('#', $stId)"/>
+                          </xsl:attribute>
+                          <xsl:attribute name="title">
+                            <xsl:call-template name="sxc:anchorTitleFor">
+                              <xsl:with-param name="node"
+                                              select="."/>
+                            </xsl:call-template>
+                          </xsl:attribute>
+                        </xsl:otherwise>
+                      </xsl:choose>
+
+                      <xsl:variable name="sectionNumber">
+                        <xsl:call-template name="sxc:sectionNumberTitleOf">
+                          <xsl:with-param name="section"
+                                          select="."/>
+                        </xsl:call-template>
+                      </xsl:variable>
+
+                      <xsl:value-of select="concat($sectionNumber, '. ', @title)"/>
+                    </xsl:element>
                   </h1>
                 </xsl:variable>
 
@@ -212,89 +227,187 @@
         </xsl:result-document>
       </xsl:template>
 
+      <xsl:template match="s:Subsection"
+                    mode="sxc:blockModeNumber">
+        <span/>
+      </xsl:template>
 
       <xsl:template match="s:Subsection"
-                    mode="sxc:blockMode">
+                    mode="sxc:blockModeTitle">
+        <h2 class="stSubsectionTitle">
+          <xsl:element name="a">
+            <xsl:attribute name="class"
+                           select="'stSubsectionTitle'"/>
+            <xsl:choose>
+              <xsl:when test="@id">
+                <xsl:attribute name="id">
+                  <xsl:value-of select="concat('id_', @id)"/>
+                </xsl:attribute>
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#id_', @id)"/>
+                </xsl:attribute>
+                <xsl:attribute name="title">
+                  <xsl:call-template name="sxc:anchorTitleFor">
+                    <xsl:with-param name="node"
+                                    select="."/>
+                  </xsl:call-template>
+                </xsl:attribute>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:variable name="stId"
+                              select="generate-id(.)"/>
+                <xsl:attribute name="id">
+                  <xsl:value-of select="$stId"/>
+                </xsl:attribute>
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#', $stId)"/>
+                </xsl:attribute>
+                <xsl:attribute name="title">
+                  <xsl:call-template name="sxc:anchorTitleFor">
+                    <xsl:with-param name="node"
+                                    select="."/>
+                  </xsl:call-template>
+                </xsl:attribute>
+              </xsl:otherwise>
+            </xsl:choose>
 
-        <xsl:element name="a">
-          <xsl:attribute name="class"
-                         select="'stSubsectionNumber'"/>
-          <xsl:choose>
-            <xsl:when test="@id">
-              <xsl:attribute name="id">
-                <xsl:value-of select="concat('id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#id_', @id)"/>
-              </xsl:attribute>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:anchorTitleFor">
-                  <xsl:with-param name="node"
-                                  select="."/>
-                </xsl:call-template>
-              </xsl:attribute>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:variable name="stId"
-                            select="generate-id(.)"/>
-              <xsl:attribute name="id">
-                <xsl:value-of select="$stId"/>
-              </xsl:attribute>
-              <xsl:attribute name="href">
-                <xsl:value-of select="concat('#', $stId)"/>
-              </xsl:attribute>
-              <xsl:attribute name="title">
-                <xsl:call-template name="sxc:anchorTitleFor">
-                  <xsl:with-param name="node"
-                                  select="."/>
-                </xsl:call-template>
-              </xsl:attribute>
-            </xsl:otherwise>
-          </xsl:choose>
-        </xsl:element>
+            <xsl:variable name="numberTitle">
+              <xsl:call-template name="sxc:subsectionNumberTitleOf">
+                <xsl:with-param name="subsection"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:variable>
 
-        <xsl:variable name="stSubsectionNumber">
-          <xsl:call-template name="sxc:subsectionNumberTitleOf">
-            <xsl:with-param name="subsection"
-                            select="."/>
-          </xsl:call-template>
-        </xsl:variable>
+            <xsl:value-of select="concat($numberTitle, '. ', @title)"/>
+          </xsl:element>
+        </h2>
+      </xsl:template>
 
-        <xsl:variable name="stSubsectionTitle"
-                      as="element()">
-          <h2 class="stSubsectionTitle">
-            <xsl:value-of select="concat($stSubsectionNumber, '. ', @title)"/>
-          </h2>
-        </xsl:variable>
+      <xsl:template match="s:FormalItem"
+                    mode="sxc:blockModeNumber">
+        <span/>
+      </xsl:template>
 
-        <xsl:call-template name="sxc:standardRegion">
-          <xsl:with-param name="class"
-                          select="'stSubsectionHeader'"/>
-          <xsl:with-param name="stMarginNode"
-                          select="''"/>
-          <xsl:with-param name="stContentNode"
-                          select="$stSubsectionTitle"/>
-        </xsl:call-template>
+      <xsl:template match="s:FormalItem"
+                    mode="sxc:blockModeTitle">
 
-        <xsl:apply-templates select="s:Subsection|s:Paragraph|s:FormalItem"
-                             mode="sxc:blockMode"/>
+        <h3 class="stFormalItemTitle">
+          <xsl:element name="a">
+            <xsl:attribute name="class"
+                           select="'stFormalItemTitle'"/>
+            <xsl:choose>
+              <xsl:when test="@id">
+                <xsl:attribute name="id">
+                  <xsl:value-of select="concat('id_', @id)"/>
+                </xsl:attribute>
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#id_', @id)"/>
+                </xsl:attribute>
+                <xsl:attribute name="title">
+                  <xsl:call-template name="sxc:anchorTitleFor">
+                    <xsl:with-param name="node"
+                                    select="."/>
+                  </xsl:call-template>
+                </xsl:attribute>
+                <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
+              </xsl:when>
+              <xsl:otherwise>
+                <xsl:variable name="stId">
+                  <xsl:value-of select="generate-id(.)"/>
+                </xsl:variable>
+                <xsl:attribute name="id">
+                  <xsl:value-of select="$stId"/>
+                </xsl:attribute>
+                <xsl:attribute name="href">
+                  <xsl:value-of select="concat('#', $stId)"/>
+                </xsl:attribute>
+                <xsl:attribute name="title">
+                  <xsl:call-template name="sxc:anchorTitleFor">
+                    <xsl:with-param name="node"
+                                    select="."/>
+                  </xsl:call-template>
+                </xsl:attribute>
+                <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
+              </xsl:otherwise>
+            </xsl:choose>
+
+            <xsl:variable name="stNumber">
+              <xsl:number select="."
+                          level="multiple"
+                          count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
+            </xsl:variable>
+
+            <xsl:value-of select="concat($stNumber,' ',@title)"/>
+          </xsl:element>
+        </h3>
       </xsl:template>
     </xsl:override>
   </xsl:use-package>
-
-  <xsl:output method="text"
-              indent="no"
-              name="textOutput"/>
 
   <xsl:template match="s:Document">
     <xsl:for-each select="s:Section">
       <xsl:call-template name="sxc:section"/>
     </xsl:for-each>
 
+    <xsl:if test="count(s:Subsection) > 0">
+      <xsl:call-template name="document-subsections"/>
+    </xsl:if>
+
     <xsl:call-template name="document-cover"/>
     <xsl:call-template name="document-colophon"/>
     <xsl:call-template name="document-toc"/>
     <xsl:call-template name="document-resources"/>
+  </xsl:template>
+
+  <xd:doc>
+    Generate a "section" page if the document consists only of subsections.
+  </xd:doc>
+
+  <xsl:template name="document-subsections">
+    <xsl:variable name="filePath"
+                  as="xs:string"
+                  select="concat($outputDirectory, '/', generate-id(.),'.xhtml')"/>
+
+    <xsl:message>
+      <xsl:value-of select="concat('create ', $filePath)"/>
+    </xsl:message>
+
+    <xsl:result-document href="{$filePath}"
+                         exclude-result-prefixes="#all"
+                         include-content-type="no"
+                         method="xhtml"
+                         indent="true">
+      <xsl:text>&#x000a;</xsl:text>
+      <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
+      <xsl:text>&#x000a;</xsl:text>
+      <html xml:lang="en">
+        <head>
+          <meta name="generator"
+                content="${project.groupId}/${project.version}"/>
+
+          <link rel="stylesheet"
+                type="text/css"
+                href="reset.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="structural-epub.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="document.css"/>
+
+          <title>
+            <xsl:value-of select="s:Metadata/dc:title"/>
+          </title>
+        </head>
+        <body>
+          <div id="stMain">
+            <xsl:apply-templates select="s:Subsection|s:Paragraph|s:FormalItem"
+                                 mode="sxc:blockMode"/>
+          </div>
+          <xsl:call-template name="sxc:footnotesOptional"/>
+        </body>
+      </html>
+    </xsl:result-document>
   </xsl:template>
 
   <xd:doc>
@@ -339,7 +452,9 @@
         </head>
         <body>
           <div>
-            <h1><xsl:value-of select="s:Metadata/dc:title"/></h1>
+            <h1>
+              <xsl:value-of select="s:Metadata/dc:title"/>
+            </h1>
           </div>
         </body>
       </html>

@@ -99,6 +99,12 @@ public interface XSProcessorRequestType
   Optional<Path> brandingFile();
 
   /**
+   * @return The name of the output file, if relevant to the operation
+   */
+
+  Optional<String> outputName();
+
+  /**
    * The stylesheet that will be used during processing.
    */
 

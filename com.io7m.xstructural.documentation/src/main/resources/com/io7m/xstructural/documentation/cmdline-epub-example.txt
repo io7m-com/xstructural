@@ -1,0 +1,66 @@
+$ xstructural epub \
+  --sourceFile com.io7m.xstructural.documentation/target/documentation/main.xml \
+  --outputDirectory out \
+  --outputFileName example.epub
+xstructural: XSValidator: INFO: validate (xstructural) com.io7m.xstructural.documentation/target/documentation/main.xml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e168.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e311.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e33.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/colophon.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/cover.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e109.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e331.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e14.xhtml
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/d2e16.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/d2e168.xhtml out/epub/OEBPS/d2e168.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/d2e311.xhtml out/epub/OEBPS/d2e311.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/d2e33.xhtml out/epub/OEBPS/d2e33.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/colophon.xhtml out/epub/OEBPS/colophon.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/cover.xhtml out/epub/OEBPS/cover.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/d2e109.xhtml out/epub/OEBPS/d2e109.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/d2e331.xhtml out/epub/OEBPS/d2e331.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/toc.xhtml out/epub/OEBPS/toc.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/d2e14.xhtml out/epub/OEBPS/d2e14.xhtml
+xstructural: XSEPUBCreator: INFO: copy out/d2e16.xhtml out/epub/OEBPS/d2e16.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry mimetype
+xstructural: XSEPUBCreator: INFO: zip entry content.opf
+xstructural: XSEPUBCreator: INFO: zip entry META-INF/container.xml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/d2e168.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/d2e311.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/d2e33.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/colophon.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/cover.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/d2e109.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/d2e331.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/toc.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/d2e14.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/d2e16.xhtml
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/reset.css
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/structural-epub.css
+xstructural: XSEPUBCreator: INFO: zip entry OEBPS/document.css
+xstructural: XSEPUBCreator: INFO: validating out/example.epub
+xstructural: XSEPUBCreator: INFO: epubcheck: stdout: Validating using EPUB version 3.2 rules.
+xstructural: XSEPUBCreator: INFO: epubcheck: stdout: No errors or warnings detected.
+xstructural: XSEPUBCreator: INFO: epubcheck: stdout: Messages: 0 fatals / 0 errors / 0 warnings / 0 infos
+xstructural: XSEPUBCreator: INFO: epubcheck: stdout:
+xstructural: XSEPUBCreator: INFO: epubcheck: stdout: EPUBCheck completed
+
+$ ls -alF out/
+total 128
+drwxr-xr-x  3 xs xs  4096 Jun 26 12:59 ./
+drwxr-xr-x 15 xs xs  4096 Jun 26 12:59 ../
+-rw-r--r--  1 xs xs   713 Jun 26 12:59 colophon.xhtml
+-rw-r--r--  1 xs xs   566 Jun 26 12:59 cover.xhtml
+-rw-r--r--  1 xs xs  6256 Jun 26 12:59 d2e109.xhtml
+-rw-r--r--  1 xs xs  3572 Jun 26 12:59 d2e14.xhtml
+-rw-r--r--  1 xs xs  4077 Jun 26 12:59 d2e16.xhtml
+-rw-r--r--  1 xs xs 10530 Jun 26 12:59 d2e168.xhtml
+-rw-r--r--  1 xs xs  3767 Jun 26 12:59 d2e311.xhtml
+-rw-r--r--  1 xs xs  7158 Jun 26 12:59 d2e33.xhtml
+-rw-r--r--  1 xs xs 36763 Jun 26 12:59 d2e331.xhtml
+drwxr-xr-x  4 xs xs  4096 Jun 26 12:59 epub/
+-rw-r--r--  1 xs xs     0 Jun 26 12:59 epub-resources.txt
+-rw-r--r--  1 xs xs 19337 Jun 26 12:59 example.epub
+-rw-r--r--  1 xs xs    99 Jun 26 12:59 messages.log
+-rw-r--r--  1 xs xs  2460 Jun 26 12:59 toc.xhtml
+-rw-r--r--  1 xs xs  2501 Jun 26 12:59 trace.xml

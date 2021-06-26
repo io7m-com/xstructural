@@ -106,6 +106,42 @@
               </resources>
             </configuration>
           </execution>
+
+          <execution>
+            <id>copy-documentation-resources-epub</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>generate-resources</phase>
+            <configuration>
+              <outputDirectory>${project.build.directory}/epub/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources/com/io7m/xstructural/documentation/</directory>
+                  <filtering>true</filtering>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+
+          <execution>
+            <id>copy-generated-epub</id>
+            <phase>site</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <outputDirectory>${project.parent.build.directory}/minisite/documentation/</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>${project.build.directory}/epub/</directory>
+                  <includes>
+                    <include>${project.artifactId}-${project.version}.epub</include>
+                  </includes>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -223,6 +259,26 @@
               </arguments>
             </configuration>
           </execution>
+
+          <execution>
+            <id>epub</id>
+            <goals>
+              <goal>java</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <mainClass>com.io7m.xstructural.cmdline.MainExitless</mainClass>
+              <arguments>
+                <argument>epub</argument>
+                <argument>--sourceFile</argument>
+                <argument>${project.build.directory}/documentation/main.xml</argument>
+                <argument>--outputDirectory</argument>
+                <argument>${project.build.directory}/epub</argument>
+                <argument>--outputFileName</argument>
+                <argument>${project.artifactId}-${project.version}.epub</argument>
+              </arguments>
+            </configuration>
+          </execution>
         </executions>
       </plugin>
 
@@ -265,9 +321,7 @@
             <configuration>
               <verbose>true</verbose>
               <fileset>
-                <directory>
-                  ${project.build.directory}/${project.name}-${project.version}.zip/${project.name}-${project.version}/
-                </directory>
+                <directory>${project.build.directory}/${project.name}-${project.version}.zip/${project.name}-${project.version}/</directory>
                 <outputDirectory>${project.parent.build.directory}/minisite/documentation/</outputDirectory>
               </fileset>
             </configuration>

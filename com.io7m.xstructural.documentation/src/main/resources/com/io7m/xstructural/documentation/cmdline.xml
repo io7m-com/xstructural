@@ -15,6 +15,7 @@
     </FormalItem>
   </Section>
 
+  <xi:include href="cmdline-epub.xml"/>
   <xi:include href="cmdline-schema.xml"/>
   <xi:include href="cmdline-validate.xml"/>
   <xi:include href="cmdline-xhtml.xml"/>

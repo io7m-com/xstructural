@@ -42,6 +42,11 @@
                                mode="s:manifestItem"/>
           <xsl:apply-templates select=".//s:Section"
                                mode="s:manifestItem"/>
+
+          <xsl:if test="count(s:Subsection) > 0">
+            <xsl:call-template name="topLevelDocumentFile"/>
+          </xsl:if>
+
           <item href="OEBPS/toc.xhtml"
                 id="nav"
                 media-type="application/xhtml+xml"
@@ -57,6 +62,11 @@
           <itemref idref="cover"/>
           <itemref idref="colophon"/>
           <itemref idref="nav"/>
+
+          <xsl:if test="count(s:Subsection) > 0">
+            <xsl:call-template name="topLevelDocumentFileReference"/>
+          </xsl:if>
+
           <xsl:apply-templates select=".//s:Section"
                                mode="s:spineItem"/>
         </spine>
@@ -64,11 +74,36 @@
     </xsl:result-document>
   </xsl:template>
 
+  <xsl:template name="topLevelDocumentFile">
+    <xsl:variable name="sectionId"
+                  select="generate-id(.)"/>
+    <xsl:element name="item">
+      <xsl:attribute name="href">
+        <xsl:value-of select="concat('OEBPS/', $sectionId, '.xhtml')"/>
+      </xsl:attribute>
+      <xsl:attribute name="id">
+        <xsl:value-of select="concat($sectionId, '_xhtml')"/>
+      </xsl:attribute>
+      <xsl:attribute name="media-type">
+        <xsl:value-of select="'application/xhtml+xml'"/>
+      </xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
+  <xsl:template name="topLevelDocumentFileReference">
+    <xsl:variable name="sectionId"
+                  select="generate-id(.)"/>
+    <xsl:element name="itemref">
+      <xsl:attribute name="idref">
+        <xsl:value-of select="concat($sectionId, '_xhtml')"/>
+      </xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
   <xsl:template match="s:Section"
                 mode="s:manifestItem">
     <xsl:variable name="sectionId"
                   select="generate-id(.)"/>
-
     <xsl:element name="item">
       <xsl:attribute name="href">
         <xsl:value-of select="concat('OEBPS/', $sectionId, '.xhtml')"/>

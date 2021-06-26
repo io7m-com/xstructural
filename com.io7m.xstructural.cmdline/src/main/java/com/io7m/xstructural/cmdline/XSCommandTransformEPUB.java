@@ -57,6 +57,13 @@ final class XSCommandTransformEPUB extends XSCommandRoot
   )
   private Path messagesFile;
 
+  @Parameter(
+    required = false,
+    description = "The output file name",
+    names = "--outputFileName"
+  )
+  private String outputFileName;
+
   XSCommandTransformEPUB()
   {
 
@@ -82,6 +89,9 @@ final class XSCommandTransformEPUB extends XSCommandRoot
     }
     if (this.messagesFile != null) {
       requestBuilder.setMessageFile(this.messagesFile.toAbsolutePath());
+    }
+    if (this.outputFileName != null) {
+      requestBuilder.setOutputName(this.outputFileName);
     }
 
     final var request = requestBuilder.build();

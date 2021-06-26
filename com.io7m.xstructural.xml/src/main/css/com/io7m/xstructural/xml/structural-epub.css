@@ -92,12 +92,16 @@ h6
 }
 
 /*
- * Set indentation for the TOC.
+ * Set indentation and formatting for the TOC.
  */
 
 nav ol {
   list-style-type: none;
   padding-left: 1em;
+}
+
+nav {
+  font-family: var(--stHeaderFont);
 }
 
 /*
@@ -228,4 +232,47 @@ nav ol {
 .stFootnoteNumber
 {
   font-family: var(--stHeaderFont);
+}
+
+/*
+ * Document metadata.
+ */
+
+.stMetadataTable
+{
+  font-family:   monospace;
+  margin-bottom: 2em;
+  margin-top:    2em;
+}
+.stMetadataTable td:nth-child(1)
+{
+  width: 12em;
+}
+
+.stVerbatim
+{
+  margin: 0em;
+}
+
+
+/*
+ * Table of contents.
+ */
+
+.stTableOfContents
+{
+  font-family: var(--stContentFont);
+}
+.stTableOfContents ul
+{
+  padding: 0;
+  margin: 0;
+}
+.stTableOfContents li > ul
+{
+  padding-left: 1em;
+}
+.stTableOfContents li
+{
+  list-style: none;
 }

@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:7:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="XHTML">
+
+  <Subsection title="Name">
+    <Paragraph>
+      <Term type="command">epub</Term> - Produce an EPUB file
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="command">epub</Term> command produces a self-contained EPUB file for the given input document.
+      The produced EPUB file is unconditionally checked with
+      <LinkExternal target="https://github.com/w3c/epubcheck">EPUBCheck</LinkExternal>.
+    </Paragraph>
+    <FormalItem title="Parameters">
+      <Table type="parametersTable">
+        <Columns>
+          <Column>Parameter</Column>
+          <Column>Type</Column>
+          <Column>Required</Column>
+          <Column>Description</Column>
+        </Columns>
+        <Row>
+          <Cell><Term type="parameter">--messagesFile</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>false</Cell>
+          <Cell>A file that will contain XSLT debugging messages.</Cell>
+        </Row>
+        <Row>
+          <Cell><Term type="parameter">--traceFile</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>false</Cell>
+          <Cell>A file that will contain XSLT trace messages.</Cell>
+        </Row>
+        <Row>
+          <Cell><Term type="parameter">--sourceFile</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>true</Cell>
+          <Cell>The path to the input document.</Cell>
+        </Row>
+        <Row>
+          <Cell><Term type="parameter">--outputDirectory</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>true</Cell>
+          <Cell>The directory to which output files will be written.</Cell>
+        </Row>
+        <Row>
+          <Cell><Term type="parameter">--outputFileName</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>true</Cell>
+          <Cell>The name of the output file.</Cell>
+        </Row>
+      </Table>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Example">
+    <FormalItem title="Example" type="example">
+      <Verbatim>
+        <xi:include parse="text"
+                    href="cmdline-epub-example.txt"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+</Section>

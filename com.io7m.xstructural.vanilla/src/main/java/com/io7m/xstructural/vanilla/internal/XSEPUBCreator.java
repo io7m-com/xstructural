@@ -83,7 +83,7 @@ public final class XSEPUBCreator implements XSProcessorType
     this.request =
       Objects.requireNonNull(inRequest, "request");
     this.epubFile =
-      this.request.outputDirectory().resolve("output.epub");
+      this.request.outputDirectory().resolve(outputName(inRequest));
     this.epubDirectory =
       this.request.outputDirectory().resolve("epub");
     this.metaDirectory =
@@ -92,6 +92,13 @@ public final class XSEPUBCreator implements XSProcessorType
       this.epubDirectory.resolve("OEBPS");
     this.epubPackageCreator =
       new XSEPUBPackageCreator(this.resources, this.request);
+  }
+
+  private static String outputName(
+    final XSProcessorRequest inRequest)
+  {
+    return inRequest.outputName()
+      .orElse("output.epub");
   }
 
   private static InputStream resource(
