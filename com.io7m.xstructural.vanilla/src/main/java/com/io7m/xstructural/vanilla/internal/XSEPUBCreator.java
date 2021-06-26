@@ -151,6 +151,10 @@ public final class XSEPUBCreator implements XSProcessorType
     final var entry =
       new ZipArchiveEntry(String.format("%s/%s", directory, name));
 
+    if (url == null) {
+      throw new IOException(String.format("URL for entry %s is null", entry));
+    }
+
     LOG.info("zip entry {}", entry.getName());
 
     entry.setCreationTime(ZIP_FILE_TIME);
@@ -219,8 +223,13 @@ public final class XSEPUBCreator implements XSProcessorType
     final var crc = new CRC32();
     final var buffer = new byte[8192];
     try (var input = stream) {
-      final var r = input.read(buffer);
-      crc.update(buffer, 0, r);
+      while (true) {
+        final var r = input.read(buffer);
+        if (r <= 0) {
+          break;
+        }
+        crc.update(buffer, 0, r);
+      }
     }
     return crc.getValue();
   }
@@ -343,8 +352,8 @@ public final class XSEPUBCreator implements XSProcessorType
       createEPUBCopyFileResource(
         zipOut,
         "OEBPS",
-        "reset.css",
-        this.resources.cssReset()
+        "reset-epub.css",
+        this.resources.cssResetEPUB()
       );
       createEPUBCopyFileResource(
         zipOut,

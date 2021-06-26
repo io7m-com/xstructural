@@ -140,7 +140,7 @@
 
               <link rel="stylesheet"
                     type="text/css"
-                    href="reset.css"/>
+                    href="reset-epub.css"/>
               <link rel="stylesheet"
                     type="text/css"
                     href="structural-epub.css"/>
@@ -387,7 +387,7 @@
 
           <link rel="stylesheet"
                 type="text/css"
-                href="reset.css"/>
+                href="reset-epub.css"/>
           <link rel="stylesheet"
                 type="text/css"
                 href="structural-epub.css"/>
@@ -438,7 +438,7 @@
 
           <link rel="stylesheet"
                 type="text/css"
-                href="reset.css"/>
+                href="reset-epub.css"/>
           <link rel="stylesheet"
                 type="text/css"
                 href="structural-epub.css"/>
@@ -489,7 +489,7 @@
 
           <link rel="stylesheet"
                 type="text/css"
-                href="reset.css"/>
+                href="reset-epub.css"/>
           <link rel="stylesheet"
                 type="text/css"
                 href="structural-epub.css"/>
@@ -564,7 +564,7 @@
 
           <link rel="stylesheet"
                 type="text/css"
-                href="reset.css"/>
+                href="reset-epub.css"/>
           <link rel="stylesheet"
                 type="text/css"
                 href="structural-epub.css"/>

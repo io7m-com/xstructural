@@ -268,4 +268,13 @@ public final class SXMLResources
   {
     return SXMLResources.class.getResource("reset.css");
   }
+
+  /**
+   * @return The xstructural EPUB reset CSS stylesheet
+   */
+
+  public URL cssResetEPUB()
+  {
+    return SXMLResources.class.getResource("reset-epub.css");
+  }
 }

@@ -30,7 +30,7 @@
         </metadata>
         <manifest>
           <item id="reset-css"
-                href="OEBPS/reset.css"
+                href="OEBPS/reset-epub.css"
                 media-type="text/css"/>
           <item id="structural-epub-css"
                 href="OEBPS/structural-epub.css"
