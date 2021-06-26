@@ -1,0 +1,148 @@
+/*
+ * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * Structural EPUB CSS ${project.artifactId}/${project.version}
+ */
+
+:root {
+  --stMarginWidth:    2em;
+  --stVerbatimColor:  #202020;
+  --stVerbatimBorder: 1px solid #dddddd;
+  --stFontSize:       90%;
+  --stHeaderFontSize: 100%;
+}
+
+body
+{
+  font-size: var(--stFontSize);
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6
+{
+  font-size:   var(--stHeaderFontSize);
+  font-weight: bold;
+}
+
+#stMain
+{
+  margin-top:   var(--stMarginWidth);
+  margin-right: var(--stMarginWidth);
+}
+
+/*
+ * The top-level pages that only exist in EPUB files.
+ */
+
+#stEPUBCover
+{
+  margin:    var(--stMarginWidth);
+  font-size: var(--stFontSize);
+}
+
+#stEPUBColophon
+{
+  margin:    var(--stMarginWidth);
+  font-size: var(--stFontSize);
+}
+
+#stEPUBTableOfContents
+{
+  margin:    var(--stMarginWidth);
+  font-size: var(--stFontSize);
+}
+
+#stEPUBTableOfContents ol
+{
+  list-style-type: none;
+  padding-left:    0em;
+}
+
+#stEPUBTableOfContents li > ol
+{
+  padding-left: 1em;
+}
+
+/*
+ * Standard regions.
+ */
+
+.stRegion
+{
+
+}
+.stRegionMargin
+{
+  width: var(--stMarginWidth);
+  float: left;
+}
+.stRegionContent
+{
+  margin-left:   var(--stMarginWidth);
+  margin-bottom: 1em;
+}
+
+/*
+ * Verbatims.
+ */
+
+.stVerbatim
+{
+  font-family: monospace;
+  font-size:   75%;
+  color:       var(--stVerbatimColor);
+  border:      var(--stVerbatimBorder);
+  padding:     1em;
+}
+
+/*
+ * Table of contents.
+ */
+
+.stTableOfContents
+{
+  font-size: var(--stFontSize);
+}
+.stTableOfContents ul
+{
+  padding: 0;
+  margin: 0;
+}
+.stTableOfContents li > ul
+{
+  padding-left: 1em;
+}
+.stTableOfContents li
+{
+  list-style: none;
+}
+
+/*
+ * Terms.
+ *
+ * Most EPUB readers appear to refuse to switch typefaces inside a paragraph.
+ * Making terms italic seems to be the next best option.
+ */
+
+.stTerm
+{
+  font-style: italic;
+}

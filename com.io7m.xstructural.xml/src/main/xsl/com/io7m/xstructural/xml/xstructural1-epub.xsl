@@ -309,7 +309,6 @@
                                     select="."/>
                   </xsl:call-template>
                 </xsl:attribute>
-                <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
               </xsl:when>
               <xsl:otherwise>
                 <xsl:variable name="stId">
@@ -327,7 +326,6 @@
                                     select="."/>
                   </xsl:call-template>
                 </xsl:attribute>
-                <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
               </xsl:otherwise>
             </xsl:choose>
 
@@ -451,7 +449,7 @@
           </title>
         </head>
         <body>
-          <div>
+          <div id="stEPUBCover">
             <h1>
               <xsl:value-of select="s:Metadata/dc:title"/>
             </h1>
@@ -502,7 +500,7 @@
           </title>
         </head>
         <body>
-          <div>
+          <div id="stEPUBColophon">
             <table class="stMetadataTable">
               <xsl:apply-templates select="s:Metadata/*"
                                    mode="sxc:metadataFrontMatter"/>
@@ -577,7 +575,7 @@
           </title>
         </head>
         <body>
-          <nav epub:type="toc">
+          <nav epub:type="toc" id="stEPUBTableOfContents">
             <h2>Table Of Contents</h2>
             <ol epub:type="list">
               <li>
