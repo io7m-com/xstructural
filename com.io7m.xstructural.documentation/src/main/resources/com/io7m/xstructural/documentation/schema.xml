@@ -11,7 +11,7 @@
 
   <FormalItem title="xstructural Schema">
     <Verbatim>
-      <xi:include href="com/io7m/xstructural/xml/xstructural-1.xsd" parse="text"/>
+      <xi:include href="com/io7m/xstructural/xml/xstructural-7.xsd" parse="text"/>
     </Verbatim>
   </FormalItem>
 
