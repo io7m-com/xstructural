@@ -175,7 +175,8 @@ public final class SXMLResources
     return Stream.of(
       "dc.xsd",
       "xml.xsd",
-      "xstructural-7.xsd"
+      "xstructural-7.xsd",
+      "xstructural-7_1.xsd"
     );
   }
 
@@ -206,6 +207,15 @@ public final class SXMLResources
   public URL schema7p0()
   {
     return SXMLResources.class.getResource("xstructural-7.xsd");
+  }
+
+  /**
+   * @return The xstructural XSD 7.1 schema
+   */
+
+  public URL schema7p1()
+  {
+    return SXMLResources.class.getResource("xstructural-7_1.xsd");
   }
 
   /**

@@ -6,14 +6,15 @@
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns:sx="urn:com.io7m.xstructural.mime"
                 exclude-result-prefixes="#all"
-                xmlns:s="urn:com.io7m.structural:7:0"
+                xmlns:s70="urn:com.io7m.structural:7:0"
+                xmlns:s71="urn:com.io7m.structural:7:1"
                 version="3.0">
 
   <xsl:param name="outputFile"
              as="xs:string"
              required="true"/>
 
-  <xsl:template match="s:Document">
+  <xsl:template match="s70:Document|s71:Document">
     <xsl:message select="concat('OUTPUT: ',$outputFile)"/>
 
     <xsl:result-document href="{$outputFile}"
@@ -26,8 +27,10 @@
         <xsl:namespace name="dc"
                        select="'http://purl.org/dc/elements/1.1/'"/>
         <metadata>
-          <xsl:apply-templates select="s:Metadata"/>
+          <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                               mode="s70:metadataItem"/>
         </metadata>
+
         <manifest>
           <item id="reset-css"
                 href="OEBPS/reset-epub.css"
@@ -38,12 +41,15 @@
           <item id="document-css"
                 href="OEBPS/document.css"
                 media-type="text/css"/>
-          <xsl:apply-templates select=".//s:Image"
-                               mode="s:manifestItem"/>
-          <xsl:apply-templates select=".//s:Section"
-                               mode="s:manifestItem"/>
 
-          <xsl:if test="count(s:Subsection) > 0">
+          <xsl:apply-templates select=".//s70:Image"
+                               mode="s70:manifestItem"/>
+          <xsl:apply-templates select=".//s70:Section"
+                               mode="s70:manifestItem"/>
+          <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                               mode="s70:manifestItem"/>
+
+          <xsl:if test="count(s70:Subsection) > 0">
             <xsl:call-template name="topLevelDocumentFile"/>
           </xsl:if>
 
@@ -58,17 +64,18 @@
                 id="colophon"
                 media-type="application/xhtml+xml"/>
         </manifest>
+
         <spine>
           <itemref idref="cover"/>
           <itemref idref="colophon"/>
           <itemref idref="nav"/>
 
-          <xsl:if test="count(s:Subsection) > 0">
+          <xsl:if test="count(s70:Subsection) > 0">
             <xsl:call-template name="topLevelDocumentFileReference"/>
           </xsl:if>
 
-          <xsl:apply-templates select=".//s:Section"
-                               mode="s:spineItem"/>
+          <xsl:apply-templates select=".//s70:Section"
+                               mode="s70:spineItem"/>
         </spine>
       </package>
     </xsl:result-document>
@@ -100,8 +107,8 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Section"
-                mode="s:manifestItem">
+  <xsl:template match="s70:Section"
+                mode="s70:manifestItem">
     <xsl:variable name="sectionId"
                   select="generate-id(.)"/>
     <xsl:element name="item">
@@ -117,8 +124,8 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Image"
-                mode="s:manifestItem">
+  <xsl:template match="s70:Image"
+                mode="s70:manifestItem">
     <xsl:element name="item">
       <xsl:attribute name="href">
         <xsl:value-of select="concat('OEBPS/', @source)"/>
@@ -132,8 +139,8 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Section"
-                mode="s:spineItem">
+  <xsl:template match="s70:Section"
+                mode="s70:spineItem">
     <xsl:variable name="sectionId"
                   select="generate-id(.)"/>
     <xsl:element name="itemref">
@@ -143,16 +150,27 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Metadata">
+  <xsl:template match="s70:Metadata|s71:Metadata"
+                mode="s70:metadataItem">
     <xsl:for-each select="dc:*">
       <xsl:if test="not(local-name(.) = 'identifier')">
         <xsl:copy-of select="."
                      copy-namespaces="no"/>
       </xsl:if>
     </xsl:for-each>
+
     <dc:identifier id="pub-id">
       <xsl:value-of select="dc:identifier"/>
     </dc:identifier>
+
+    <xsl:choose>
+      <xsl:when test="s71:MetaProperty[@name='cover']">
+        <xsl:element name="meta">
+          <xsl:attribute name="content">cover_image</xsl:attribute>
+          <xsl:attribute name="name">cover</xsl:attribute>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
 
     <meta property="dcterms:modified">
       <xsl:choose>
@@ -164,6 +182,23 @@
         </xsl:otherwise>
       </xsl:choose>
     </meta>
+  </xsl:template>
+
+  <xsl:template match="s70:Metadata|s71:Metadata"
+                mode="s70:manifestItem">
+    <xsl:choose>
+      <xsl:when test="s71:MetaProperty[@name='cover']">
+        <xsl:element name="item">
+          <xsl:attribute name="id">cover_image</xsl:attribute>
+          <xsl:attribute name="href">
+            <xsl:value-of select="concat('OEBPS/', s71:MetaProperty[@name='cover'])"/>
+          </xsl:attribute>
+          <xsl:attribute name="media-type">
+            <xsl:value-of select="sx:mimeOf(s71:MetaProperty[@name='cover'])"/>
+          </xsl:attribute>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
 </xsl:stylesheet>

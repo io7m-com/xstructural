@@ -80,6 +80,30 @@ public final class XSResourceResolver implements LSResourceResolver
         baseURI
       );
 
+      if (namespaceURI != null) {
+        switch (namespaceURI) {
+          case "urn:com.io7m.structural:7:0": {
+            final var input = this.domImplementationLS.createLSInput();
+            input.setSystemId(systemId);
+            input.setPublicId(publicId);
+            input.setBaseURI(baseURI);
+            input.setByteStream(this.resources.xstructuralResourceOf("xstructural-7.xsd").openStream());
+            return input;
+          }
+          case "urn:com.io7m.structural:7:1": {
+            final var input = this.domImplementationLS.createLSInput();
+            input.setSystemId(systemId);
+            input.setPublicId(publicId);
+            input.setBaseURI(baseURI);
+            input.setByteStream(this.resources.xstructuralResourceOf("xstructural-7_1.xsd").openStream());
+            return input;
+          }
+          default: {
+            break;
+          }
+        }
+      }
+
       final var xsdFileOpt =
         this.resources.xsdResources()
           .filter(name -> name.equals(systemId))

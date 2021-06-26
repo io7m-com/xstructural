@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+  SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+  IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            xmlns:s70="urn:com.io7m.structural:7:0"
+            xmlns:s71="urn:com.io7m.structural:7:1"
+            targetNamespace="urn:com.io7m.structural:7:1">
+
+  <xsd:import namespace="urn:com.io7m.structural:7:0"/>
+
+  <xsd:complexType name="MetaPropertyType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A metadata property.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attribute name="name"
+                   use="required"
+                   type="xsd:string"/>
+  </xsd:complexType>
+
+  <xsd:element name="MetaProperty"
+               type="s71:MetaPropertyType"/>
+
+  <xsd:complexType name="MetadataType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        An element containing document metadata.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:complexContent>
+      <xsd:extension base="s70:MetadataType">
+        <xsd:sequence minOccurs="0"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s71:MetaProperty"/>
+        </xsd:sequence>
+      </xsd:extension>
+    </xsd:complexContent>
+  </xsd:complexType>
+
+  <xsd:element name="Metadata"
+               type="s71:MetadataType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        An element containing document metadata.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:unique name="MetaPropertiesAreUnique">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All 'name' attributes specified on properties within the metadata must be unique.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath=".//s71:MetaProperty"/>
+      <xsd:field xpath="@name"/>
+    </xsd:unique>
+  </xsd:element>
+
+  <xsd:complexType name="DocumentType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The Document element represents the top-level structure of a document. The name 'document' is somewhat of a
+        misnomer, as nothing prevents the document from being structured as a book (with chapters, etc). The document
+        begins with standard Dublin Core metadata, and contains _either_ a series of sections _or_ a series of
+        subsections (but not both).
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element ref="s71:Metadata"/>
+      <xsd:choice>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s70:Section"/>
+        </xsd:sequence>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s70:Subsection"/>
+        </xsd:sequence>
+      </xsd:choice>
+      <xsd:sequence minOccurs="0"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s70:Footnote"/>
+      </xsd:sequence>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s70:standardXMLAttributes"/>
+    <xsd:attributeGroup ref="s70:tableOfContentAttributes"/>
+  </xsd:complexType>
+
+  <xsd:element name="Document"
+               type="s71:DocumentType">
+    <xsd:unique name="ItemIDsAreUnique">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All 'id' attributes specified on objects within the document must be unique.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath=".//s70:FormalItem|.//s70:Paragraph|.//s70:Subsection|.//s70:Section|.//s70:Footnote"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:unique name="LinkReferencesAreUnique">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All 'id' attributes specified on objects within the document must be unique.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath=".//s70:FormalItem|.//s70:Paragraph|.//s70:Subsection|.//s70:Section"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:keyref name="LinkReferences"
+                refer="s71:LinkReferencesAreUnique">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All Link elements must refer to elements with existing 'id' attributes.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath=".//s70:Link"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+
+    <xsd:unique name="DocumentFootnoteKey">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All 'id' attributes specified on footnotes within the document must be unique.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath="s70:Footnote"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:keyref name="DocumentFootnoteReferences"
+                refer="s71:DocumentFootnoteKey">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All footnote references must refer to footnotes that exist.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath="s70:Subsection/*/s70:LinkFootnote"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+  </xsd:element>
+
+</xsd:schema>

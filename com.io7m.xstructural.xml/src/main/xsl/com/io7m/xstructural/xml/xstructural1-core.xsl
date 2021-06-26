@@ -19,16 +19,28 @@
 <xsl:package xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
              xmlns:xs="http://www.w3.org/2001/XMLSchema"
              xmlns:xd="http://www.pnp-software.com/XSLTdoc"
-             xmlns:s="urn:com.io7m.structural:7:0"
              xmlns="http://www.w3.org/1999/xhtml"
              xmlns:dc="http://purl.org/dc/elements/1.1/"
-             xmlns:xsd="http://www.w3.org/1999/XSL/Transform"
+             xmlns:s70="urn:com.io7m.structural:7:0"
+             xmlns:s71="urn:com.io7m.structural:7:1"
+             xmlns:sxc="urn:com.io7m.structural.xsl.core"
              name="com.io7m.structural.xsl.core"
              exclude-result-prefixes="#all"
              declared-modes="yes"
-             xmlns:sxc="urn:com.io7m.structural.xsl.core"
              package-version="1.0.0"
              version="3.0">
+
+  <xd:doc>
+    Return the first ancestor document of the current node.
+  </xd:doc>
+
+  <xsl:function name="sxc:parentDocument"
+                as="element()"
+                visibility="final">
+    <xsl:param name="node"
+               as="element()"/>
+    <xsl:sequence select="($node/ancestor::s70:Document[1]|$node/ancestor::s71:Document[1])"/>
+  </xsl:function>
 
   <xd:doc>
     Return the link target of the given node as it appears in the target XHTML document. That is, the text that, when
@@ -43,7 +55,6 @@
                as="element()"/>
   </xsl:function>
 
-
   <xd:doc>
     Generate text to be used as the displayed number of a given section. This will yield text values such as "1.2.3" if
     the current section is the third child section, of the second child section, of the first section in the document.
@@ -57,7 +68,7 @@
                required="true"/>
     <xsl:number level="multiple"
                 select="$section"
-                count="s:Section"/>
+                count="s70:Section"/>
   </xsl:template>
 
   <xd:doc>
@@ -76,11 +87,11 @@
     <xsl:variable name="sectionNumber"
                   as="xs:string">
       <xsl:choose>
-        <xsl:when test="count(ancestor::s:Section) > 0">
+        <xsl:when test="count(ancestor::s70:Section) > 0">
           <xsl:variable name="numericPart">
             <xsl:call-template name="sxc:sectionNumberTitleOf">
               <xsl:with-param name="section"
-                              select="ancestor::s:Section[1]"/>
+                              select="ancestor::s70:Section[1]"/>
             </xsl:call-template>
           </xsl:variable>
           <xsl:value-of select="concat($numericPart,'.')"/>
@@ -95,7 +106,7 @@
                   as="xs:string">
       <xsl:number level="multiple"
                   select="$subsection"
-                  count="s:Subsection"/>
+                  count="s70:Subsection"/>
     </xsl:variable>
 
     <xsl:value-of select="concat($sectionNumber,$subsectionNumber)"/>
@@ -117,7 +128,7 @@
                   as="xs:string">
       <xsl:number level="multiple"
                   select="$node"
-                  count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
+                  count="s70:Section|s70:Subsection|s70:Paragraph|s70:FormalItem"/>
     </xsl:variable>
 
     <xsl:choose>
@@ -149,7 +160,7 @@
                   as="xs:string">
       <xsl:number level="multiple"
                   select="$node"
-                  count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
+                  count="s70:Section|s70:Subsection|s70:Paragraph|s70:FormalItem"/>
     </xsl:variable>
 
     <xsl:variable name="type"
@@ -201,12 +212,12 @@
       <xsl:element name="div">
         <xsl:attribute name="class"
                        select="'stRegionMargin'"/>
-        <xsd:sequence select="$stMarginNode"/>
+        <xsl:sequence select="$stMarginNode"/>
       </xsl:element>
       <xsl:element name="div">
         <xsl:attribute name="class"
                        select="'stRegionContent'"/>
-        <xsd:sequence select="$stContentNode"/>
+        <xsl:sequence select="$stContentNode"/>
       </xsl:element>
     </xsl:element>
   </xsl:template>
@@ -219,7 +230,7 @@
             visibility="final"
             warning-on-no-match="true"/>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="s70:Subsection"
                 mode="sxc:tableOfContents">
     <xsl:param name="depthMaximum"
                as="xs:integer"
@@ -251,7 +262,7 @@
               <xsl:value-of select="concat($numberTitle,'. ',attribute::title)"/>
             </xsl:element>
 
-            <xsl:apply-templates select="s:Section|s:Subsection"
+            <xsl:apply-templates select="s70:Section|s70:Subsection"
                                  mode="sxc:tableOfContents">
               <xsl:with-param name="depthMaximum"
                               select="$depthMaximum"/>
@@ -264,7 +275,7 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="s70:Section"
                 mode="sxc:tableOfContents">
     <xsl:param name="depthMaximum"
                as="xs:integer"
@@ -296,7 +307,7 @@
               <xsl:value-of select="concat($numberTitle,'. ',attribute::title)"/>
             </xsl:element>
 
-            <xsl:apply-templates select="s:Section|s:Subsection"
+            <xsl:apply-templates select="s70:Section|s70:Subsection"
                                  mode="sxc:tableOfContents">
               <xsl:with-param name="depthMaximum"
                               select="$depthMaximum"/>
@@ -313,7 +324,7 @@
             visibility="final"
             warning-on-no-match="true"/>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="s70:Section"
                 name="sxc:tableOfContents"
                 mode="sxc:tableOfContentsOptional"
                 visibility="public">
@@ -321,7 +332,7 @@
       <xsl:when test="@tableOfContents = 'false'">
         <xsl:comment>No table of contents requested.</xsl:comment>
       </xsl:when>
-      <xsl:when test="count(s:Section) = 0 and count(s:Subsection) = 0">
+      <xsl:when test="count(s70:Section) = 0 and count(s70:Subsection) = 0">
         <xsl:comment>No sections or subsections in this section.</xsl:comment>
       </xsl:when>
       <xsl:otherwise>
@@ -394,7 +405,8 @@
                required="true"/>
     <xsl:attribute name="class">
       <xsl:call-template name="sxc:generateClassAttributeValue">
-        <xsl:with-param name="extraTypes" select="$extraTypes"/>
+        <xsl:with-param name="extraTypes"
+                        select="$extraTypes"/>
       </xsl:call-template>
     </xsl:attribute>
   </xsl:template>
@@ -413,10 +425,10 @@
   </xsl:template>
 
   <xsl:key name="LinkKey"
-           match="/s:Document//(s:Paragraph|s:FormalItem|s:Section|s:Subsection)"
+           match="/(s70:Document|s71:Document)//(s70:Paragraph|s70:FormalItem|s70:Section|s70:Subsection)"
            use="@id"/>
 
-  <xsl:template match="s:Link"
+  <xsl:template match="s70:Link"
                 mode="sxc:content">
     <xsl:element name="a">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
@@ -435,7 +447,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:LinkExternal"
+  <xsl:template match="s70:LinkExternal"
                 mode="sxc:content">
     <xsl:element name="a">
       <xsl:call-template name="sxc:addOptionalClassAttribute">
@@ -451,10 +463,10 @@
   </xsl:template>
 
   <xsl:key name="FootnoteKey"
-           match="/s:Document//s:Footnote"
+           match="/(s70:Document|s71:Document)//s70:Footnote"
            use="@id"/>
 
-  <xsl:template match="s:LinkFootnote"
+  <xsl:template match="s70:LinkFootnote"
                 mode="sxc:content">
     <xsl:variable name="node"
                   select="key('FootnoteKey',@target)"/>
@@ -470,7 +482,7 @@
       <xsl:variable name="footnoteIndex">
         <xsl:number select="$node"
                     level="single"
-                    count="s:Footnote"/>
+                    count="s70:Footnote"/>
       </xsl:variable>
       <xsl:attribute name="title">
         <xsl:value-of select="concat('Footnote ',$footnoteIndex)"/>
@@ -479,7 +491,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Verbatim"
+  <xsl:template match="s70:Verbatim"
                 as="element()"
                 mode="sxc:content">
     <xsl:variable name="trimmedLeading"
@@ -493,7 +505,7 @@
     </pre>
   </xsl:template>
 
-  <xsl:template match="s:Cell"
+  <xsl:template match="s70:Cell"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="td">
@@ -506,7 +518,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Row"
+  <xsl:template match="s70:Row"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="tr">
@@ -514,12 +526,12 @@
         <xsl:with-param name="extraTypes"
                         select="'stRow'"/>
       </xsl:call-template>
-      <xsl:apply-templates select="s:Cell"
+      <xsl:apply-templates select="s70:Cell"
                            mode="sxc:content"/>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Column"
+  <xsl:template match="s70:Column"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="th">
@@ -532,7 +544,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Columns"
+  <xsl:template match="s70:Columns"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="thead">
@@ -541,13 +553,13 @@
                         select="'stColumns'"/>
       </xsl:call-template>
       <tr>
-        <xsl:apply-templates select="s:Column"
+        <xsl:apply-templates select="s70:Column"
                              mode="sxc:content"/>
       </tr>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Table"
+  <xsl:template match="s70:Table"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="table">
@@ -555,16 +567,16 @@
         <xsl:with-param name="extraTypes"
                         select="'stTable'"/>
       </xsl:call-template>
-      <xsl:apply-templates select="s:Columns"
+      <xsl:apply-templates select="s70:Columns"
                            mode="sxc:content"/>
       <tbody>
-        <xsl:apply-templates select="s:Row"
+        <xsl:apply-templates select="s70:Row"
                              mode="sxc:content"/>
       </tbody>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Item"
+  <xsl:template match="s70:Item"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="li">
@@ -577,7 +589,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:ListUnordered"
+  <xsl:template match="s70:ListUnordered"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="ul">
@@ -590,7 +602,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:ListOrdered"
+  <xsl:template match="s70:ListOrdered"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="ol">
@@ -603,7 +615,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Term"
+  <xsl:template match="s70:Term"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="span">
@@ -616,7 +628,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Image"
+  <xsl:template match="s70:Image"
                 as="element()"
                 mode="sxc:content">
     <xsl:element name="a">
@@ -657,7 +669,7 @@
             visibility="public"
             warning-on-no-match="true"/>
 
-  <xsl:template match="s:Paragraph"
+  <xsl:template match="s70:Paragraph"
                 as="element()"
                 mode="sxc:blockMode">
 
@@ -680,7 +692,7 @@
                                 select="."/>
               </xsl:call-template>
             </xsl:attribute>
-            <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
+            <xsl:value-of select="count(preceding-sibling::s70:Paragraph|preceding-sibling::s70:FormalItem) + 1"/>
           </xsl:when>
           <xsl:otherwise>
             <xsl:variable name="stId">
@@ -698,7 +710,7 @@
                                 select="."/>
               </xsl:call-template>
             </xsl:attribute>
-            <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
+            <xsl:value-of select="count(preceding-sibling::s70:Paragraph|preceding-sibling::s70:FormalItem) + 1"/>
           </xsl:otherwise>
         </xsl:choose>
       </xsl:element>
@@ -724,7 +736,7 @@
     The template used to produce output for formal items.
   </xd:doc>
 
-  <xsl:template match="s:FormalItem"
+  <xsl:template match="s70:FormalItem"
                 mode="sxc:blockModeNumber">
     <xsl:element name="a">
       <xsl:attribute name="class"
@@ -743,7 +755,7 @@
                               select="."/>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
+          <xsl:value-of select="count(preceding-sibling::s70:Paragraph|preceding-sibling::s70:FormalItem) + 1"/>
         </xsl:when>
         <xsl:otherwise>
           <xsl:variable name="stId">
@@ -761,32 +773,36 @@
                               select="."/>
             </xsl:call-template>
           </xsl:attribute>
-          <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
+          <xsl:value-of select="count(preceding-sibling::s70:Paragraph|preceding-sibling::s70:FormalItem) + 1"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:FormalItem"
+  <xsl:template match="s70:FormalItem"
                 mode="sxc:blockModeTitle">
     <xsl:variable name="stNumber">
       <xsl:number select="."
                   level="multiple"
-                  count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
+                  count="s70:Section|s70:Subsection|s70:Paragraph|s70:FormalItem"/>
     </xsl:variable>
     <h3 class="stFormalItemTitle">
       <xsl:value-of select="concat($stNumber,' ',@title)"/>
     </h3>
   </xsl:template>
 
-  <xsl:template match="s:FormalItem"
+  <xsl:template match="s70:FormalItem"
                 mode="sxc:blockMode">
 
-    <xsl:variable name="stFormalItemNumber" as="element()">
-      <xsl:apply-templates select="." mode="sxc:blockModeNumber"/>
+    <xsl:variable name="stFormalItemNumber"
+                  as="element()">
+      <xsl:apply-templates select="."
+                           mode="sxc:blockModeNumber"/>
     </xsl:variable>
-    <xsl:variable name="stFormalItemTitle" as="element()">
-      <xsl:apply-templates select="." mode="sxc:blockModeTitle"/>
+    <xsl:variable name="stFormalItemTitle"
+                  as="element()">
+      <xsl:apply-templates select="."
+                           mode="sxc:blockModeTitle"/>
     </xsl:variable>
 
     <xsl:call-template name="sxc:standardRegion">
@@ -818,10 +834,10 @@
   </xsl:template>
 
   <xsl:key name="FootnoteReferenceKey"
-           match="/s:Document//s:LinkFootnote"
+           match="/(s70:Document|s71:Document)//s70:LinkFootnote"
            use="@target"/>
 
-  <xsl:template match="s:Footnote"
+  <xsl:template match="s70:Footnote"
                 as="element()*"
                 mode="sxc:blockMode">
     <xsl:variable name="stFootnoteMargin"
@@ -830,7 +846,7 @@
                     as="xs:string">
         <xsl:number level="single"
                     select="."
-                    count="s:Footnote"/>
+                    count="s70:Footnote"/>
       </xsl:variable>
 
       <xsl:element name="a">
@@ -914,14 +930,14 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="s70:Subsection"
                 mode="sxc:blockModeTitle">
     <h2 class="stSubsectionTitle">
       <xsl:value-of select="@title"/>
     </h2>
   </xsl:template>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="s70:Subsection"
                 mode="sxc:blockModeNumber">
     <xsl:element name="a">
       <xsl:attribute name="class"
@@ -965,17 +981,19 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="s70:Subsection"
                 mode="sxc:blockMode">
 
     <xsl:variable name="stSubsectionNumber"
                   as="element()">
-      <xsl:apply-templates select="." mode="sxc:blockModeNumber"/>
+      <xsl:apply-templates select="."
+                           mode="sxc:blockModeNumber"/>
     </xsl:variable>
 
     <xsl:variable name="stSubsectionTitle"
                   as="element()">
-      <xsl:apply-templates select="." mode="sxc:blockModeTitle"/>
+      <xsl:apply-templates select="."
+                           mode="sxc:blockModeTitle"/>
     </xsl:variable>
 
     <xsl:call-template name="sxc:standardRegion">
@@ -987,11 +1005,11 @@
                       select="$stSubsectionNumber"/>
     </xsl:call-template>
 
-    <xsl:apply-templates select="s:Subsection|s:Paragraph|s:FormalItem"
+    <xsl:apply-templates select="s70:Subsection|s70:Paragraph|s70:FormalItem"
                          mode="sxc:blockMode"/>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="s70:Section"
                 mode="sxc:blockMode">
     <xsl:call-template name="sxc:section"/>
   </xsl:template>
@@ -1182,6 +1200,8 @@
   </xsl:template>
   <xsl:template match="dc:title"
                 mode="sxc:metadataHeader"/>
+  <xsl:template match="s71:MetaProperty"
+                mode="sxc:metadataHeader"/>
 
   <xsl:mode name="sxc:metadataFrontMatter"
             visibility="final"/>
@@ -1247,6 +1267,8 @@
                 mode="sxc:metadataFrontMatter"/>
   <xsl:template match="dc:rights"
                 mode="sxc:metadataFrontMatter"/>
+  <xsl:template match="s71:MetaProperty"
+                mode="sxc:metadataFrontMatter"/>
 
   <xd:doc>
     Generate a region containing the current set of footnotes, iff the set of footnotes is non-empty.
@@ -1254,7 +1276,7 @@
 
   <xsl:template name="sxc:footnotesOptional"
                 visibility="final">
-    <xsl:if test="count(.//s:Footnote) > 0">
+    <xsl:if test="count(.//s70:Footnote) > 0">
       <xsl:call-template name="sxc:footnotes"/>
     </xsl:if>
   </xsl:template>
@@ -1273,7 +1295,7 @@
       </xsl:with-param>
     </xsl:call-template>
 
-    <xsl:apply-templates select=".//s:Footnote"
+    <xsl:apply-templates select=".//s70:Footnote"
                          mode="sxc:blockMode"/>
   </xsl:template>
 

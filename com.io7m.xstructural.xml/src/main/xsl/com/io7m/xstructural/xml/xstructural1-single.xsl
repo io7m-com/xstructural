@@ -4,7 +4,8 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
-                xmlns:s="urn:com.io7m.structural:7:0"
+                xmlns:s70="urn:com.io7m.structural:7:0"
+                xmlns:s71="urn:com.io7m.structural:7:1"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns:sxc="urn:com.io7m.structural.xsl.core"
                 version="3.0">
@@ -103,13 +104,13 @@
         <xsl:apply-templates select="."
                              mode="sxc:tableOfContentsOptional"/>
 
-        <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
+        <xsl:apply-templates select="s70:Section|s70:Subsection|s70:Paragraph|s70:FormalItem"
                              mode="sxc:blockMode"/>
       </xsl:template>
     </xsl:override>
   </xsl:use-package>
 
-  <xsl:template match="s:Document">
+  <xsl:template match="s70:Document|s71:Document">
     <xsl:variable name="filePath"
                   select="concat($outputDirectory,'/',$indexFile)"/>
 
@@ -142,11 +143,12 @@
           <link rel="schema.DC"
                 href="http://purl.org/dc/elements/1.1/"/>
 
-          <xsl:apply-templates select="s:Metadata/*"
+          <xsl:apply-templates select="s70:Metadata/*|s71:Metadata/*"
                                mode="sxc:metadataHeader"/>
 
           <title>
-            <xsl:value-of select="s:Metadata/dc:title"/>
+            <xsl:apply-templates mode="documentTitle"
+                                 select="s70:Metadata|s71:Metadata"/>
           </title>
         </head>
         <body>
@@ -166,10 +168,11 @@
               </xsl:with-param>
               <xsl:with-param name="stContentNode">
                 <h1>
-                  <xsl:value-of select="s:Metadata/dc:title"/>
+                  <xsl:apply-templates mode="documentTitle"
+                                       select="s70:Metadata|s71:Metadata"/>
                 </h1>
                 <table class="stMetadataTable">
-                  <xsl:apply-templates select="s:Metadata/*"
+                  <xsl:apply-templates select="s70:Metadata/*|s71:Metadata/*"
                                        mode="sxc:metadataFrontMatter"/>
                 </table>
               </xsl:with-param>
@@ -183,8 +186,8 @@
               </xsl:with-param>
               <xsl:with-param name="stContentNode">
                 <xsl:choose>
-                  <xsl:when test="count(s:Section) > 0">
-                    <xsl:apply-templates select="s:Section"
+                  <xsl:when test="count(s70:Section) > 0">
+                    <xsl:apply-templates select="s70:Section"
                                          mode="sxc:tableOfContents">
                       <xsl:with-param name="depthMaximum">
                         <xsl:choose>
@@ -200,8 +203,8 @@
                                       select="0"/>
                     </xsl:apply-templates>
                   </xsl:when>
-                  <xsl:when test="count(s:Subsection) > 0">
-                    <xsl:apply-templates select="s:Subsection"
+                  <xsl:when test="count(s70:Subsection) > 0">
+                    <xsl:apply-templates select="s70:Subsection"
                                          mode="sxc:tableOfContents">
                       <xsl:with-param name="depthMaximum">
                         <xsl:choose>
@@ -221,7 +224,7 @@
               </xsl:with-param>
             </xsl:call-template>
 
-            <xsl:apply-templates select="s:Section|s:Subsection"
+            <xsl:apply-templates select="s70:Section|s70:Subsection"
                                  mode="sxc:blockMode"/>
           </div>
 
@@ -234,6 +237,11 @@
         </body>
       </html>
     </xsl:result-document>
+  </xsl:template>
+
+  <xsl:template match="s70:Metadata|s71:Metadata"
+                mode="documentTitle">
+    <xsl:value-of select="dc:title"/>
   </xsl:template>
 
 </xsl:stylesheet>

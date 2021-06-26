@@ -4,9 +4,11 @@
                 xmlns:xs="http://www.w3.org/2001/XMLSchema"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
-                xmlns:s="urn:com.io7m.structural:7:0"
+                xmlns:s70="urn:com.io7m.structural:7:0"
+                xmlns:s71="urn:com.io7m.structural:7:1"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns:sxc="urn:com.io7m.structural.xsl.core"
+                xmlns:sxm="urn:com.io7m.structural.xsl.multi"
                 version="3.0">
 
   <xsl:param name="outputDirectory"
@@ -31,7 +33,7 @@
                    as="element()"/>
 
         <xsl:variable name="owningSection"
-                      select="$node/ancestor-or-self::s:Section[1]"/>
+                      select="$node/ancestor-or-self::s70:Section[1]"/>
         <xsl:variable name="owningFile"
                       select="concat(generate-id($owningSection),'.xhtml')"/>
 
@@ -46,20 +48,24 @@
       </xsl:function>
 
       <xsl:template name="sxc:section">
+        <xsl:variable name="documentOwning" as="element()" select="sxc:parentDocument(.)">
+
+        </xsl:variable>
+
         <xsl:variable name="documentTitle"
                       as="xs:string">
-          <xsl:value-of select="ancestor::s:Document[1]/s:Metadata/dc:title[1]"/>
+          <xsl:value-of select="($documentOwning/s70:Metadata|$documentOwning/s71:Metadata)/dc:title[1]"/>
         </xsl:variable>
 
         <xsl:variable name="sectionsPreceding"
-                      select="ancestor::s:Document//s:Section[. &lt;&lt; current()]"/>
+                      select="$documentOwning//s70:Section[. &lt;&lt; current()]"/>
         <xsl:variable name="sectionsFollowing"
-                      select="ancestor::s:Document//s:Section[. &gt;&gt; current()]"/>
+                      select="$documentOwning//s70:Section[. &gt;&gt; current()]"/>
 
         <xsl:variable name="sectionUpNode"
-                      select="parent::s:Section"/>
+                      select="parent::s70:Section"/>
         <xsl:variable name="sectionsPrecedingUp"
-                      select="ancestor::s:Document//s:Section[. &lt;&lt; $sectionUpNode]"/>
+                      select="$documentOwning//s70:Section[. &lt;&lt; $sectionUpNode]"/>
 
         <xsl:variable name="sectionPrev"
                       as="element()">
@@ -68,7 +74,7 @@
               <xsl:sequence select="$sectionsPreceding[last()]"/>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:sequence select="ancestor::s:Document[1]"/>
+              <xsl:sequence select="$documentOwning"/>
             </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
@@ -81,7 +87,7 @@
               <xsl:sequence select="$sectionsFollowing[1]"/>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:sequence select="ancestor::s:Document[1]"/>
+              <xsl:sequence select="$documentOwning"/>
             </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
@@ -94,7 +100,7 @@
               <xsl:sequence select="$sectionUpNode"/>
             </xsl:when>
             <xsl:otherwise>
-              <xsl:sequence select="ancestor::s:Document[1]"/>
+              <xsl:sequence select="$documentOwning"/>
             </xsl:otherwise>
           </xsl:choose>
         </xsl:variable>
@@ -286,7 +292,9 @@
               <link rel="schema.DC"
                     href="http://purl.org/dc/elements/1.1/"/>
 
-              <xsl:apply-templates select="ancestor::s:Document[1]/s:Metadata/*"
+              <xsl:apply-templates select="ancestor::s70:Document[1]/s70:Metadata/*"
+                                   mode="sxc:metadataHeader"/>
+              <xsl:apply-templates select="ancestor::s71:Document[1]/s71:Metadata/*"
                                    mode="sxc:metadataHeader"/>
 
               <title>
@@ -384,7 +392,7 @@
                 <xsl:apply-templates select="."
                                      mode="sxc:tableOfContentsOptional"/>
 
-                <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
+                <xsl:apply-templates select="s70:Section|s70:Subsection|s70:Paragraph|s70:FormalItem"
                                      mode="sxc:blockMode"/>
               </div>
 
@@ -714,7 +722,7 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="s:Document">
+  <xsl:template match="s70:Document|s71:Document">
     <xsl:variable name="documentFilePath"
                   as="xs:string"
                   select="concat($outputDirectory,'/',$indexFile)"/>
@@ -745,11 +753,11 @@
           <link rel="schema.DC"
                 href="http://purl.org/dc/elements/1.1/"/>
 
-          <xsl:apply-templates select="s:Metadata/*"
+          <xsl:apply-templates select="(s70:Metadata|s71:Metadata)/*"
                                mode="sxc:metadataHeader"/>
 
           <title>
-            <xsl:value-of select="s:Metadata/dc:title"/>
+            <xsl:value-of select="s70:Metadata/dc:title"/>
           </title>
         </head>
         <body>
@@ -758,18 +766,18 @@
                             select="$branding"/>
           </xsl:call-template>
 
-          <xsl:if test="count(s:Section) > 0">
+          <xsl:if test="count(s70:Section) > 0">
             <xsl:call-template name="navigationHeaderFrontPage">
               <xsl:with-param name="sectionNext"
-                              select="s:Section[1]"/>
+                              select="s70:Section[1]"/>
               <xsl:with-param name="sectionNextTitle">
                 <xsl:call-template name="sxc:displayTitleFor">
                   <xsl:with-param name="node"
-                                  select="s:Section[1]"/>
+                                  select="s70:Section[1]"/>
                 </xsl:call-template>
               </xsl:with-param>
               <xsl:with-param name="sectionNextFile">
-                <xsl:value-of select="concat(generate-id(s:Section[1]),'.xhtml')"/>
+                <xsl:value-of select="concat(generate-id(s70:Section[1]),'.xhtml')"/>
               </xsl:with-param>
             </xsl:call-template>
           </xsl:if>
@@ -785,10 +793,12 @@
               </xsl:with-param>
               <xsl:with-param name="stContentNode">
                 <h1 class="stDocumentHeaderTitle">
-                  <xsl:value-of select="s:Metadata/dc:title"/>
+                  <xsl:value-of select="(s70:Metadata|s71:Metadata)/dc:title"/>
                 </h1>
                 <table class="stMetadataTable">
-                  <xsl:apply-templates select="s:Metadata/*"
+                  <xsl:apply-templates select="s70:Metadata/*"
+                                       mode="sxc:metadataFrontMatter"/>
+                  <xsl:apply-templates select="s71:Metadata/*"
                                        mode="sxc:metadataFrontMatter"/>
                 </table>
               </xsl:with-param>
@@ -802,8 +812,8 @@
               </xsl:with-param>
               <xsl:with-param name="stContentNode">
                 <xsl:choose>
-                  <xsl:when test="count(s:Section) > 0">
-                    <xsl:apply-templates select="s:Section"
+                  <xsl:when test="count(s70:Section) > 0">
+                    <xsl:apply-templates select="s70:Section"
                                          mode="sxc:tableOfContents">
                       <xsl:with-param name="depthMaximum">
                         <xsl:choose>
@@ -819,8 +829,8 @@
                                       select="0"/>
                     </xsl:apply-templates>
                   </xsl:when>
-                  <xsl:when test="count(s:Subsection) > 0">
-                    <xsl:apply-templates select="s:Subsection"
+                  <xsl:when test="count(s70:Subsection) > 0">
+                    <xsl:apply-templates select="s70:Subsection"
                                          mode="sxc:tableOfContents">
                       <xsl:with-param name="depthMaximum">
                         <xsl:choose>
@@ -840,28 +850,28 @@
               </xsl:with-param>
             </xsl:call-template>
 
-            <xsl:if test="count(s:Section) = 0">
-              <xsl:apply-templates select="s:Subsection"
+            <xsl:if test="count(s70:Section) = 0">
+              <xsl:apply-templates select="s70:Subsection"
                                    mode="sxc:blockMode"/>
             </xsl:if>
           </div>
 
-          <xsl:if test="count(s:Section) = 0">
+          <xsl:if test="count(s70:Section) = 0">
             <xsl:call-template name="sxc:footnotesOptional"/>
           </xsl:if>
 
-          <xsl:if test="count(s:Section) > 0">
+          <xsl:if test="count(s70:Section) > 0">
             <xsl:call-template name="navigationFooterFrontPage">
               <xsl:with-param name="sectionNext"
-                              select="s:Section[1]"/>
+                              select="s70:Section[1]"/>
               <xsl:with-param name="sectionNextTitle">
                 <xsl:call-template name="sxc:displayTitleFor">
                   <xsl:with-param name="node"
-                                  select="s:Section[1]"/>
+                                  select="s70:Section[1]"/>
                 </xsl:call-template>
               </xsl:with-param>
               <xsl:with-param name="sectionNextFile">
-                <xsl:value-of select="concat(generate-id(s:Section[1]),'.xhtml')"/>
+                <xsl:value-of select="concat(generate-id(s70:Section[1]),'.xhtml')"/>
               </xsl:with-param>
             </xsl:call-template>
           </xsl:if>
@@ -874,7 +884,7 @@
       </html>
     </xsl:result-document>
 
-    <xsl:for-each select="s:Section">
+    <xsl:for-each select="s70:Section">
       <xsl:call-template name="sxc:section"/>
     </xsl:for-each>
   </xsl:template>
