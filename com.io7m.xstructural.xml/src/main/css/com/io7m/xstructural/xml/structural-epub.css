@@ -54,8 +54,23 @@ h6
 
 #stEPUBCover
 {
-  margin:    var(--stMarginWidth);
-  font-size: var(--stFontSize);
+  font-size:     var(--stFontSize);
+  width:         80%;
+  height:        80%;
+  margin-left:   10%;
+  margin-right:  10%;
+  margin-top:    10%;
+  margin-bottom: 10%;
+}
+
+#stEPUBCoverImage
+{
+
+}
+
+#stEPUBCoverImage img
+{
+  width: 100%;
 }
 
 #stEPUBCoverCreator
@@ -66,8 +81,11 @@ h6
 
 #stEPUBColophon
 {
-  margin:    var(--stMarginWidth);
-  font-size: var(--stFontSize);
+  font-size:     var(--stFontSize);
+  margin-left:   10%;
+  margin-right:  10%;
+  margin-top:    10%;
+  margin-bottom: 10%;
 }
 
 #stEPUBTableOfContents
@@ -164,4 +182,18 @@ h6
   -epub-hyphens: auto;
   -moz-hyphens: auto;
   -epub-hyphens: auto;
+}
+
+/*
+ * Metadata table
+ */
+
+.stMetadataTable
+{
+
+}
+
+.stMetadataTable td:nth-child(1)
+{
+  width: 8em;
 }
