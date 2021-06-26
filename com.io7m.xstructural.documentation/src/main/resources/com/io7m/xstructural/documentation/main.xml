@@ -10,6 +10,7 @@
     <dc:identifier>d792ce57-6851-415a-b6c9-18550e512136</dc:identifier>
     <dc:description>User documentation for the ${project.groupId} package.</dc:description>
     <dc:language>en</dc:language>
+    <dc:creator>Mark Raynsford</dc:creator>
     <MetaProperty name="cover">cover.jpg</MetaProperty>
   </Metadata>
 

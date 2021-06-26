@@ -58,6 +58,12 @@ h6
   font-size: var(--stFontSize);
 }
 
+#stEPUBCoverCreator
+{
+  font-size: var(--stFontSize);
+  text-align: right;
+}
+
 #stEPUBColophon
 {
   margin:    var(--stMarginWidth);

@@ -468,28 +468,28 @@
         </head>
         <body>
           <div id="stEPUBCover">
-            <xsl:choose>
-              <xsl:when test="s71:Metadata/s71:MetaProperty[@name='cover']">
-                <h1>
-                  <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
-                </h1>
-                <div id="stEPUBCoverImage">
-                  <xsl:element name="img">
-                    <xsl:attribute name="src">
-                      <xsl:value-of select="s71:Metadata/s71:MetaProperty[@name='cover']"/>
-                    </xsl:attribute>
-                    <xsl:attribute name="alt">
-                      <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
-                    </xsl:attribute>
-                  </xsl:element>
-                </div>
-              </xsl:when>
-              <xsl:otherwise>
-                <h1>
-                  <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
-                </h1>
-              </xsl:otherwise>
-            </xsl:choose>
+            <h1>
+              <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
+            </h1>
+
+            <xsl:if test="s71:Metadata/s71:MetaProperty[@name='cover']">
+              <div id="stEPUBCoverImage">
+                <xsl:element name="img">
+                  <xsl:attribute name="src">
+                    <xsl:value-of select="s71:Metadata/s71:MetaProperty[@name='cover']"/>
+                  </xsl:attribute>
+                  <xsl:attribute name="alt">
+                    <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
+                  </xsl:attribute>
+                </xsl:element>
+              </div>
+
+              <xsl:if test="(s70:Metadata|s71:Metadata)/dc:creator">
+                <h2 id="stEPUBCoverCreator">
+                  <xsl:value-of select="(s70:Metadata|s71:Metadata)/dc:creator"/>
+                </h2>
+              </xsl:if>
+            </xsl:if>
           </div>
         </body>
       </html>
