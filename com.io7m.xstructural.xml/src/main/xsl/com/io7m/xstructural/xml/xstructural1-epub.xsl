@@ -618,63 +618,6 @@
     <xsl:value-of select="concat(dc:title, ': Table Of Contents')"/>
   </xsl:template>
 
-  <xsl:template mode="toc"
-                match="s70:Section">
-    <xsl:variable name="sectionCurrNumber"
-                  as="xs:string">
-      <xsl:call-template name="sxc:sectionNumberTitleOf">
-        <xsl:with-param name="section"
-                        select="."/>
-      </xsl:call-template>
-    </xsl:variable>
-    <xsl:assert test="$sectionCurrNumber">$sectionCurrNumber must be non-empty</xsl:assert>
-
-    <li>
-      <xsl:element name="a">
-        <xsl:attribute name="href">
-          <xsl:value-of select="sxc:anchorOf(.)"/>
-        </xsl:attribute>
-        <xsl:value-of select="concat($sectionCurrNumber, '. ', @title)"/>
-      </xsl:element>
-
-      <xsl:if test="count(s70:Section|s70:Subsection) > 0">
-        <ol>
-          <xsl:apply-templates select="s70:Section|s70:Subsection"
-                               mode="toc"/>
-        </ol>
-      </xsl:if>
-    </li>
-  </xsl:template>
-
-  <xsl:template mode="toc"
-                match="s70:Subsection">
-
-    <xsl:variable name="subsectionCurrNumber"
-                  as="xs:string">
-      <xsl:call-template name="sxc:subsectionNumberTitleOf">
-        <xsl:with-param name="subsection"
-                        select="."/>
-      </xsl:call-template>
-    </xsl:variable>
-    <xsl:assert test="$subsectionCurrNumber">$subsectionCurrNumber must be non-empty</xsl:assert>
-
-    <li>
-      <xsl:element name="a">
-        <xsl:attribute name="href">
-          <xsl:value-of select="sxc:anchorOf(.)"/>
-        </xsl:attribute>
-        <xsl:value-of select="concat($subsectionCurrNumber, '. ', @title)"/>
-      </xsl:element>
-
-      <xsl:if test="count(s70:Section|s70:Subsection) > 0">
-        <ol>
-          <xsl:apply-templates select="s70:Section|s70:Subsection"
-                               mode="toc"/>
-        </ol>
-      </xsl:if>
-    </li>
-  </xsl:template>
-
   <xd:doc>
     Generate an EPUB2-style NCX table of contents for the document.
   </xd:doc>
