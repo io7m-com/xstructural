@@ -370,8 +370,8 @@
 
     <xsl:call-template name="documentCover"/>
     <xsl:call-template name="documentColophon"/>
-    <xsl:call-template name="documentTableOfContents"/>
     <xsl:call-template name="documentTableOfContentsNCX"/>
+    <xsl:call-template name="documentTableOfContentsXHTML"/>
     <xsl:call-template name="documentResources"/>
   </xsl:template>
 
@@ -613,71 +613,6 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xd:doc>
-    Generate a table of contents for the document.
-  </xd:doc>
-
-  <xsl:template name="documentTableOfContents">
-    <xsl:variable name="tocFilePath"
-                  as="xs:string"
-                  select="concat($outputDirectory,'/toc.xhtml')"/>
-
-    <xsl:message>
-      <xsl:value-of select="concat('create ', $tocFilePath)"/>
-    </xsl:message>
-
-    <xsl:result-document href="{$tocFilePath}"
-                         exclude-result-prefixes="#all"
-                         include-content-type="no"
-                         method="xhtml"
-                         indent="true">
-      <xsl:text>&#x000a;</xsl:text>
-      <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
-      <xsl:text>&#x000a;</xsl:text>
-      <html xml:lang="en"
-            xmlns:epub="http://www.idpf.org/2007/ops">
-        <head>
-          <meta name="generator"
-                content="${project.groupId}/${project.version}"/>
-
-          <link rel="stylesheet"
-                type="text/css"
-                href="reset-epub.css"/>
-          <link rel="stylesheet"
-                type="text/css"
-                href="structural-epub.css"/>
-          <link rel="stylesheet"
-                type="text/css"
-                href="document.css"/>
-
-          <title>
-            <xsl:apply-templates select="s70:Metadata|s71:Metadata"
-                                 mode="documentTOCTitle"/>
-          </title>
-        </head>
-        <body>
-          <nav epub:type="toc"
-               id="stEPUBTableOfContents">
-            <h2>Table Of Contents</h2>
-            <ol epub:type="list">
-              <li>
-                <a href="cover.xhtml">Cover</a>
-              </li>
-              <li>
-                <a href="colophon.xhtml">Colophon</a>
-              </li>
-              <li>
-                <a href="toc.xhtml">Table Of Contents</a>
-              </li>
-              <xsl:apply-templates select="s70:Section|s70:Subsection"
-                                   mode="toc"/>
-            </ol>
-          </nav>
-        </body>
-      </html>
-    </xsl:result-document>
-  </xsl:template>
-
   <xsl:template match="s70:Metadata|s71:Metadata"
                 mode="documentTOCTitle">
     <xsl:value-of select="concat(dc:title, ': Table Of Contents')"/>
@@ -808,7 +743,7 @@
                           select="position() + $offset"/>
             <xsl:variable name="label">
               <xsl:apply-templates select="."
-                                   mode="documentTableOfContentsNCXTitle"/>
+                                   mode="documentTableOfContentsElementTitle"/>
             </xsl:variable>
             <xsl:variable name="file"
                           select="sxc:anchorOf(.)"/>
@@ -843,7 +778,7 @@
   </xsl:template>
 
   <xsl:template match="s70:Section"
-                mode="documentTableOfContentsNCXTitle">
+                mode="documentTableOfContentsElementTitle">
     <xsl:variable name="number">
       <xsl:call-template name="sxc:sectionNumberTitleOf">
         <xsl:with-param name="section"
@@ -854,7 +789,7 @@
   </xsl:template>
 
   <xsl:template match="s70:Subsection"
-                mode="documentTableOfContentsNCXTitle">
+                mode="documentTableOfContentsElementTitle">
     <xsl:variable name="number">
       <xsl:call-template name="sxc:subsectionNumberTitleOf">
         <xsl:with-param name="subsection"
@@ -862,6 +797,93 @@
       </xsl:call-template>
     </xsl:variable>
     <xsl:value-of select="concat($number,'. ',@title)"/>
+  </xsl:template>
+
+  <xd:doc>
+    Generate an internal XHTML TOC (EPUB 3).
+  </xd:doc>
+
+  <xsl:template name="documentTableOfContentsXHTML">
+    <xsl:variable name="tocFilePath"
+                  as="xs:string"
+                  select="concat($outputDirectory,'/toc.xhtml')"/>
+
+    <xsl:message>
+      <xsl:value-of select="concat('create ', $tocFilePath)"/>
+    </xsl:message>
+
+    <xsl:result-document href="{$tocFilePath}"
+                         exclude-result-prefixes="#all"
+                         include-content-type="no"
+                         method="xml"
+                         indent="true">
+      <xsl:text>&#x000a;</xsl:text>
+      <xsl:text disable-output-escaping='yes'>&lt;!DOCTYPE html&gt;</xsl:text>
+      <xsl:text>&#x000a;</xsl:text>
+      <html xml:lang="en"
+            xmlns:epub="http://www.idpf.org/2007/ops">
+        <head>
+          <meta name="generator"
+                content="${project.groupId}/${project.version}"/>
+
+          <link rel="stylesheet"
+                type="text/css"
+                href="reset-epub.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="structural-epub.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="document.css"/>
+
+          <title>
+            <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                                 mode="documentTOCTitle"/>
+          </title>
+        </head>
+        <body>
+          <nav epub:type="toc"
+               id="stEPUBTableOfContents">
+            <h2>Table Of Contents</h2>
+            <ol epub:type="list">
+              <li>
+                <a href="cover.xhtml">Cover</a>
+              </li>
+              <li>
+                <a href="colophon.xhtml">Colophon</a>
+              </li>
+              <li>
+                <a href="toc.xhtml">Table Of Contents</a>
+              </li>
+
+              <xsl:for-each select=".//s70:Section|.//s70:Subsection">
+                <xsl:variable name="depth">
+                  <xsl:value-of select="count(ancestor::s70:Section|ancestor::s70:Subsection)"/>
+                </xsl:variable>
+                <xsl:variable name="label">
+                  <xsl:apply-templates select="."
+                                       mode="documentTableOfContentsElementTitle"/>
+                </xsl:variable>
+                <xsl:variable name="file"
+                              select="sxc:anchorOf(.)"/>
+
+                <xsl:element name="li">
+                  <xsl:attribute name="style">
+                    <xsl:value-of select="concat('padding-left: ',$depth,'em')"/>
+                  </xsl:attribute>
+                  <xsl:element name="a">
+                    <xsl:attribute name="href">
+                      <xsl:value-of select="$file"/>
+                    </xsl:attribute>
+                    <xsl:value-of select="$label"/>
+                  </xsl:element>
+                </xsl:element>
+              </xsl:for-each>
+            </ol>
+          </nav>
+        </body>
+      </html>
+    </xsl:result-document>
   </xsl:template>
 
 </xsl:stylesheet>
