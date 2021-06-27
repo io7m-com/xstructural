@@ -97,8 +97,7 @@
 
         <xsl:variable name="documentTitle"
                       as="xs:string">
-          <xsl:value-of
-            select="ancestor::s70:Document[1]/s70:Metadata/dc:title[1]|ancestor::s71:Document[1]/s70:Metadata/dc:title[1]"/>
+          <xsl:value-of select="ancestor::s70:Document[1]/s70:Metadata/dc:title[1]|ancestor::s71:Document[1]/s70:Metadata/dc:title[1]"/>
         </xsl:variable>
 
         <xsl:variable name="sectionsPreceding"
@@ -463,13 +462,15 @@
                 href="document.css"/>
 
           <title>
-            <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
+            <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                                 mode="documentCoverTitle"/>
           </title>
         </head>
         <body>
           <div id="stEPUBCover">
             <h1>
-              <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
+              <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                                   mode="documentCoverTitle"/>
             </h1>
 
             <xsl:if test="s71:Metadata/s71:MetaProperty[@name='epubCover']">
@@ -479,7 +480,8 @@
                     <xsl:value-of select="s71:Metadata/s71:MetaProperty[@name='epubCover']"/>
                   </xsl:attribute>
                   <xsl:attribute name="alt">
-                    <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
+                    <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                                         mode="documentCoverTitle"/>
                   </xsl:attribute>
                 </xsl:element>
               </div>
@@ -496,7 +498,8 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s70:Metadata|s71:Metadata" mode="documentCoverTitle">
+  <xsl:template match="s70:Metadata|s71:Metadata"
+                mode="documentCoverTitle">
     <xsl:value-of select="dc:title"/>
   </xsl:template>
 
@@ -537,23 +540,51 @@
                 href="document.css"/>
 
           <title>
-            <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentColophonTitle"/>
+            <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                                 mode="documentColophonTitle"/>
           </title>
         </head>
         <body>
           <div id="stEPUBColophon">
+            <h1>Book Metadata</h1>
             <table class="stMetadataTable">
               <xsl:apply-templates select="(s70:Metadata|s71:Metadata)/*"
-                                   mode="sxc:metadataFrontMatter"/>
+                                   mode="documentColophonMetadata">
+                <xsl:sort select="local-name()"/>
+              </xsl:apply-templates>
             </table>
+
+            <xsl:apply-templates select="s71:Metadata/s71:MetaProperty[@name='epubColophon']"
+                                 mode="documentColophonExtra"/>
           </div>
         </body>
       </html>
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s70:Metadata|s71:Metadata" mode="documentColophonTitle">
+  <xsl:template match="s71:MetaProperty[@name = 'epubColophon']"
+                mode="documentColophonExtra">
+    <xsl:copy-of select="document(.)"/>
+  </xsl:template>
+
+  <xsl:template match="s70:Metadata|s71:Metadata"
+                mode="documentColophonTitle">
     <xsl:value-of select="concat(dc:title, ': Colophon')"/>
+  </xsl:template>
+
+  <xsl:template match="s71:MetaProperty"
+                mode="documentColophonMetadata"/>
+
+  <xsl:template match="dc:*"
+                mode="documentColophonMetadata">
+    <tr>
+      <td>
+        <xsl:value-of select="upper-case(local-name())"/>
+      </td>
+      <td>
+        <xsl:value-of select="."/>
+      </td>
+    </tr>
   </xsl:template>
 
   <xd:doc>
@@ -619,11 +650,13 @@
                 href="document.css"/>
 
           <title>
-            <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentTOCTitle"/>
+            <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                                 mode="documentTOCTitle"/>
           </title>
         </head>
         <body>
-          <nav epub:type="toc" id="stEPUBTableOfContents">
+          <nav epub:type="toc"
+               id="stEPUBTableOfContents">
             <h2>Table Of Contents</h2>
             <ol epub:type="list">
               <li>
@@ -644,7 +677,8 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s70:Metadata|s71:Metadata" mode="documentTOCTitle">
+  <xsl:template match="s70:Metadata|s71:Metadata"
+                mode="documentTOCTitle">
     <xsl:value-of select="concat(dc:title, ': Table Of Contents')"/>
   </xsl:template>
 

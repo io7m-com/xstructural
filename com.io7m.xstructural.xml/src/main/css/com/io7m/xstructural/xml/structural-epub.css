@@ -22,7 +22,9 @@
   --stMarginWidth:    2em;
   --stVerbatimColor:  #202020;
   --stVerbatimBorder: 1px solid #dddddd;
+  --stMetaBorder:     1px solid #dddddd;
   --stFontSize:       90%;
+  --stMetaFontSize:   80%;
   --stHeaderFontSize: 100%;
 }
 
@@ -190,7 +192,17 @@ h6
 
 .stMetadataTable
 {
+  font-size:       var(--stMetaFontSize);
+  border:          var(--stMetaBorder);
+  width:           100%;
+  border-collapse: collapse;
+}
 
+.stMetadataTable td
+{
+  vertical-align: top;
+  border:         var(--stMetaBorder);
+  padding:        0.5em;
 }
 
 .stMetadataTable td:nth-child(1)

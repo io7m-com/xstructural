@@ -12,6 +12,7 @@
     <dc:language>en</dc:language>
     <dc:creator>Mark Raynsford</dc:creator>
     <MetaProperty name="epubCover">cover.jpg</MetaProperty>
+    <MetaProperty name="epubColophon">colophon_extra.xml</MetaProperty>
   </Metadata>
 
   <xi:include href="cmdline.xml"/>
