@@ -37,18 +37,16 @@
 }
 .genericTable th
 {
+  border:     1px solid #dddddd;
   text-align: left;
-  padding-right: 1em;
-  padding-bottom: 1em;
-  font-size: var(--stFontSize);
+  font-size:  var(--stFontSize);
+  padding:    0.5em;
 }
 .genericTable td
 {
-  border:         1px solid #dddddd;
-  padding-right:  1em;
-  padding-bottom: 0.5em;
-  vertical-align: top;
+  border:    1px solid #dddddd;
   font-size: var(--stFontSize);
+  padding:   0.5em;
 }
 .genericTable td:nth-child(1)
 {
