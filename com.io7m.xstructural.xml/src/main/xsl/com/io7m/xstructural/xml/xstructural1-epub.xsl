@@ -371,6 +371,7 @@
     <xsl:call-template name="documentCover"/>
     <xsl:call-template name="documentColophon"/>
     <xsl:call-template name="documentTableOfContents"/>
+    <xsl:call-template name="documentTableOfContentsNCX"/>
     <xsl:call-template name="documentResources"/>
   </xsl:template>
 
@@ -737,6 +738,130 @@
         </ol>
       </xsl:if>
     </li>
+  </xsl:template>
+
+  <xd:doc>
+    Generate an EPUB2-style NCX table of contents for the document.
+  </xd:doc>
+
+  <xsl:template name="documentTableOfContentsNCX">
+    <xsl:variable name="tocFilePath"
+                  as="xs:string"
+                  select="concat($outputDirectory,'/toc.ncx')"/>
+
+    <xsl:message>
+      <xsl:value-of select="concat('create ', $tocFilePath)"/>
+    </xsl:message>
+
+    <xsl:result-document href="{$tocFilePath}"
+                         exclude-result-prefixes="#all"
+                         include-content-type="no"
+                         method="xml"
+                         indent="true">
+      <ncx xmlns="http://www.daisy.org/z3986/2005/ncx/"
+           version="2005-1">
+        <head>
+          <xsl:element name="meta">
+            <xsl:attribute name="content">
+              <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                                   mode="documentTOCId"/>
+            </xsl:attribute>
+            <xsl:attribute name="name">
+              <xsl:text>dtb:uid</xsl:text>
+            </xsl:attribute>
+          </xsl:element>
+        </head>
+        <docTitle>
+          <text>
+            <xsl:apply-templates select="s70:Metadata|s71:Metadata"
+                                 mode="documentTOCTitle"/>
+          </text>
+        </docTitle>
+        <navMap id="navmap">
+          <navPoint id="navpoint-1"
+                    playOrder="1">
+            <navLabel>
+              <text>Cover</text>
+            </navLabel>
+            <content src="cover.xhtml"/>
+          </navPoint>
+          <navPoint id="navpoint-2"
+                    playOrder="2">
+            <navLabel>
+              <text>Colophon</text>
+            </navLabel>
+            <content src="colophon.xhtml"/>
+          </navPoint>
+          <navPoint id="navpoint-3"
+                    playOrder="3">
+            <navLabel>
+              <text>Table Of Contents</text>
+            </navLabel>
+            <content src="toc.xhtml"/>
+          </navPoint>
+
+          <xsl:variable name="offset"
+                        select="3"/>
+
+          <xsl:for-each select=".//s70:Section|.//s70:Subsection">
+            <xsl:variable name="pos"
+                          select="position() + $offset"/>
+            <xsl:variable name="label">
+              <xsl:apply-templates select="."
+                                   mode="documentTableOfContentsNCXTitle"/>
+            </xsl:variable>
+            <xsl:variable name="file"
+                          select="sxc:anchorOf(.)"/>
+
+            <navPoint>
+              <xsl:attribute name="id">
+                <xsl:value-of select="concat('navpoint-', $pos)"/>
+              </xsl:attribute>
+              <xsl:attribute name="playOrder">
+                <xsl:value-of select="$pos"/>
+              </xsl:attribute>
+              <navLabel>
+                <text>
+                  <xsl:value-of select="$label"/>
+                </text>
+              </navLabel>
+              <xsl:element name="content">
+                <xsl:attribute name="src">
+                  <xsl:value-of select="$file"/>
+                </xsl:attribute>
+              </xsl:element>
+            </navPoint>
+          </xsl:for-each>
+        </navMap>
+      </ncx>
+    </xsl:result-document>
+  </xsl:template>
+
+  <xsl:template match="s70:Metadata|s71:Metadata"
+                mode="documentTOCId">
+    <xsl:value-of select="dc:identifier"/>
+  </xsl:template>
+
+  <xsl:template match="s70:Section"
+                mode="documentTableOfContentsNCXTitle">
+    <xsl:variable name="number">
+      <xsl:call-template name="sxc:sectionNumberTitleOf">
+        <xsl:with-param name="section"
+                        select="."/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:value-of select="concat($number,'. ',@title)"/>
+  </xsl:template>
+
+  <xsl:template match="s70:Subsection"
+                mode="documentTableOfContentsNCXTitle">
+    <xsl:variable name="number">
+      <xsl:call-template name="sxc:subsectionNumberTitleOf">
+        <xsl:with-param name="subsection"
+                        select="."/>
+      </xsl:call-template>
+    </xsl:variable>
+    <xsl:value-of select="concat($number,'. ',@title)"/>
   </xsl:template>
 
 </xsl:stylesheet>

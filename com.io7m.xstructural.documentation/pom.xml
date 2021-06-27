@@ -136,7 +136,7 @@
                 <resource>
                   <directory>${project.build.directory}/epub/</directory>
                   <includes>
-                    <include>${project.artifactId}-${project.version}.epub</include>
+                    <include>documentation.epub</include>
                   </includes>
                 </resource>
               </resources>
@@ -278,7 +278,7 @@
                 <argument>--outputDirectory</argument>
                 <argument>${project.build.directory}/epub</argument>
                 <argument>--outputFileName</argument>
-                <argument>${project.artifactId}-${project.version}.epub</argument>
+                <argument>documentation.epub</argument>
               </arguments>
             </configuration>
           </execution>

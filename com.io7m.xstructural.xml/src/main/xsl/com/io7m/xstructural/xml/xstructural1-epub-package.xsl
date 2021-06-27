@@ -69,6 +69,9 @@
             <xsl:call-template name="topLevelDocumentFile"/>
           </xsl:if>
 
+          <item href="OEBPS/toc.ncx"
+                id="ncx"
+                media-type="application/x-dtbncx+xml"/>
           <item href="OEBPS/toc.xhtml"
                 id="nav"
                 media-type="application/xhtml+xml"
@@ -81,7 +84,7 @@
                 media-type="application/xhtml+xml"/>
         </manifest>
 
-        <spine>
+        <spine toc="ncx">
           <itemref idref="cover"/>
           <itemref idref="colophon"/>
           <itemref idref="nav"/>

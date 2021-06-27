@@ -458,7 +458,7 @@ public final class XSEPUBCreator implements XSProcessorType
     try (var fileStream =
            Files.list(this.request.outputDirectory())) {
       final var xhtmlFiles =
-        fileStream.filter(p -> p.toString().endsWith(".xhtml"))
+        fileStream.filter(XSEPUBCreator::isOEBPSCopyable)
           .collect(Collectors.toList());
 
       for (final var file : xhtmlFiles) {
@@ -469,6 +469,13 @@ public final class XSEPUBCreator implements XSProcessorType
         Files.copy(file, outputFile);
       }
     }
+  }
+
+  private static boolean isOEBPSCopyable(
+    final Path p)
+  {
+    final var pathText = p.toString();
+    return pathText.endsWith(".xhtml") || pathText.endsWith(".ncx");
   }
 
   private void writePackageFile()
