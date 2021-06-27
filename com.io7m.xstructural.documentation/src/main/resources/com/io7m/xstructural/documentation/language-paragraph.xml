@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:7:0"
+         id="01d0fde7-7742-47a9-864c-b9c55e2e9980"
+         title="Paragraph">
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="element">Paragraph</Term> element describes a subdivision of a
+      <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">Section</Link>
+      or <Link target="55ae1912-9aec-402a-babe-ed7778e76599">Subsection</Link>.
+    </Paragraph>
+    <Paragraph>
+      <Term type="element">Paragraph</Term>
+      elements consist entirely of
+      <Link target="8e536f96-16e1-4f4a-bc3a-6613e20cb504">inline content</Link>.
+    </Paragraph>
+    <Paragraph>
+      <Term type="element">Paragraph</Term>
+      elements are numbered with respect to other <Term type="element">Paragraph</Term> and
+      <Link target="13029feb-2126-4d72-9151-63607152b7db">FormalItem</Link>
+      elements within the same
+      <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">Section</Link>
+      or
+      <Link target="55ae1912-9aec-402a-babe-ed7778e76599">Subsection</Link>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Paragraph Example">
+      <Verbatim><![CDATA[
+<Subsection xmlns="urn:com.io7m.structural:7:0"
+         id="0636fa84-2bd5-4cb5-acc5-10ca70948bbf"
+         title="Subsection">
+  <Paragraph>
+Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam id
+consectetur nunc. Donec nisi augue, pulvinar eu condimentum at,
+pellentesque a libero. Fusce sed tortor quam. Donec et ipsum diam.
+Sed eget molestie lacus, non rutrum risus. Orci varius natoque
+penatibus et magnis dis parturient montes, nascetur ridiculus mus.
+Class aptent taciti sociosqu ad litora torquent per conubia nostra,
+per inceptos himenaeos. Nullam pellentesque est eu augue faucibus
+molestie. Pellentesque habitant morbi tristique senectus et netus
+et malesuada fames ac turpis egestas. Vivamus sed tincidunt justo.
+Sed venenatis enim ac quam euismod, eget semper augue congue.
+Integer interdum porttitor porta. Vestibulum eget neque vitae est
+congue fringilla. Fusce ac dui suscipit, porttitor velit eu,
+rutrum massa. Quisque quis fringilla felis.
+  </Paragraph>
+  <Paragraph>
+Nunc et volutpat arcu. Donec mi nisi, sodales eget egestas sed,
+suscipit eget arcu. Cras nibh ligula, maximus eu urna sit amet,
+efficitur tempus elit. Sed nec massa auctor, blandit risus in,
+dapibus purus. In et neque dignissim, pharetra elit ac, auctor
+diam. Ut nisl odio, imperdiet sit amet purus quis, laoreet cursus
+dui. Fusce dui neque, aliquet eu augue nec, pharetra laoreet odio.
+Sed in scelerisque erat, sit amet sagittis turpis. In suscipit
+mauris mauris, ut elementum nulla lacinia quis. Duis tristique
+placerat porttitor. Cras vitae convallis purus. Aenean sed
+suscipit leo, non dapibus lectus. Proin ac luctus lectus.
+  </Paragraph>
+</Subsection>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+</Section>

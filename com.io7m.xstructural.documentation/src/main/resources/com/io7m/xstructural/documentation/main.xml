@@ -14,10 +14,11 @@
     <dc:rights>Public Domain</dc:rights>
     <dc:title>xstructural ${project.version}</dc:title>
 
-    <MetaProperty name="epubColophon">colophon_extra.xml</MetaProperty>
-    <MetaProperty name="epubCover">cover.jpg</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.epub.colophon">colophon_extra.xml</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.epub.cover">cover.jpg</MetaProperty>
   </Metadata>
 
+  <xi:include href="language.xml"/>
   <xi:include href="cmdline.xml"/>
   <xi:include href="api.xml"/>
   <xi:include href="schema.xml"/>

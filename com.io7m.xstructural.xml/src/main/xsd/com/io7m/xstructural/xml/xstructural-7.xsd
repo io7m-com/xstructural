@@ -874,6 +874,7 @@
 
   <xsd:element name="Section"
                type="s:SectionType">
+
     <xsd:unique name="SectionFootnoteKey">
       <xsd:annotation>
         <xsd:documentation xml:lang="en">
@@ -884,14 +885,25 @@
       <xsd:field xpath="@id"/>
     </xsd:unique>
 
-    <xsd:keyref name="SectionFootnoteReferences"
+    <xsd:keyref name="SectionFootnoteReferencesParagraph"
                 refer="s:SectionFootnoteKey">
       <xsd:annotation>
         <xsd:documentation xml:lang="en">
-          All footnote links must refer to footnotes that exist.
+          All footnote links in paragraphs must refer to footnotes that exist in this section.
         </xsd:documentation>
       </xsd:annotation>
-      <xsd:selector xpath=".//s:LinkFootnote"/>
+      <xsd:selector xpath="s:Paragraph/*/s:LinkFootnote"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+
+    <xsd:keyref name="SectionFootnoteReferencesSubsection"
+                refer="s:SectionFootnoteKey">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All footnote links in subsections must refer to footnotes that exist in this section.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath="s:Subsection/*/s:LinkFootnote"/>
       <xsd:field xpath="@target"/>
     </xsd:keyref>
   </xsd:element>

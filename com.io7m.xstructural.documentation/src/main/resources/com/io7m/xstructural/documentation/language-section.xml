@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:7:0"
+         id="cc5514e1-dc68-4b88-9374-fe09b8741140"
+         title="Section">
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="element">Section</Term> element describes the most structurally significant division of a 
+      document. A <Term type="element">Section</Term> is analogous to a <LinkExternal
+      target="https://en.wikipedia.org/wiki/Chapter_(books)">chapter</LinkExternal> in printed books and it is
+      expected that the majority of documents will consist of a set of top-level
+      <Term type="element">Section</Term> elements.
+    </Paragraph>
+    <Paragraph>
+      Renderers that output multiple files and/or pages are required to treat <Term type="element">Section</Term>
+      elements as page-breaking. That is, when a renderer encounters a new <Term type="element">Section</Term>
+      element, it completes rendering of the existing content and then begins an entirely new page and/or output
+      file. This is in contrast to <Link target="55ae1912-9aec-402a-babe-ed7778e76599">Subsection</Link> elements
+      which are required NOT to trigger the generation of new files and/or pages.
+    </Paragraph>
+    <Paragraph>
+      <Term type="element">Section</Term> elements are automatically numbered by the renderers, and may be
+      assigned <Link target="39506c3e-1361-4f81-be32-8c110a19d9bb">unique identifiers</Link>.
+      <Term type="element">Section</Term> elements may be nested recursively, and are numbered recursively
+      with respect to other <Term type="element">Section</Term> elements.
+    </Paragraph>
+    <Paragraph>
+      <Term type="element">Section</Term> elements must include titles, and renderers use these titles when
+      populating <Link target="8430e3b6-3327-4390-a19f-e315d7dcf3d8">tables of content</Link>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Tables Of Content" id="8430e3b6-3327-4390-a19f-e315d7dcf3d8">
+    <Paragraph>
+      Renderers may optionally produce <Term type="term">tables of content</Term> within rendered sections.
+      The default behaviour is to always produce tables of content, but this may be influenced using the
+      <Term type="parameter">tableOfContents</Term> and <Term type="parameter">tableOfContentsDepth</Term>
+      attributes. If the <Term type="parameter">tableOfContents</Term> attribute is set to
+      <Term type="constant">false</Term>, then no table is generated. If
+      the <Term type="parameter">tableOfContents</Term> attribute is set to
+      <Term type="constant">true</Term>, then a table will be generated containing
+      <Term type="element">Section</Term> and <Link target="55ae1912-9aec-402a-babe-ed7778e76599">Subsection</Link>
+      elements up to a maximum depth of <Term type="parameter">tableOfContentsDepth</Term>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Section Example">
+      <Verbatim><![CDATA[
+<Section xmlns="urn:com.io7m.structural:7:0"
+         id="4e035356-53d9-4d09-ab6b-ec2c683218f5"
+         title="Section">
+  <Section title="Another Section">
+    ...
+  </Section>
+  <Section title="Yet Another Section" id="6c311772-c7c8-4c28-979f-a5815795643b">
+    ...
+  </Section>
+</Section>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+</Section>

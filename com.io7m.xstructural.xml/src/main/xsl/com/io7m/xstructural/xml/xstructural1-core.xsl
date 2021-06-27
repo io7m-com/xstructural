@@ -171,7 +171,7 @@
         <xsl:when test="local-name($node) = 'Subsection'">Subsection</xsl:when>
         <xsl:when test="local-name($node) = 'Paragraph'">Paragraph</xsl:when>
         <xsl:when test="local-name($node) = 'FormalItem'">Formal Item</xsl:when>
-        <xsl:when test="local-name($node) = 'LinkFootnote'">Footnote Reference</xsl:when>
+        <xsl:when test="local-name($node) = 'LinkFootnote'">Footnote Reference @</xsl:when>
         <xsl:otherwise>
           <xsl:value-of select="error(QName('urn:com.io7m.xstructural.core','wrongNode'), local-name($node))"/>
         </xsl:otherwise>
@@ -889,7 +889,7 @@
       <xsl:choose>
         <xsl:when test="count(key('FootnoteReferenceKey',@id)) > 0">
           <div>
-            <h4>Footnote References</h4>
+            <h4>References to this footnote:</h4>
             <ul>
               <xsl:for-each select="key('FootnoteReferenceKey',@id)">
                 <li>
@@ -1276,7 +1276,7 @@
 
   <xsl:template name="sxc:footnotesOptional"
                 visibility="final">
-    <xsl:if test="count(.//s70:Footnote) > 0">
+    <xsl:if test="count(s70:Footnote) > 0">
       <xsl:call-template name="sxc:footnotes"/>
     </xsl:if>
   </xsl:template>
@@ -1295,7 +1295,7 @@
       </xsl:with-param>
     </xsl:call-template>
 
-    <xsl:apply-templates select=".//s70:Footnote"
+    <xsl:apply-templates select="s70:Footnote"
                          mode="sxc:blockMode"/>
   </xsl:template>
 

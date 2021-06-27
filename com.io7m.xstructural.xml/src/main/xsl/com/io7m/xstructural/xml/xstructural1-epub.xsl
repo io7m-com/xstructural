@@ -473,11 +473,11 @@
                                    mode="documentCoverTitle"/>
             </h1>
 
-            <xsl:if test="s71:Metadata/s71:MetaProperty[@name='epubCover']">
+            <xsl:if test="s71:Metadata/s71:MetaProperty[@name='com.io7m.xstructural.epub.cover']">
               <div id="stEPUBCoverImage">
                 <xsl:element name="img">
                   <xsl:attribute name="src">
-                    <xsl:value-of select="s71:Metadata/s71:MetaProperty[@name='epubCover']"/>
+                    <xsl:value-of select="s71:Metadata/s71:MetaProperty[@name='com.io7m.xstructural.epub.cover']"/>
                   </xsl:attribute>
                   <xsl:attribute name="alt">
                     <xsl:apply-templates select="s70:Metadata|s71:Metadata"
@@ -554,7 +554,7 @@
               </xsl:apply-templates>
             </table>
 
-            <xsl:apply-templates select="s71:Metadata/s71:MetaProperty[@name='epubColophon']"
+            <xsl:apply-templates select="s71:Metadata/s71:MetaProperty[@name='com.io7m.xstructural.epub.colophon']"
                                  mode="documentColophonExtra"/>
           </div>
         </body>
@@ -562,7 +562,7 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s71:MetaProperty[@name = 'epubColophon']"
+  <xsl:template match="s71:MetaProperty[@name = 'com.io7m.xstructural.epub.colophon']"
                 mode="documentColophonExtra">
     <xsl:copy-of select="document(.)"/>
   </xsl:template>
@@ -607,7 +607,7 @@
         <xsl:text>&#x000a;</xsl:text>
       </xsl:for-each>
 
-      <xsl:value-of select=".//s71:Metadata/s71:MetaProperty[@name='epubCover']"/>
+      <xsl:value-of select=".//s71:Metadata/s71:MetaProperty[@name='com.io7m.xstructural.epub.cover']"/>
       <xsl:text>&#x000a;</xsl:text>
     </xsl:result-document>
   </xsl:template>

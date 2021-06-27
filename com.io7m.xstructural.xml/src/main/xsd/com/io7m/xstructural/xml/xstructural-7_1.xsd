@@ -24,6 +24,17 @@
 
   <xsd:import namespace="urn:com.io7m.structural:7:0"/>
 
+  <xsd:simpleType name="MetaPropertyNameType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of meta property names.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="([a-z0-9_\-]+)(.([a-z0-9_\-]+))+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
   <xsd:complexType name="MetaPropertyType"
                    mixed="true">
     <xsd:annotation>
@@ -34,7 +45,7 @@
 
     <xsd:attribute name="name"
                    use="required"
-                   type="xsd:string"/>
+                   type="s71:MetaPropertyNameType"/>
   </xsd:complexType>
 
   <xsd:element name="MetaProperty"

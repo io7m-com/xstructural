@@ -172,7 +172,10 @@
             </goals>
             <configuration>
               <excludes>module-info.java</excludes>
-              <includes>com/io7m/xstructural/xml/xstructural-7.xsd</includes>
+              <includes>
+                com/io7m/xstructural/xml/xstructural-7.xsd,
+                com/io7m/xstructural/xml/xstructural-7_1.xsd
+              </includes>
               <includeGroupIds>${project.groupId}</includeGroupIds>
               <includeArtifactIds>com.io7m.xstructural.xml</includeArtifactIds>
               <classifier>sources</classifier>

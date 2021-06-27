@@ -180,7 +180,7 @@
     </dc:identifier>
 
     <xsl:choose>
-      <xsl:when test="s71:MetaProperty[@name='epubCover']">
+      <xsl:when test="s71:MetaProperty[@name='com.io7m.xstructural.epub.cover']">
         <xsl:element name="meta">
           <xsl:attribute name="content">cover_image</xsl:attribute>
           <xsl:attribute name="name">cover</xsl:attribute>
@@ -203,14 +203,14 @@
   <xsl:template match="s70:Metadata|s71:Metadata"
                 mode="s70:manifestItem">
     <xsl:choose>
-      <xsl:when test="s71:MetaProperty[@name='epubCover']">
+      <xsl:when test="s71:MetaProperty[@name='com.io7m.xstructural.epub.cover']">
         <xsl:element name="item">
           <xsl:attribute name="id">cover_image</xsl:attribute>
           <xsl:attribute name="href">
-            <xsl:value-of select="concat('OEBPS/', s71:MetaProperty[@name='epubCover'])"/>
+            <xsl:value-of select="concat('OEBPS/', s71:MetaProperty[@name='com.io7m.xstructural.epub.cover'])"/>
           </xsl:attribute>
           <xsl:attribute name="media-type">
-            <xsl:value-of select="sx:mimeOf(s71:MetaProperty[@name='epubCover'])"/>
+            <xsl:value-of select="sx:mimeOf(s71:MetaProperty[@name='com.io7m.xstructural.epub.cover'])"/>
           </xsl:attribute>
         </xsl:element>
       </xsl:when>

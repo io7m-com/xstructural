@@ -17,7 +17,7 @@
       <LinkExternal target="https://github.com/w3c/epubcheck">EPUBCheck</LinkExternal>.
     </Paragraph>
     <FormalItem title="Parameters">
-      <Table type="parametersTable">
+      <Table type="genericTable">
         <Columns>
           <Column>Parameter</Column>
           <Column>Type</Column>
@@ -58,7 +58,7 @@
     </FormalItem>
   </Subsection>
 
-  <Subsection title="Example">
+  <Subsection title="Examples">
     <FormalItem title="Example" type="example">
       <Verbatim>
         <xi:include parse="text"

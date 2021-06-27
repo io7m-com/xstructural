@@ -209,3 +209,32 @@ h6
 {
   width: 8em;
 }
+
+/*
+ * Lists.
+ */
+
+.stItem
+{
+  margin-bottom: 1em;
+}
+
+/*
+ * Footnote references.
+ */
+
+.stFootnoteReferences h4,
+.stFootnoteReferences a
+{
+  font-size: 80%;
+}
+.stFootnoteReferences ul
+{
+  padding:     0;
+  margin:      0;
+  margin-left: 1em;
+}
+.stFootnoteReferences li > ul
+{
+
+}

@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:7:0"
+         id="55ae1912-9aec-402a-babe-ed7778e76599"
+         title="Subsection">
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="element">Subsection</Term> element describes a subdivision of a
+      <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">Section</Link>.
+    </Paragraph>
+    <Paragraph>
+      Renderers that output multiple files and/or pages are required to treat <Term type="element">Subsection</Term>
+      elements as non-page-breaking. That is, when a renderer encounters a new <Term type="element">Subsection</Term>
+      element, it completes rendering of the existing content and then begins rendering of the
+      <Term type="element">Subsection</Term> on the current page and/or output
+      file. This is in contrast to <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">Section</Link> elements
+      which are required to trigger the generation of new files and/or pages.
+    </Paragraph>
+    <Paragraph>
+      <Term type="element">Subsection</Term> elements are automatically numbered by the renderers, and may be
+      assigned <Link target="39506c3e-1361-4f81-be32-8c110a19d9bb">unique identifiers</Link>.
+      <Term type="element">Subsection</Term> elements may be nested recursively, and are numbered recursively
+      with respect to other
+      <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">Section</Link> and
+      <Term type="element">Subsection</Term> elements.
+    </Paragraph>
+    <Paragraph>
+      <Term type="element">Subsection</Term> elements must include titles, and renderers use these titles when
+      populating <Link target="8430e3b6-3327-4390-a19f-e315d7dcf3d8">tables of content</Link>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Subsection Example">
+      <Verbatim><![CDATA[
+<Subsection xmlns="urn:com.io7m.structural:7:0"
+         id="1f56418e-f724-47ad-be10-db92b3e55295"
+         title="Subsection">
+  <Subsection title="Another Subsection">
+    ...
+  </Subsection>
+  <Subsection title="Yet Another Subsection" id="49698ed6-466b-4917-90be-45480d78719c">
+    ...
+  </Subsection>
+</Subsection>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+</Section>

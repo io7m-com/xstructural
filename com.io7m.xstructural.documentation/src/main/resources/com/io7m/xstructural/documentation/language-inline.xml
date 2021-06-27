@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:7:0"
+         id="8e536f96-16e1-4f4a-bc3a-6613e20cb504"
+         title="Inline Elements">
+
+  <Subsection title="Link"
+              id="88660fca-74ea-4a3b-bb59-32d750a515a3">
+    <Paragraph>
+      The <Term type="element">Link</Term> element describes a link to an element that was assigned
+      a <Link target="39506c3e-1361-4f81-be32-8c110a19d9bb">unique identifier</Link>. The text contents of the
+      <Term type="element">Link</Term>
+      element are used as the
+      <LinkExternal target="https://en.wikipedia.org/wiki/HTML_element#Anchor">anchor text</LinkExternal>
+      when generating hyperlinks in rendered documents.
+    </Paragraph>
+    <Paragraph>
+      The <Term type="element">Link</Term> element is subject to integrity checking; documents that declare links to
+      nonexistent elements will fail validation and renderers will refuse to process them.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="LinkExternal"
+              id="217b1f13-a98b-4fe7-a701-700073818f33">
+    <Paragraph>
+      The <Term type="element">LinkExternal</Term> element describes a link to an external resource such as a web site.
+      The text contents of the <Term type="element">LinkExternal</Term> element are used as the
+      <LinkExternal target="https://en.wikipedia.org/wiki/HTML_element#Anchor">anchor text</LinkExternal>
+      when generating hyperlinks in rendered documents.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="LinkFootnote"
+              id="b611d66f-e82d-4afd-b908-f27340718651">
+    <Paragraph>
+      The <Term type="element">LinkFootnote</Term> element describes a link to a
+      <Link target="8abc7eeb-c828-4307-a64d-0d8d6ae25e98">Footnote</Link> element.
+    </Paragraph>
+    <Paragraph>
+      Footnote links are expected to be rendered in the traditional style. That is, a link to a footnote
+      is rendered as the number of the footnote enclosed in square brackets.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="ListOrdered"
+              id="90ba0e6b-5bf9-4ece-beba-de6c01083ee9">
+    <Paragraph>
+      The <Term type="element">ListOrdered</Term> element describes a list within which the
+      order of the <Link target="c8d7692d-1871-4332-92df-bcb8196e9fa8">items</Link> is significant.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="ListUnordered"
+              id="7eed6ef8-aeba-45cd-8f72-0b016593aed2">
+    <Paragraph>
+      The <Term type="element">ListUnordered</Term> element describes a list within which the
+      order of the <Link target="c8d7692d-1871-4332-92df-bcb8196e9fa8">items</Link> is not significant.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Item"
+              id="c8d7692d-1871-4332-92df-bcb8196e9fa8">
+    <Paragraph>
+      The <Term type="element">Item</Term> element describes an item within
+      a <Link target="7eed6ef8-aeba-45cd-8f72-0b016593aed2">ListUnordered</Link> or
+      <Link target="90ba0e6b-5bf9-4ece-beba-de6c01083ee9">ListOrdered</Link> element.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Table"
+              id="85c2d15e-38e9-48bc-a24a-77dcac9c0eaa">
+    <Paragraph>
+      The <Term type="element">Table</Term> element defines a table as a set of rows and columns. It
+      is analogous to a simplified form of the XHTML <Term type="constant">table</Term> element.
+    </Paragraph>
+  </Subsection>
+  
+  <Subsection title="Term"
+              id="8265ab1b-7524-4af9-8415-3dc787bd959f">
+    <Paragraph>
+      The <Term type="element">Term</Term> element denotes a single word or sentence as being significant.
+    </Paragraph>
+  </Subsection>
+
+</Section>
