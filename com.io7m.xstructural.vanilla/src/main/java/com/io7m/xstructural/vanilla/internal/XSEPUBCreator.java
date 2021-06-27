@@ -378,7 +378,9 @@ public final class XSEPUBCreator implements XSProcessorType
 
       try (var resourcesStream = Files.lines(resourcesList)) {
         final var resourceNames =
-          resourcesStream.collect(Collectors.toList());
+          resourcesStream
+            .filter(p -> !p.isBlank())
+            .collect(Collectors.toList());
 
         for (final var resourceName : resourceNames) {
           final var resourceFile =

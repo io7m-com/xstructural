@@ -472,11 +472,11 @@
               <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
             </h1>
 
-            <xsl:if test="s71:Metadata/s71:MetaProperty[@name='cover']">
+            <xsl:if test="s71:Metadata/s71:MetaProperty[@name='epubCover']">
               <div id="stEPUBCoverImage">
                 <xsl:element name="img">
                   <xsl:attribute name="src">
-                    <xsl:value-of select="s71:Metadata/s71:MetaProperty[@name='cover']"/>
+                    <xsl:value-of select="s71:Metadata/s71:MetaProperty[@name='epubCover']"/>
                   </xsl:attribute>
                   <xsl:attribute name="alt">
                     <xsl:apply-templates select="s70:Metadata|s71:Metadata" mode="documentCoverTitle"/>
@@ -576,7 +576,8 @@
         <xsl:text>&#x000a;</xsl:text>
       </xsl:for-each>
 
-      <xsl:value-of select=".//s71:Metadata/s71:MetaProperty[@name='cover']"/>
+      <xsl:value-of select=".//s71:Metadata/s71:MetaProperty[@name='epubCover']"/>
+      <xsl:text>&#x000a;</xsl:text>
     </xsl:result-document>
   </xsl:template>
 

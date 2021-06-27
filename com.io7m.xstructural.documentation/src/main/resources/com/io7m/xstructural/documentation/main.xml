@@ -11,7 +11,7 @@
     <dc:description>User documentation for the ${project.groupId} package.</dc:description>
     <dc:language>en</dc:language>
     <dc:creator>Mark Raynsford</dc:creator>
-    <MetaProperty name="cover">cover.jpg</MetaProperty>
+    <MetaProperty name="epubCover">cover.jpg</MetaProperty>
   </Metadata>
 
   <xi:include href="cmdline.xml"/>
