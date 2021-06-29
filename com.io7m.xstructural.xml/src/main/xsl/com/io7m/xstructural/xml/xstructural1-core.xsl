@@ -321,7 +321,7 @@
   </xsl:template>
 
   <xsl:mode name="sxc:tableOfContentsOptional"
-            visibility="final"
+            visibility="public"
             warning-on-no-match="true"/>
 
   <xsl:template match="s70:Section"
@@ -1282,7 +1282,7 @@
   </xsl:template>
 
   <xsl:template name="sxc:footnotes"
-                visibility="final">
+                visibility="public">
 
     <xsl:call-template name="sxc:standardRegion">
       <xsl:with-param name="class"

@@ -23,14 +23,14 @@
   --stVerbatimColor:  #202020;
   --stVerbatimBorder: 1px solid #dddddd;
   --stMetaBorder:     1px solid #dddddd;
-  --stFontSize:       90%;
-  --stMetaFontSize:   80%;
-  --stHeaderFontSize: 100%;
+  --stFontSize:       100%;
+  --stMetaFontSize:   90%;
+  --stHeaderFontSize: 110%;
 }
 
 body
 {
-  font-size: var(--stFontSize);
+
 }
 
 h1,
@@ -46,8 +46,13 @@ h6
 
 #stMain
 {
-  margin-top:   var(--stMarginWidth);
-  margin-right: var(--stMarginWidth);
+  font-size:     var(--stFontSize);
+  width:         90%;
+  height:        90%;
+  margin-left:   5%;
+  margin-right:  5%;
+  margin-top:    5%;
+  margin-bottom: 5%;
 }
 
 /*
@@ -105,25 +110,6 @@ h6
 #stEPUBTableOfContents li > ol
 {
   padding-left: 1em;
-}
-
-/*
- * Standard regions.
- */
-
-.stRegion
-{
-
-}
-.stRegionMargin
-{
-  width: var(--stMarginWidth);
-  float: left;
-}
-.stRegionContent
-{
-  margin-left:   var(--stMarginWidth);
-  margin-bottom: 1em;
 }
 
 /*
@@ -186,6 +172,10 @@ h6
   -epub-hyphens: auto;
 }
 
+.stParagraph + .stParagraph {
+  margin-top: 1em;
+}
+
 /*
  * Metadata table
  */
@@ -220,21 +210,26 @@ h6
 }
 
 /*
- * Footnote references.
+ * Footnotes.
  */
 
-.stFootnoteReferences h4,
-.stFootnoteReferences a
+.stFootnotes table
 {
-  font-size: 80%;
+  border:          var(--stMetaBorder);
+  width:           100%;
+  border-collapse: collapse;
 }
-.stFootnoteReferences ul
+.stFootnotes td
 {
-  padding:     0;
-  margin:      0;
-  margin-left: 1em;
+  vertical-align: top;
+  border:         var(--stMetaBorder);
+  padding:        0.5em;
 }
-.stFootnoteReferences li > ul
+.stFootnoteNumber
 {
 
+}
+.stFootnoteReferences
+{
+  margin-top: 1em;
 }
