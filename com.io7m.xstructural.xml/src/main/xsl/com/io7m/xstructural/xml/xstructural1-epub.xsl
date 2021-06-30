@@ -219,6 +219,9 @@
                   </xsl:element>
                 </h1>
 
+                <xsl:apply-templates mode="tableOfContentsOptional"
+                                     select="."/>
+
                 <xsl:apply-templates select="s70:Section|s70:Subsection|s70:Paragraph|s70:FormalItem"
                                      mode="sxc:blockMode"/>
 
@@ -484,8 +487,104 @@
         </xsl:choose>
       </td>
     </tr>
+  </xsl:template>
 
+  <xd:doc>
+    The set of templates that generate the entries within tables of content.
+  </xd:doc>
 
+  <xsl:mode name="tableOfContents"
+            visibility="final"
+            warning-on-no-match="true"/>
+
+  <xsl:template match="s70:Subsection"
+                mode="tableOfContents">
+    <xsl:param name="depthMaximum"
+               as="xs:integer"
+               required="true"/>
+    <xsl:param name="depthCurrent"
+               as="xs:integer"
+               required="true"/>
+
+    <xsl:choose>
+      <xsl:when test="$depthCurrent &lt;= $depthMaximum">
+        <ul>
+          <li>
+            <xsl:variable name="numberTitle">
+              <xsl:call-template name="sxc:subsectionNumberTitleOf">
+                <xsl:with-param name="subsection"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:variable>
+
+            <xsl:element name="a">
+              <xsl:attribute name="href"
+                             select="sxc:anchorOf(.)"/>
+              <xsl:attribute name="title">
+                <xsl:call-template name="sxc:anchorTitleFor">
+                  <xsl:with-param name="node"
+                                  select="."/>
+                </xsl:call-template>
+              </xsl:attribute>
+              <xsl:value-of select="concat($numberTitle,'. ',attribute::title)"/>
+            </xsl:element>
+
+            <xsl:apply-templates select="s70:Section|s70:Subsection"
+                                 mode="tableOfContents">
+              <xsl:with-param name="depthMaximum"
+                              select="$depthMaximum"/>
+              <xsl:with-param name="depthCurrent"
+                              select="$depthCurrent + 1"/>
+            </xsl:apply-templates>
+          </li>
+        </ul>
+      </xsl:when>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template match="s70:Section"
+                mode="tableOfContents">
+    <xsl:param name="depthMaximum"
+               as="xs:integer"
+               required="true"/>
+    <xsl:param name="depthCurrent"
+               as="xs:integer"
+               required="true"/>
+
+    <xsl:choose>
+      <xsl:when test="$depthCurrent &lt;= $depthMaximum">
+        <xsl:element name="ul">
+          <li>
+            <xsl:variable name="numberTitle">
+              <xsl:call-template name="sxc:sectionNumberTitleOf">
+                <xsl:with-param name="section"
+                                select="."/>
+              </xsl:call-template>
+            </xsl:variable>
+
+            <xsl:element name="a">
+              <xsl:attribute name="href"
+                             select="sxc:anchorOf(.)"/>
+              <xsl:attribute name="title">
+                <xsl:call-template name="sxc:anchorTitleFor">
+                  <xsl:with-param name="node"
+                                  select="."/>
+                </xsl:call-template>
+              </xsl:attribute>
+              <xsl:value-of select="concat($numberTitle,'. ',attribute::title)"/>
+            </xsl:element>
+
+            <xsl:apply-templates select="s70:Section|s70:Subsection"
+                                 mode="tableOfContents">
+              <xsl:with-param name="depthMaximum"
+                              select="$depthMaximum"/>
+              <xsl:with-param name="depthCurrent"
+                              select="$depthCurrent + 1"/>
+            </xsl:apply-templates>
+          </li>
+        </xsl:element>
+      </xsl:when>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="s70:Section"
@@ -511,7 +610,7 @@
 
         <div class="stTableOfContents">
           <xsl:apply-templates select="."
-                               mode="sxc:tableOfContents">
+                               mode="tableOfContents">
             <xsl:with-param name="depthCurrent"
                             select="0"/>
             <xsl:with-param name="depthMaximum"
