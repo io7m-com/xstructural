@@ -41,27 +41,60 @@
   <!-- Top-level web multi templates. -->
   <!--                                -->
 
+  <xsl:template name="xstructural.fileOf"
+                as="xsd:string">
+    <xsl:param name="target"
+               as="element()"/>
+
+    <xsl:variable name="targetOwner"
+                  as="element()">
+      <xsl:choose>
+        <xsl:when test="count($target/ancestor-or-self::s:Section) > 0">
+          <xsl:sequence select="$target/ancestor-or-self::s:Section[1]"/>
+        </xsl:when>
+        <xsl:when test="count($target/ancestor-or-self::s:Document) > 0">
+          <xsl:sequence select="$target/ancestor-or-self::s:Document[1]"/>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:value-of select="concat(generate-id($targetOwner), '.xhtml')"/>
+  </xsl:template>
+
   <xdoc:doc>
-    An override of the anchorOf function that works for single-page XHTML files.
+    An override of the anchorOf function that works for multi-page XHTML files.
   </xdoc:doc>
 
   <xsl:template name="xstructural.links.anchorOf"
                 as="xsd:string">
-    <xsl:param name="node"
+    <xsl:param name="target"
                as="element()"/>
 
-    <xsl:variable name="file"
-                  as="xsd:string"
-                  select="concat(generate-id($node), '.xhtml')"/>
+    <xsl:message select="concat('anchorOf: ', local-name($target))"/>
 
-    <xsl:variable name="completeHref"
+    <xsl:variable name="owningFile"
                   as="xsd:string">
       <xsl:choose>
-        <xsl:when test="$node/attribute::id">
-          <xsl:value-of select="concat($file, '#id_',$node/attribute::id[1])"/>
+        <xsl:when test="$target/ancestor-or-self::s:Section[1]">
+          <xsl:variable name="owningSection"
+                        as="element()">
+            <xsl:sequence select="$target/ancestor-or-self::s:Section[1]"/>
+          </xsl:variable>
+          <xsl:value-of select="concat(generate-id($owningSection),'.xhtml')"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat($file, '#',generate-id($node))"/>
+          <xsl:value-of select="$xstructural.web.indexMulti"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:variable name="completeHref">
+      <xsl:choose>
+        <xsl:when test="$target/attribute::id">
+          <xsl:value-of select="concat($owningFile,'#id_',$target/attribute::id[1])"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="concat($owningFile,'#',generate-id($target))"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -123,7 +156,8 @@
 
             <xsl:apply-templates select="."
                                  mode="xstructural.tableOfContentsOptional">
-              <xsl:with-param name="withTitle" select="true()"/>
+              <xsl:with-param name="withTitle"
+                              select="true()"/>
             </xsl:apply-templates>
 
             <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"

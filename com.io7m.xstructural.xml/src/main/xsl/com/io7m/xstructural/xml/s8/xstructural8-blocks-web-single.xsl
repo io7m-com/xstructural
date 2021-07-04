@@ -36,7 +36,8 @@
 
     <xsl:apply-templates select="."
                          mode="xstructural.tableOfContentsOptional">
-      <xsl:with-param name="withTitle" select="false()"/>
+      <xsl:with-param name="withTitle"
+                      select="false()"/>
     </xsl:apply-templates>
 
     <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"

@@ -47,7 +47,7 @@
           <xsl:element name="a">
             <xsl:attribute name="href">
               <xsl:call-template name="xstructural.links.anchorOf">
-                <xsl:with-param name="node"
+                <xsl:with-param name="target"
                                 select="."/>
               </xsl:call-template>
             </xsl:attribute>
@@ -114,7 +114,7 @@
           <xsl:element name="a">
             <xsl:attribute name="href">
               <xsl:call-template name="xstructural.links.anchorOf">
-                <xsl:with-param name="node"
+                <xsl:with-param name="target"
                                 select="."/>
               </xsl:call-template>
             </xsl:attribute>

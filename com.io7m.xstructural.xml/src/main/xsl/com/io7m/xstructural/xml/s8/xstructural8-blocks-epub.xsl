@@ -76,7 +76,7 @@
                 <xsl:element name="a">
                   <xsl:attribute name="href">
                     <xsl:call-template name="xstructural.links.anchorOf">
-                      <xsl:with-param name="node"
+                      <xsl:with-param name="target"
                                       select="."/>
                     </xsl:call-template>
                   </xsl:attribute>
@@ -86,6 +86,7 @@
                                       select="."/>
                     </xsl:call-template>
                   </xsl:attribute>
+                  <xsl:value-of select="position()"/>
                 </xsl:element>
               </xsl:for-each>
             </div>
@@ -212,7 +213,8 @@
 
             <xsl:apply-templates select="."
                                  mode="xstructural.tableOfContentsOptional">
-              <xsl:with-param name="withTitle" select="false()"/>
+              <xsl:with-param name="withTitle"
+                              select="false()"/>
             </xsl:apply-templates>
 
             <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"

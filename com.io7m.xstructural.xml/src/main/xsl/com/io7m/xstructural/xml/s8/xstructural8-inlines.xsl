@@ -25,18 +25,7 @@
 
   <xsl:import href="xstructural8-links.xsl"/>
   <xsl:import href="xstructural8-text.xsl"/>
-
-  <xsl:key name="xstructural.footnotes.referenceKey"
-           match="/s:Document//s:LinkFootnote"
-           use="@target"/>
-
-  <xsl:key name="xstructural.footnotes.key"
-           match="/s:Document//s:Footnote"
-           use="@id"/>
-
-  <xsl:key name="xstructural.links.key"
-           match="/s:Document//(s:Paragraph|s:FormalItem|s:Section|s:Subsection)"
-           use="@id"/>
+  <xsl:import href="xstructural8-keys.xsl"/>
 
   <xsl:template match="text()"
                 mode="xstructural.inlines">
@@ -53,7 +42,7 @@
 
       <xsl:attribute name="href">
         <xsl:call-template name="xstructural.links.anchorOf">
-          <xsl:with-param name="node"
+          <xsl:with-param name="target"
                           select="key('xstructural.links.key',@target)"/>
         </xsl:call-template>
       </xsl:attribute>
@@ -112,7 +101,7 @@
 
       <xsl:attribute name="href">
         <xsl:call-template name="xstructural.links.anchorOf">
-          <xsl:with-param name="node"
+          <xsl:with-param name="target"
                           select="$targetFootnote"/>
         </xsl:call-template>
       </xsl:attribute>

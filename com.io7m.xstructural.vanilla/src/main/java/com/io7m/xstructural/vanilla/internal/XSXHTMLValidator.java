@@ -22,6 +22,7 @@ import com.io7m.xstructural.api.XSValidationException;
 import com.io7m.xstructural.xml.SXMLResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
@@ -199,8 +200,14 @@ public final class XSXHTMLValidator implements XSProcessorType
       final var anchorsLocal = new ArrayList<Node>();
       for (int index = 0; index < anchors.getLength(); ++index) {
         final var anchor = anchors.item(index);
-        final var href = anchor.getAttributes().getNamedItem("href");
+        final var attributes = anchor.getAttributes();
+        
+        final var href = attributes.getNamedItem("href");
         final var hrefText = href.getTextContent();
+
+        if (!checkFootnoteLink(file, attributes, hrefText)) {
+          failed = true;
+        }
         if (hrefText.startsWith("#")) {
           anchorsLocal.add(anchor);
         }
@@ -232,6 +239,29 @@ public final class XSXHTMLValidator implements XSProcessorType
     } catch (final SAXException | XPathExpressionException | ParserConfigurationException e) {
       throw new IOException(e);
     }
+  }
+
+  private static boolean checkFootnoteLink(
+    final Path file,
+    final NamedNodeMap attributes,
+    final String hrefText)
+  {
+    final var cssClass = attributes.getNamedItem("class");
+    if (cssClass == null) {
+      return true;
+    }
+
+    final var cssClassText = cssClass.getTextContent();
+    if (cssClassText.contains("stLinkFootnote")) {
+      if (!hrefText.startsWith("#")) {
+        if (!hrefText.contains(file.getFileName().toString())) {
+          LOG.error("a footnote link must link to the same file name ({})",
+                    hrefText);
+          return false;
+        }
+      }
+    }
+    return true;
   }
 
   private static boolean findId(

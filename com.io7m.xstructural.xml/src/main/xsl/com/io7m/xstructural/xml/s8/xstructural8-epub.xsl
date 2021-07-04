@@ -40,17 +40,17 @@
 
   <xsl:template name="xstructural.links.anchorOf"
                 as="xsd:string">
-    <xsl:param name="node"
+    <xsl:param name="target"
                as="element()"/>
 
     <xsl:variable name="owningSection"
                   as="element()">
       <xsl:choose>
-        <xsl:when test="$node/ancestor-or-self::s:Section[1]">
-          <xsl:sequence select="$node/ancestor-or-self::s:Section[1]"/>
+        <xsl:when test="$target/ancestor-or-self::s:Section[1]">
+          <xsl:sequence select="$target/ancestor-or-self::s:Section[1]"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:sequence select="$node/ancestor::s:Document"/>
+          <xsl:sequence select="$target/ancestor::s:Document"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -60,11 +60,11 @@
 
     <xsl:variable name="completeHref">
       <xsl:choose>
-        <xsl:when test="$node/attribute::id">
-          <xsl:value-of select="concat($owningFile,'#id_',$node/attribute::id[1])"/>
+        <xsl:when test="$target/attribute::id">
+          <xsl:value-of select="concat($owningFile,'#id_',$target/attribute::id[1])"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat($owningFile,'#',generate-id($node))"/>
+          <xsl:value-of select="concat($owningFile,'#',generate-id($target))"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -144,7 +144,8 @@
 
             <xsl:apply-templates select="."
                                  mode="xstructural.tableOfContentsOptional">
-              <xsl:with-param name="withTitle" select="false()"/>
+              <xsl:with-param name="withTitle"
+                              select="false()"/>
             </xsl:apply-templates>
 
             <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
@@ -438,7 +439,7 @@
 
     <xsl:variable name="file">
       <xsl:call-template name="xstructural.links.anchorOf">
-        <xsl:with-param name="node"
+        <xsl:with-param name="target"
                         select="."/>
       </xsl:call-template>
     </xsl:variable>
@@ -570,7 +571,7 @@
 
     <xsl:variable name="file">
       <xsl:call-template name="xstructural.links.anchorOf">
-        <xsl:with-param name="node"
+        <xsl:with-param name="target"
                         select="."/>
       </xsl:call-template>
     </xsl:variable>
@@ -668,7 +669,7 @@
 
     <xsl:variable name="file">
       <xsl:call-template name="xstructural.links.anchorOf">
-        <xsl:with-param name="node"
+        <xsl:with-param name="target"
                         select="."/>
       </xsl:call-template>
     </xsl:variable>

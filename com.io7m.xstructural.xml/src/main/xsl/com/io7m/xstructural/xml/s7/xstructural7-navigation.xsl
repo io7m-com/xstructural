@@ -84,7 +84,7 @@
                          select="$sectionPrevFile"/>
           <xsl:attribute name="title">
             <xsl:call-template name="xstructural.links.anchorOf">
-              <xsl:with-param name="node"
+              <xsl:with-param name="target"
                               select="$sectionPrev"/>
             </xsl:call-template>
           </xsl:attribute>
@@ -103,7 +103,7 @@
                          select="$sectionUpFile"/>
           <xsl:attribute name="title">
             <xsl:call-template name="xstructural.links.anchorOf">
-              <xsl:with-param name="node"
+              <xsl:with-param name="target"
                               select="$sectionUp"/>
             </xsl:call-template>
           </xsl:attribute>
@@ -122,7 +122,7 @@
                          select="$sectionNextFile"/>
           <xsl:attribute name="title">
             <xsl:call-template name="xstructural.links.anchorOf">
-              <xsl:with-param name="node"
+              <xsl:with-param name="target"
                               select="$sectionNext"/>
             </xsl:call-template>
           </xsl:attribute>
@@ -189,7 +189,7 @@
                          select="$sectionPrevFile"/>
           <xsl:attribute name="title">
             <xsl:call-template name="xstructural.links.anchorOf">
-              <xsl:with-param name="node"
+              <xsl:with-param name="target"
                               select="$sectionPrev"/>
             </xsl:call-template>
           </xsl:attribute>
@@ -208,7 +208,7 @@
                          select="$sectionUpFile"/>
           <xsl:attribute name="title">
             <xsl:call-template name="xstructural.links.anchorOf">
-              <xsl:with-param name="node"
+              <xsl:with-param name="target"
                               select="$sectionUp"/>
             </xsl:call-template>
           </xsl:attribute>
@@ -227,7 +227,7 @@
                          select="$sectionNextFile"/>
           <xsl:attribute name="title">
             <xsl:call-template name="xstructural.links.anchorOf">
-              <xsl:with-param name="node"
+              <xsl:with-param name="target"
                               select="$sectionNext"/>
             </xsl:call-template>
           </xsl:attribute>
@@ -286,7 +286,7 @@
                          select="$sectionNextFile"/>
           <xsl:attribute name="title">
             <xsl:call-template name="xstructural.links.anchorOf">
-              <xsl:with-param name="node"
+              <xsl:with-param name="target"
                               select="$sectionNext"/>
             </xsl:call-template>
           </xsl:attribute>
@@ -341,7 +341,7 @@
                          select="$sectionNextFile"/>
           <xsl:attribute name="title">
             <xsl:call-template name="xstructural.links.anchorOf">
-              <xsl:with-param name="node"
+              <xsl:with-param name="target"
                               select="$sectionNext"/>
             </xsl:call-template>
           </xsl:attribute>

@@ -46,16 +46,16 @@
 
   <xsl:template name="xstructural.links.anchorOf"
                 as="xsd:string">
-    <xsl:param name="node"
+    <xsl:param name="target"
                as="element()"/>
 
     <xsl:variable name="completeHref">
       <xsl:choose>
-        <xsl:when test="$node/attribute::id">
-          <xsl:value-of select="concat('#id_',$node/attribute::id[1])"/>
+        <xsl:when test="$target/attribute::id">
+          <xsl:value-of select="concat('#id_',$target/attribute::id[1])"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat('#',generate-id($node))"/>
+          <xsl:value-of select="concat('#',generate-id($target))"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -114,7 +114,8 @@
 
             <xsl:apply-templates select="."
                                  mode="xstructural.tableOfContentsOptional">
-              <xsl:with-param name="withTitle" select="true()"/>
+              <xsl:with-param name="withTitle"
+                              select="true()"/>
             </xsl:apply-templates>
 
             <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"

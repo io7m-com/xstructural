@@ -29,7 +29,7 @@
 
   <xsl:template name="xstructural.links.anchorOf"
                 as="xsd:string">
-    <xsl:param name="node"
+    <xsl:param name="target"
                as="element()"
                required="yes"/>
     <xsl:message terminate="yes">
