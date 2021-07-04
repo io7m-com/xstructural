@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -31,7 +31,6 @@ import net.sf.saxon.s9api.Serializer;
 import net.sf.saxon.s9api.XdmValue;
 import net.sf.saxon.s9api.XsltCompiler;
 import net.sf.saxon.s9api.XsltExecutable;
-import net.sf.saxon.s9api.XsltTransformer;
 import net.sf.saxon.trace.XSLTTraceListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,37 +70,6 @@ public final class XSEPUBPackageCreator implements XSProcessorType
       Objects.requireNonNull(inResources, "resources");
     this.request =
       Objects.requireNonNull(inRequest, "request");
-  }
-
-  /**
-   * When the XSLT processor transforms a document, it uses a document number
-   * allocator that will be called when XSLT code calls generate-id(). The
-   * document number allocator increments a counter for each document
-   * encountered. This means that an XSLT transformer that has transformed
-   * multiple documents will give different values for generate-id() than
-   * one that has transformed only one document. Because the XSLT transformer
-   * that is used before this EPUB package creator will transform multiple
-   * documents due to having to compile multiple stylesheets, we need to
-   * manually increment the document number allocator for _this_ transformer
-   * in order to get the same filename values in the generated EPUB package.
-   */
-
-  private static void fixDocumentNumber(
-    final XsltTransformer transformer)
-  {
-    final var numberNow =
-      transformer.getUnderlyingController()
-        .getConfiguration()
-        .getDocumentNumberAllocator()
-        .allocateDocumentNumber();
-
-    if (numberNow != 1L) {
-      throw new IllegalStateException(
-        String.format(
-          "Document number must be 1 (was %d)",
-          Long.valueOf(numberNow))
-      );
-    }
   }
 
   @Override
@@ -149,7 +117,7 @@ public final class XSEPUBPackageCreator implements XSProcessorType
     LOG.debug("loading stylesheet");
     final var transformer = executable.load();
 
-    fixDocumentNumber(transformer);
+    XSDocumentNumbering.fixDocumentNumber(transformer);
 
     try (var stream = Files.newInputStream(this.request.sourceFile())) {
       final var source = new InputSource();
@@ -190,7 +158,7 @@ public final class XSEPUBPackageCreator implements XSProcessorType
     throws IOException, SaxonApiException
   {
     LOG.debug("compiling stylesheet");
-    final URL url = this.resources.epubPackage();
+    final URL url = this.resources.s8EpubPackage();
 
     final XsltExecutable executable;
     try (var stream = url.openStream()) {

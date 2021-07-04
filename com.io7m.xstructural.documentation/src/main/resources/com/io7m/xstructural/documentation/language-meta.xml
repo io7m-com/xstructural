@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section xmlns="urn:com.io7m.structural:7:0"
+<Section xmlns="urn:com.io7m.structural:8:0"
          id="027296c3-c406-4191-a444-5b10873094e8"
          title="Metadata">
 
@@ -15,7 +15,9 @@
       semantics of a document. That is, a document with all of the metadata removed is still considered to be
       semantically valid if the original document was valid. Metadata is typically used to influence the behaviour of
       any renderers that are processing the document, and are also used to communicate information to external systems
-      that may be, for example, indexing the document for use in a document retrieval system.
+      that may be, for example, indexing the document for use in a document retrieval system. Metadata can appear in
+      tables in rendered documents, although this can be controlled using the boolean
+      <Term type="element">visible</Term> attribute (which defaults to <Term type="constant">false</Term>).
     </Paragraph>
     <Paragraph>
       Some <Term type="element">MetaProperty</Term> names are significant to renderers and, where those renderers are
@@ -56,7 +58,7 @@
     <Subsection title="Examples">
       <FormalItem title="EPUB Example">
         <Verbatim><![CDATA[
-<Document xmlns="urn:com.io7m.structural:7:1"
+<Document xmlns="urn:com.io7m.structural:8:0"
           xmlns:dc="http://purl.org/dc/elements/1.1/">
   <Metadata>
     <dc:title>Example Document</dc:title>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section xmlns="urn:com.io7m.structural:7:0"
+<Section xmlns="urn:com.io7m.structural:8:0"
          id="55ae1912-9aec-402a-babe-ed7778e76599"
          title="Subsection">
 
@@ -34,7 +34,7 @@
   <Subsection title="Examples">
     <FormalItem title="Subsection Example">
       <Verbatim><![CDATA[
-<Subsection xmlns="urn:com.io7m.structural:7:0"
+<Subsection xmlns="urn:com.io7m.structural:8:0"
          id="1f56418e-f724-47ad-be10-db92b3e55295"
          title="Subsection">
   <Subsection title="Another Subsection">

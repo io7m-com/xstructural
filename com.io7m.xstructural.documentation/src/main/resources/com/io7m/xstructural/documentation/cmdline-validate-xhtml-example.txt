@@ -1,0 +1,3 @@
+$ xstructural validate-xhtml \
+  --sourceDirectory out
+xstructural: XSXHTMLValidator: INFO: validate (xhtml 1.1) out/index.xhtml

@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -44,7 +44,7 @@ h6
   font-weight: bold;
 }
 
-#stMain
+.stMain
 {
   font-size:     var(--stFontSize);
   width:         90%;
@@ -59,7 +59,7 @@ h6
  * The top-level pages that only exist in EPUB files.
  */
 
-#stEPUBCover
+.stEPUBCover
 {
   font-size:     var(--stFontSize);
   width:         80%;
@@ -70,23 +70,23 @@ h6
   margin-bottom: 10%;
 }
 
-#stEPUBCoverImage
+.stEPUBCoverImage
 {
 
 }
 
-#stEPUBCoverImage img
+.stEPUBCoverImage img
 {
   width: 100%;
 }
 
-#stEPUBCoverCreator
+.stEPUBCoverCreator
 {
   font-size: var(--stFontSize);
   text-align: right;
 }
 
-#stEPUBColophon
+.stEPUBColophon
 {
   font-size:     var(--stFontSize);
   margin-left:   10%;
@@ -95,21 +95,22 @@ h6
   margin-bottom: 10%;
 }
 
-#stEPUBTableOfContents
+.stEPUBTableOfContents
 {
-  margin:    var(--stMarginWidth);
   font-size: var(--stFontSize);
 }
-
-#stEPUBTableOfContents ol
+.stEPUBTableOfContents ul
 {
-  list-style-type: none;
-  padding-left:    0em;
+  padding: 0;
+  margin:  0;
 }
-
-#stEPUBTableOfContents li > ol
+.stEPUBTableOfContents li > ul
 {
   padding-left: 1em;
+}
+.stEPUBTableOfContents li
+{
+  list-style: none;
 }
 
 /*
@@ -136,7 +137,7 @@ h6
 .stTableOfContents ul
 {
   padding: 0;
-  margin: 0;
+  margin:  0;
 }
 .stTableOfContents li > ul
 {

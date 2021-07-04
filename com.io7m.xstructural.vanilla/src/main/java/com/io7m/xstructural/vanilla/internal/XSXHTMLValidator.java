@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -22,17 +22,29 @@ import com.io7m.xstructural.api.XSValidationException;
 import com.io7m.xstructural.xml.SXMLResources;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import javax.xml.XMLConstants;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
+import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
+import javax.xml.xpath.XPathExpressionException;
+import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Collectors;
+
+import static javax.xml.xpath.XPathConstants.NODESET;
 
 /**
  * An XHTML validator.
@@ -40,7 +52,8 @@ import java.util.stream.Collectors;
 
 public final class XSXHTMLValidator implements XSProcessorType
 {
-  private static final Logger LOG = LoggerFactory.getLogger(XSXHTMLValidator.class);
+  private static final Logger LOG =
+    LoggerFactory.getLogger(XSXHTMLValidator.class);
 
   private final SXMLResources resources;
   private final XSProcessorRequest request;
@@ -100,6 +113,7 @@ public final class XSXHTMLValidator implements XSProcessorType
             directoryStream
               .filter(path -> path.toString().endsWith(".xhtml"))
               .filter(path -> !path.toString().endsWith("toc.xhtml"))
+              .filter(path -> !path.toString().endsWith("tocInternal.xhtml"))
               .map(Path::toAbsolutePath)
               .collect(Collectors.toList());
 
@@ -112,38 +126,8 @@ public final class XSXHTMLValidator implements XSProcessorType
 
           for (final var file : files) {
             LOG.info("validate (xhtml 1.1) {}", file);
-            try (var sourceStream = Files.newInputStream(file)) {
-              final var fileSource = new InputSource();
-              fileSource.setByteStream(sourceStream);
-              fileSource.setSystemId(file.toUri().toString());
-
-              final XSErrorHandler errorHandler =
-                new XSErrorHandler(logger);
-
-              this.saxParsers.setSchema(schema);
-              this.saxParsers.setNamespaceAware(true);
-              this.saxParsers.setValidating(false);
-
-              final var parser = this.saxParsers.newSAXParser();
-              final var reader = parser.getXMLReader();
-              reader.setErrorHandler(errorHandler);
-              reader.setProperty(
-                XMLConstants.ACCESS_EXTERNAL_SCHEMA,
-                "");
-              reader.setProperty(
-                XMLConstants.ACCESS_EXTERNAL_DTD,
-                "");
-              reader.setFeature(
-                "http://apache.org/xml/features/nonvalidating/load-external-dtd",
-                false);
-              reader.setEntityResolver((publicId, systemId) -> {
-                LOG.debug("resolveEntity: {} {}", publicId, systemId);
-                return new InputSource(new ByteArrayInputStream(new byte[0]));
-              });
-
-              reader.parse(fileSource);
-              failed |= errorHandler.isFailed();
-            }
+            failed |= this.validateOneFile(schema, logger, file);
+            failed |= checkLinks(file);
           }
         }
       }
@@ -156,6 +140,151 @@ public final class XSXHTMLValidator implements XSProcessorType
       }
     } catch (final Exception e) {
       throw new XSValidationException(e);
+    }
+  }
+
+  private static boolean checkLinks(
+    final Path file)
+    throws IOException
+  {
+    var failed = false;
+
+    try (var stream = Files.newInputStream(file)) {
+      final var builderFactory =
+        DocumentBuilderFactory.newInstance();
+
+      builderFactory.setFeature(
+        XMLConstants.FEATURE_SECURE_PROCESSING,
+        true);
+      builderFactory.setFeature(
+        "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+        false);
+      builderFactory.setFeature(
+        "http://apache.org/xml/features/xinclude",
+        false);
+      builderFactory.setFeature(
+        "http://xml.org/sax/features/namespaces",
+        false);
+      builderFactory.setFeature(
+        "http://xml.org/sax/features/validation",
+        false);
+      builderFactory.setFeature(
+        "http://apache.org/xml/features/validation/schema",
+        false);
+
+      builderFactory.setValidating(false);
+      builderFactory.setXIncludeAware(false);
+      builderFactory.setNamespaceAware(false);
+
+      final var builder =
+        builderFactory.newDocumentBuilder();
+      final var xmlDocument =
+        builder.parse(stream);
+
+      final var xpaths =
+        XPathFactory.newInstance();
+
+      final var idPath =
+        xpaths.newXPath()
+          .compile("//@id");
+      final var aPath =
+        xpaths.newXPath()
+          .compile("//a");
+
+      final var withIds =
+        (NodeList) idPath.evaluate(xmlDocument, NODESET);
+      final var anchors =
+        (NodeList) aPath.evaluate(xmlDocument, NODESET);
+
+      final var anchorsLocal = new ArrayList<Node>();
+      for (int index = 0; index < anchors.getLength(); ++index) {
+        final var anchor = anchors.item(index);
+        final var href = anchor.getAttributes().getNamedItem("href");
+        final var hrefText = href.getTextContent();
+        if (hrefText.startsWith("#")) {
+          anchorsLocal.add(anchor);
+        }
+      }
+
+      LOG.info(
+        "checking the integrity of {} references",
+        Integer.valueOf(anchorsLocal.size())
+      );
+
+      for (final var anchor : anchorsLocal) {
+        final var href = anchor.getAttributes().getNamedItem("href");
+        final var hrefText = href.getTextContent();
+        final var hrefWithout = hrefText.substring(1);
+        if (!findId(withIds, hrefWithout)) {
+          LOG.error("unable to locate an element with id {}", hrefWithout);
+          failed = true;
+        }
+      }
+
+      if (!failed) {
+        LOG.info(
+          "checked the integrity of {} local references",
+          Integer.valueOf(anchorsLocal.size())
+        );
+      }
+
+      return failed;
+    } catch (final SAXException | XPathExpressionException | ParserConfigurationException e) {
+      throw new IOException(e);
+    }
+  }
+
+  private static boolean findId(
+    final NodeList withIds,
+    final String idName)
+  {
+    for (int k = 0; k < withIds.getLength(); ++k) {
+      final var node = withIds.item(k);
+      final var idText = node.getTextContent();
+      if (idName.equals(idText)) {
+        return true;
+      }
+    }
+    return false;
+  }
+
+  private boolean validateOneFile(
+    final Schema schema,
+    final Logger logger,
+    final Path file)
+    throws IOException, ParserConfigurationException, SAXException
+  {
+    try (var sourceStream = Files.newInputStream(file)) {
+      final var fileSource = new InputSource();
+      fileSource.setByteStream(sourceStream);
+      fileSource.setSystemId(file.toUri().toString());
+
+      final var errorHandler =
+        new XSErrorHandler(logger);
+
+      this.saxParsers.setSchema(schema);
+      this.saxParsers.setNamespaceAware(true);
+      this.saxParsers.setValidating(false);
+
+      final var parser = this.saxParsers.newSAXParser();
+      final var reader = parser.getXMLReader();
+      reader.setErrorHandler(errorHandler);
+      reader.setProperty(
+        XMLConstants.ACCESS_EXTERNAL_SCHEMA,
+        "");
+      reader.setProperty(
+        XMLConstants.ACCESS_EXTERNAL_DTD,
+        "");
+      reader.setFeature(
+        "http://apache.org/xml/features/nonvalidating/load-external-dtd",
+        false);
+      reader.setEntityResolver((publicId, systemId) -> {
+        LOG.debug("resolveEntity: {} {}", publicId, systemId);
+        return new InputSource(new ByteArrayInputStream(new byte[0]));
+      });
+
+      reader.parse(fileSource);
+      return errorHandler.isFailed();
     }
   }
 }

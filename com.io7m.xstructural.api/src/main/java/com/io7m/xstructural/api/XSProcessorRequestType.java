@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -155,7 +155,14 @@ public interface XSProcessorRequestType
      * The input document will be transformed to an EPUB.
      */
 
-    TRANSFORM_EPUB
+    TRANSFORM_EPUB,
+
+    /**
+     * The input XHTML will be validated, and no other steps will be
+     * performed.
+     */
+
+    VALIDATE_XHTML,
   }
 
   /**

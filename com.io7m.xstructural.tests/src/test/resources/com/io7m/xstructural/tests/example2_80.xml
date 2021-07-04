@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Document xmlns="urn:com.io7m.structural:8:0"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+          tableOfContentsDepth="3"
+          tableOfContents="true">
+
+  <Metadata>
+    <dc:contributor>A Contributor</dc:contributor>
+    <dc:creator>A Creator</dc:creator>
+    <dc:date>2020-04-23T10:19:25+00:00</dc:date>
+    <dc:description>An example article.</dc:description>
+    <dc:identifier>f919fffb-fef1-4d4f-af27-e29abbd976f6</dc:identifier>
+    <dc:language>English</dc:language>
+    <dc:publisher>A Publisher</dc:publisher>
+    <dc:relation>A Relation</dc:relation>
+    <dc:rights>CC-0</dc:rights>
+    <dc:source>A Source</dc:source>
+    <dc:title>Example Document</dc:title>
+  </Metadata>
+
+  <Section title="47d5aa0e-cfe6-4830-95c7-8d164f3e5afa">
+    <Paragraph>
+      No bagel.
+    </Paragraph>
+    <Paragraph>
+      No bagel.
+    </Paragraph>
+    <Paragraph>
+      No bagel.
+    </Paragraph>
+    <Paragraph>
+      No bagel.
+    </Paragraph>
+  </Section>
+
+</Document>

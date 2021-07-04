@@ -1,0 +1,1039 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+  SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+  IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            xmlns:dc="http://purl.org/dc/elements/1.1/"
+            xmlns:s="urn:com.io7m.structural:8:0"
+            targetNamespace="urn:com.io7m.structural:8:0">
+
+  <xsd:import namespace="http://purl.org/dc/elements/1.1/"
+              schemaLocation="dc.xsd"/>
+  <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+              schemaLocation="xml.xsd"/>
+
+  <xsd:simpleType name="uuidType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A UUID value.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="imageTextType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of text that appears in image elements. This is required to be of non-zero length in order to ensure
+        that authors add useful text that will then be used in the 'alt' elements of XHTML generated from the document
+        sources.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:minLength value="1"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="typeType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of type names. Type names are used to categorize elements and are somewhat analogous to CSS classes,
+        except that they are intended to be used for more than just styling documents.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z][a-zA-Z0-9_\.\-]*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:attributeGroup name="standardXMLAttributes">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The standard elements expected to appear in XML texts.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute ref="xml:base"/>
+    <xsd:attribute ref="xml:lang"/>
+  </xsd:attributeGroup>
+
+  <xsd:attributeGroup name="tableOfContentAttributes">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The attributes used to describe tables of content.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attribute name="tableOfContents"
+                   use="optional"
+                   default="true"
+                   type="xsd:boolean">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          If the value of the attribute is 'true', then a table of contents will be generated in the respective element.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+    <xsd:attribute name="tableOfContentsDepth"
+                   use="optional"
+                   default="3"
+                   type="xsd:positiveInteger">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The maximum relative depth of sections and subsections that will appear in a generated table of contents.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:attributeGroup>
+
+  <xsd:complexType mixed="true"
+                   name="ImageType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        An element used to describe an image. The text content of the image element SHOULD be used to provide an
+        accessible description of the image. This description is expected to be used by screen readers, and may also be
+        displayed by browsers if the referenced image cannot be loaded for any reason.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:simpleContent>
+      <xsd:extension base="s:imageTextType">
+        <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+        <xsd:attribute name="type"
+                       type="s:typeType"
+                       use="optional">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              The type of the image.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="width"
+                       type="xsd:nonNegativeInteger"
+                       use="optional">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              The width of the image.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="height"
+                       type="xsd:nonNegativeInteger"
+                       use="optional">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              The height of the image.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+        <xsd:attribute name="source"
+                       type="xsd:anyURI"
+                       use="required">
+          <xsd:annotation>
+            <xsd:documentation xml:lang="en">
+              The source location of the image.
+            </xsd:documentation>
+          </xsd:annotation>
+        </xsd:attribute>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <xsd:element name="Image"
+               type="s:ImageType"/>
+
+  <xsd:complexType name="ItemType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        An item appearing in a list.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence minOccurs="0"
+                  maxOccurs="unbounded">
+      <xsd:group ref="s:ListContent"/>
+    </xsd:sequence>
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the list item.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Item"
+               type="s:ItemType"/>
+
+  <xsd:group name="ListContent">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The elements that may appear in list items.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:choice>
+      <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
+      <xsd:element ref="s:ListOrdered"/>
+      <xsd:element ref="s:ListUnordered"/>
+      <xsd:element ref="s:Term"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:complexType name="ListOrderedType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        An ordered list.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence minOccurs="1"
+                  maxOccurs="unbounded">
+      <xsd:element ref="s:Item"/>
+    </xsd:sequence>
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the list.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="ListOrdered"
+               type="s:ListOrderedType"/>
+
+  <xsd:complexType name="ListUnorderedType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        An unordered list.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence minOccurs="1"
+                  maxOccurs="unbounded">
+      <xsd:element ref="s:Item"/>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the list.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="ListUnordered"
+               type="s:ListUnorderedType"/>
+
+  <xsd:complexType name="ColumnType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A description of a column in a table.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the column.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Column"
+               type="s:ColumnType"/>
+
+  <xsd:complexType name="ColumnsType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A set of table column descriptions.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence minOccurs="1"
+                  maxOccurs="unbounded">
+      <xsd:element ref="s:Column"/>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the columns.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Columns"
+               type="s:ColumnsType"/>
+
+  <xsd:group name="TableContent">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of content that may appear in table cells.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:choice>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
+      <xsd:element ref="s:Term"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:complexType name="CellType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A cell in a table.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence minOccurs="0"
+                  maxOccurs="unbounded">
+      <xsd:group ref="s:TableContent"/>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the cell.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Cell"
+               type="s:CellType"/>
+
+  <xsd:complexType name="RowType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A row of cells in a table.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence minOccurs="1"
+                  maxOccurs="unbounded">
+      <xsd:element ref="s:Cell"/>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the row.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Row"
+               type="s:RowType"/>
+
+  <xsd:complexType name="TableType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A table. A table consists of a list of column definitions, followed by a sequence of rows consisting of the
+        table cells.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element ref="s:Columns"/>
+      <xsd:sequence minOccurs="1"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:Row"/>
+      </xsd:sequence>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the table.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Table"
+               type="s:TableType"/>
+
+  <xsd:complexType name="TermType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A term acts as a simple container of one or more words in a sentence. Term elements can be used to denote the
+        semantics of words, such as wrapping the name of a mathematical function in a &lt;Term type="function"&gt;
+        element.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute type="s:typeType"
+                   name="type"
+                   use="required">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the term.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Term"
+               type="s:TermType"/>
+
+  <xsd:complexType name="LinkType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A Link element describes a link to an element within the current document. Links may only refer to elements that
+        contain an appropriate 'id' attribute.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute type="s:uuidType"
+                   name="target"
+                   use="required">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The target of the link, which must be an element with an appropriate 'id' attribute.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the link.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Link"
+               type="s:LinkType"/>
+
+  <xsd:complexType name="LinkFootnoteType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A LinkFootnote element describes a link to a footnote within the current section.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute type="s:uuidType"
+                   name="target"
+                   use="required">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The target of the link, which must be a Footnote with a matching 'id' attribute.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the link.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="LinkFootnote"
+               type="s:LinkFootnoteType"/>
+
+  <xsd:complexType name="LinkExternalType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A LinkExternal element describes a link to an external URI.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute type="xsd:anyURI"
+                   name="target"
+                   use="required">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The target URI.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the link.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="LinkExternal"
+               type="s:LinkExternalType"/>
+
+  <xsd:complexType name="VerbatimType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A Verbatim element contains text that should be reproduced exactly, with almost all whitespace intact. Renderers
+        are permitted to trim leading and trailing whitespace.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the verbatim text.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Verbatim"
+               type="s:VerbatimType"/>
+
+  <xsd:group name="FormalItemContent">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of content that can appear in formal items.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:choice>
+      <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
+      <xsd:element ref="s:ListOrdered"/>
+      <xsd:element ref="s:ListUnordered"/>
+      <xsd:element ref="s:Table"/>
+      <xsd:element ref="s:Term"/>
+      <xsd:element ref="s:Verbatim"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:group name="ParagraphContent">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of content that can appear in paragraphs.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:choice>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
+      <xsd:element ref="s:Term"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:simpleType name="MetaPropertyNameType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of meta property names.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="([a-z0-9_\-]+)(.([a-z0-9_\-]+))+"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="MetaPropertyType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A metadata property.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:attribute name="name"
+                   use="required"
+                   type="s:MetaPropertyNameType"/>
+    <xsd:attribute name="visible"
+                   use="optional"
+                   default="false"
+                   type="xsd:boolean"/>
+  </xsd:complexType>
+
+  <xsd:element name="MetaProperty"
+               type="s:MetaPropertyType"/>
+
+  <xsd:complexType name="MetadataType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        An element containing document metadata.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:group ref="dc:elementsGroup"/>
+      <xsd:sequence minOccurs="0"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:MetaProperty"/>
+      </xsd:sequence>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+  </xsd:complexType>
+
+  <xsd:element name="Metadata"
+               type="s:MetadataType"/>
+
+  <xsd:complexType name="ParagraphType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A paragraph denotes a self-contained series of sentences.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence minOccurs="0"
+                  maxOccurs="unbounded">
+      <xsd:group ref="s:ParagraphContent"/>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the paragraph.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="id"
+                   type="s:uuidType"
+                   use="optional"/>
+  </xsd:complexType>
+
+  <xsd:element name="Paragraph"
+               type="s:ParagraphType"/>
+
+  <xsd:complexType name="FormalItemType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A formal item is analogous to a "figure" in printed text. Formal items are used to significant images, tables of
+        data, code listings, and other important objects into texts. They are considered to be at the same level of
+        structural significance as paragraphs.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:group ref="s:FormalItemContent"/>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the formal item.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="id"
+                   type="s:uuidType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The unique identifier of the formal item.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="title"
+                   type="xsd:string"
+                   use="required">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The title of the formal item.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="FormalItem"
+               type="s:FormalItemType"/>
+
+  <xsd:group name="SubsectionContent">
+    <xsd:choice>
+      <xsd:element ref="s:Paragraph"/>
+      <xsd:element ref="s:FormalItem"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:complexType name="SubsectionType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A Subsection is a structural element that denotes a part of the document similar to a chapter.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:choice>
+      <xsd:sequence minOccurs="1"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:Subsection"/>
+      </xsd:sequence>
+      <xsd:sequence minOccurs="1"
+                    maxOccurs="unbounded">
+        <xsd:group ref="s:SubsectionContent"/>
+      </xsd:sequence>
+    </xsd:choice>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the subsection.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="id"
+                   type="s:uuidType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The unique identifier of the subsection.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="title"
+                   type="xsd:string"
+                   use="required">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The title of the subsection.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Subsection"
+               type="s:SubsectionType"/>
+
+  <xsd:group name="FootnoteContent">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of content that may appear in footnotes.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:choice>
+      <xsd:element ref="s:Image"/>
+      <xsd:element ref="s:Link"/>
+      <xsd:element ref="s:LinkExternal"/>
+      <xsd:element ref="s:LinkFootnote"/>
+      <xsd:element ref="s:ListOrdered"/>
+      <xsd:element ref="s:ListUnordered"/>
+      <xsd:element ref="s:Table"/>
+      <xsd:element ref="s:Term"/>
+      <xsd:element ref="s:Verbatim"/>
+    </xsd:choice>
+  </xsd:group>
+
+  <xsd:complexType name="FootnoteType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A Footnote is a note of referenc or comment usually placed at the bottom of a page. Footnotes may be referenced
+        by LinkFootnote elements.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence minOccurs="0"
+                  maxOccurs="unbounded">
+      <xsd:group ref="s:FootnoteContent"/>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+
+    <xsd:attribute name="id"
+                   type="s:uuidType"
+                   use="required">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The unique identifier of the footnote.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Footnote"
+               type="s:FootnoteType"/>
+
+  <xsd:complexType name="SectionType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A Section is a structural element that denotes a part of the document similar to a chapter. Renderers that
+        produce multiple pages MUST insert whatever is analogous to a page break at the end of a section.
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:choice>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s:Section"/>
+        </xsd:sequence>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s:Subsection"/>
+        </xsd:sequence>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:group ref="s:SubsectionContent"/>
+        </xsd:sequence>
+      </xsd:choice>
+      <xsd:sequence minOccurs="0"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:Footnote"/>
+      </xsd:sequence>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+    <xsd:attributeGroup ref="s:tableOfContentAttributes"/>
+
+    <xsd:attribute name="type"
+                   type="s:typeType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of the section.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="id"
+                   type="s:uuidType"
+                   use="optional">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The unique identifier of the section.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+
+    <xsd:attribute name="title"
+                   type="xsd:string"
+                   use="required">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The title of the section.
+        </xsd:documentation>
+      </xsd:annotation>
+    </xsd:attribute>
+  </xsd:complexType>
+
+  <xsd:element name="Section"
+               type="s:SectionType">
+
+    <xsd:unique name="SectionFootnoteKey">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All footnotes within a section must have unique identifiers.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath="s:Footnote"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:keyref name="SectionFootnoteReferencesParagraph"
+                refer="s:SectionFootnoteKey">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All footnote links in paragraphs must refer to footnotes that exist in this section.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath="s:Paragraph/*/s:LinkFootnote"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+
+    <xsd:keyref name="SectionFootnoteReferencesSubsection"
+                refer="s:SectionFootnoteKey">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All footnote links in subsections must refer to footnotes that exist in this section.
+        </xsd:documentation>
+      </xsd:annotation>
+      <xsd:selector xpath="s:Subsection/*/s:LinkFootnote"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+  </xsd:element>
+
+  <xsd:complexType name="DocumentType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The Document element represents the top-level structure of a document. The name 'document' is somewhat of a
+        misnomer, as nothing prevents the document from being structured as a book (with chapters, etc). The document
+        begins with standard Dublin Core metadata, and contains _either_ a series of sections _or_ a series of
+        subsections (but not both).
+      </xsd:documentation>
+    </xsd:annotation>
+
+    <xsd:sequence>
+      <xsd:element ref="s:Metadata"/>
+      <xsd:choice>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s:Section"/>
+        </xsd:sequence>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="s:Subsection"/>
+        </xsd:sequence>
+      </xsd:choice>
+      <xsd:sequence minOccurs="0"
+                    maxOccurs="unbounded">
+        <xsd:element ref="s:Footnote"/>
+      </xsd:sequence>
+    </xsd:sequence>
+
+    <xsd:attributeGroup ref="s:standardXMLAttributes"/>
+    <xsd:attributeGroup ref="s:tableOfContentAttributes"/>
+  </xsd:complexType>
+
+  <xsd:element name="Document"
+               type="s:DocumentType">
+    <xsd:unique name="ItemIDsAreUnique">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All 'id' attributes specified on objects within the document must be unique.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath=".//s:FormalItem|.//s:Paragraph|.//s:Subsection|.//s:Section|.//s:Footnote"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:unique name="LinkReferencesAreUnique">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All 'id' attributes specified on objects within the document must be unique.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath=".//s:FormalItem|.//s:Paragraph|.//s:Subsection|.//s:Section"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:keyref name="LinkReferences"
+                refer="s:LinkReferencesAreUnique">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All Link elements must refer to elements with existing 'id' attributes.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath=".//s:Link"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+
+    <xsd:unique name="DocumentFootnoteKey">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All 'id' attributes specified on footnotes within the document must be unique.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath="s:Footnote"/>
+      <xsd:field xpath="@id"/>
+    </xsd:unique>
+
+    <xsd:keyref name="DocumentFootnoteReferences"
+                refer="s:DocumentFootnoteKey">
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          All footnote references must refer to footnotes that exist.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:selector xpath="s:Subsection/*/s:LinkFootnote"/>
+      <xsd:field xpath="@target"/>
+    </xsd:keyref>
+  </xsd:element>
+
+</xsd:schema>

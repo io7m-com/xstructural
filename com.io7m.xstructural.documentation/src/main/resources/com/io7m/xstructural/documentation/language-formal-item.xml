@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section xmlns="urn:com.io7m.structural:7:0"
+<Section xmlns="urn:com.io7m.structural:8:0"
          id="13029feb-2126-4d72-9151-63607152b7db"
          title="FormalItem">
 
@@ -33,7 +33,7 @@
     </Paragraph>
     <FormalItem title="FormalItem Example">
       <Verbatim><![CDATA[
-<Subsection xmlns="urn:com.io7m.structural:7:0"
+<Subsection xmlns="urn:com.io7m.structural:8:0"
          id="0636fa84-2bd5-4cb5-acc5-10ca70948bbf"
          title="Subsection">
   <FormalItem title="FormalItem Example">

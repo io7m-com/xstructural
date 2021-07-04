@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Document xmlns="urn:com.io7m.structural:8:0"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+          tableOfContentsDepth="3"
+          tableOfContents="true">
+
+  <Metadata>
+    <dc:contributor>A Contributor</dc:contributor>
+    <dc:creator>A Creator</dc:creator>
+    <dc:date>2020-04-23T10:19:25+00:00</dc:date>
+    <dc:description>An example article.</dc:description>
+    <dc:identifier>c65fa00d-0870-405e-8f13-258e5cf4992d</dc:identifier>
+    <dc:language>English</dc:language>
+    <dc:publisher>A Publisher</dc:publisher>
+    <dc:relation>A Relation</dc:relation>
+    <dc:rights>CC-0</dc:rights>
+    <dc:source>A Source</dc:source>
+    <dc:title>Example Document</dc:title>
+  </Metadata>
+
+  <Subsection title="74a2a5ae-7070-445b-8c63-00292ba343b1">
+    <Paragraph>
+      <LinkFootnote target="ecd8e688-cf90-415f-9286-7bfd8323d891"/>.
+    </Paragraph>
+  </Subsection>
+
+  <Footnote id="ecd8e688-cf90-415f-9286-7bfd8323d891">
+    Some footnote data.
+  </Footnote>
+
+</Document>

@@ -47,6 +47,16 @@ Usage: xstructural [options] [command] [command options]
             Default: info
             Possible Values: [trace, debug, info, warn, error]
 
+    validate-xhtml      Validate an XHTML document
+      Usage: validate-xhtml [options]
+        Options:
+        * --sourceDirectory
+            The source directory
+          --verbose
+            Set the minimum logging verbosity level
+            Default: info
+            Possible Values: [trace, debug, info, warn, error]
+
     xhtml      Transform a structural document to XHTML
       Usage: xhtml [options]
         Options:

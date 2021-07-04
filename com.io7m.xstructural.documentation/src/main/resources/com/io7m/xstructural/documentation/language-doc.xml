@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section xmlns="urn:com.io7m.structural:7:0"
+<Section xmlns="urn:com.io7m.structural:8:0"
          id="a49dac27-48f0-4504-8e03-8f0b73cd9c46"
          title="Document">
 
@@ -31,8 +31,8 @@
           <Cell>urn:com.io7m.structural:7:0</Cell>
         </Row>
         <Row>
-          <Cell>Structural 7.1</Cell>
-          <Cell>urn:com.io7m.structural:7:1</Cell>
+          <Cell>Structural 8.0</Cell>
+          <Cell>urn:com.io7m.structural:8:0</Cell>
         </Row>
       </Table>
     </FormalItem>
@@ -112,7 +112,7 @@
   <Subsection title="Examples">
     <FormalItem title="Document Example">
       <Verbatim><![CDATA[
-<Document xmlns="urn:com.io7m.structural:7:0" tableOfContentsDepth="2" id="14ab90da-7947-420c-a5f8-d9c9c87fbddc">
+<Document xmlns="urn:com.io7m.structural:8:0" tableOfContentsDepth="2" id="14ab90da-7947-420c-a5f8-d9c9c87fbddc">
   ...
 </Document>
 ]]></Verbatim>

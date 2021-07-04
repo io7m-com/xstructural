@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -176,7 +176,7 @@ public final class SXMLResources
       "dc.xsd",
       "xml.xsd",
       "xstructural-7.xsd",
-      "xstructural-7_1.xsd"
+      "xstructural-8.xsd"
     );
   }
 
@@ -190,11 +190,12 @@ public final class SXMLResources
   }
 
   /**
-   * @deprecated Use {@link #schema7p0()}
    * @return The xstructural XSD schema
+   *
+   * @deprecated Use {@link #schema7p0()}
    */
 
-  @Deprecated(since = "1.3.0")
+  @Deprecated(since = "1.3.0", forRemoval = true)
   public URL schema()
   {
     return SXMLResources.class.getResource("xstructural-7.xsd");
@@ -202,6 +203,8 @@ public final class SXMLResources
 
   /**
    * @return The xstructural XSD 7.0 schema
+   *
+   * @since 1.3.0
    */
 
   public URL schema7p0()
@@ -210,57 +213,116 @@ public final class SXMLResources
   }
 
   /**
-   * @return The xstructural XSD 7.1 schema
+   * @return The xstructural XSD 8.0 schema
+   *
+   * @since 1.3.0
    */
 
-  public URL schema7p1()
+  public URL schema8p0()
   {
-    return SXMLResources.class.getResource("xstructural-7_1.xsd");
+    return SXMLResources.class.getResource("xstructural-8.xsd");
   }
 
   /**
    * @return The xstructural core XSL stylesheet
+   *
+   * @deprecated The core stylesheet is no longer available
    */
 
+  @Deprecated(since = "1.3.0", forRemoval = true)
   public URL core()
   {
-    return SXMLResources.class.getResource("xstructural1-core.xsl");
+    throw new UnsupportedOperationException();
   }
 
   /**
    * @return The xstructural multi-page XSL stylesheet
+   *
+   * @deprecated Use a version-specific multi stylesheet
    */
 
+  @Deprecated(since = "1.3.0", forRemoval = true)
   public URL multi()
   {
-    return SXMLResources.class.getResource("xstructural1-multi.xsl");
+    throw new UnsupportedOperationException();
   }
 
   /**
    * @return The xstructural single-page XSL stylesheet
+   *
+   * @deprecated Use a version-specific single stylesheet
    */
 
+  @Deprecated(since = "1.3.0", forRemoval = true)
   public URL single()
   {
-    return SXMLResources.class.getResource("xstructural1-single.xsl");
+    throw new UnsupportedOperationException();
   }
 
   /**
-   * @return The xstructural EPUB XSL stylesheet
+   * @return The xstructural 7.0 single-page XSL stylesheet
+   *
+   * @since 1.3.0
    */
 
-  public URL epub()
+  public URL s7Single()
   {
-    return SXMLResources.class.getResource("xstructural1-epub.xsl");
+    return SXMLResources.class.getResource("s7/xstructural7-web-single.xsl");
   }
 
   /**
-   * @return The xstructural EPUB package XSL stylesheet
+   * @return The xstructural 7.0 multi-page XSL stylesheet
+   *
+   * @since 1.3.0
    */
 
-  public URL epubPackage()
+  public URL s7Multi()
   {
-    return SXMLResources.class.getResource("xstructural1-epub-package.xsl");
+    return SXMLResources.class.getResource("s7/xstructural7-web-multi.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 single-page XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s8Single()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-web-single.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 multi-page XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s8Multi()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-web-multi.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 EPUB XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s8Epub()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-epub.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 EPUB package XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s8EpubPackage()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-epub-package.xsl");
   }
 
   /**
@@ -274,6 +336,8 @@ public final class SXMLResources
 
   /**
    * @return The xstructural EPUB CSS stylesheet
+   *
+   * @since 1.3.0
    */
 
   public URL cssStructuralEPUB()
@@ -292,6 +356,8 @@ public final class SXMLResources
 
   /**
    * @return The xstructural EPUB reset CSS stylesheet
+   *
+   * @since 1.3.0
    */
 
   public URL cssResetEPUB()

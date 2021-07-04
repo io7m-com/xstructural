@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -90,12 +90,12 @@ public final class XSResourceResolver implements LSResourceResolver
             input.setByteStream(this.resources.xstructuralResourceOf("xstructural-7.xsd").openStream());
             return input;
           }
-          case "urn:com.io7m.structural:7:1": {
+          case "urn:com.io7m.structural:8:0": {
             final var input = this.domImplementationLS.createLSInput();
             input.setSystemId(systemId);
             input.setPublicId(publicId);
             input.setBaseURI(baseURI);
-            input.setByteStream(this.resources.xstructuralResourceOf("xstructural-7_1.xsd").openStream());
+            input.setByteStream(this.resources.xstructuralResourceOf("xstructural-8.xsd").openStream());
             return input;
           }
           default: {

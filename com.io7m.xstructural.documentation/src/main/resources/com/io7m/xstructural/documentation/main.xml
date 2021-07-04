@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Document xmlns="urn:com.io7m.structural:7:1"
+<Document xmlns="urn:com.io7m.structural:8:0"
           xmlns:dc="http://purl.org/dc/elements/1.1/"
           xmlns:xi="http://www.w3.org/2001/XInclude"
           tableOfContentsDepth="1">
@@ -16,6 +16,8 @@
 
     <MetaProperty name="com.io7m.xstructural.epub.colophon">colophon_extra.xml</MetaProperty>
     <MetaProperty name="com.io7m.xstructural.epub.cover">cover.jpg</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.web.branding.header">brand.xml</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.web.branding.footer">brand.xml</MetaProperty>
   </Metadata>
 
   <xi:include href="language.xml"/>

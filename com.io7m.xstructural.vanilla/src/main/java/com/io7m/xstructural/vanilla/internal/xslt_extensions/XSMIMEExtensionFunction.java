@@ -71,7 +71,7 @@ public final class XSMIMEExtensionFunction
     final XdmValue[] arguments)
   {
     final String arg = arguments[0].itemAt(0).getStringValue();
-    LOG.debug("mimeOf: {}", arg);
+    LOG.trace("mimeOf: {}", arg);
 
     final var argUpper = arg.toUpperCase(Locale.ROOT);
     if (argUpper.endsWith(".PNG")) {

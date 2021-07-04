@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -64,22 +64,28 @@ public final class XSProcessor implements XSProcessorType
   public void execute()
     throws XSProcessorException
   {
-    this.validator.execute();
-
     switch (this.request.task()) {
       case VALIDATE: {
+        this.validator.execute();
         break;
       }
       case TRANSFORM_XHTML: {
+        this.validator.execute();
         this.transformer.execute();
         this.xhtmlValidator.execute();
         break;
       }
-      case TRANSFORM_EPUB:
+      case TRANSFORM_EPUB: {
+        this.validator.execute();
         this.transformer.execute();
         this.xhtmlValidator.execute();
         this.epubCreator.execute();
         break;
+      }
+      case VALIDATE_XHTML: {
+        this.xhtmlValidator.execute();
+        break;
+      }
     }
   }
 }

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section xmlns="urn:com.io7m.structural:7:0" title="API">
+<Section xmlns="urn:com.io7m.structural:8:0" title="API">
   <Subsection title="Usage">
     <FormalItem title="Usage">
       <Verbatim><![CDATA[
