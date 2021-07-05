@@ -60,7 +60,7 @@
       <LinkExternal target="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</LinkExternal>
       value specified using the <Term type="parameter">id</Term> attribute. It is possible to then link to
       those elements from within the document text using the <Link
-      target="88660fca-74ea-4a3b-bb59-32d750a515a3">Link</Link>, and the schema will guarantee the
+      target="88660fca-74ea-4a3b-bb59-32d750a515a3">Link</Link> element, and the schema will guarantee the
       integrity of internal links at validation time.
     </Paragraph>
   </Subsection>

@@ -7,9 +7,9 @@
   <Section title="Description">
     <Subsection title="Overview">
       <Paragraph>
-        The <Term type="package">xstructural</Term> package provides an <LinkExternal target="https://www.w3.org/TR/xslt-30/">
-        XSLT 3.0
-      </LinkExternal> implementation of the <Term type="language">structural</Term> documentation language.
+        The <Term type="package">xstructural</Term> package provides an
+        <LinkExternal target="https://www.w3.org/TR/xslt20/">XSLT 2.0</LinkExternal> implementation of
+        the <Term type="language">structural</Term> documentation language.
       </Paragraph>
       <Paragraph>
         In contrast to other systems such as
