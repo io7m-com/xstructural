@@ -364,8 +364,9 @@ h6
 
 .stItem
 {
-  font-family: var(--stContentFont);
-  color:       var(--stContentColor);
+  font-family:   var(--stContentFont);
+  color:         var(--stContentColor);
+  padding-right: 1em;
 }
 
 /*
