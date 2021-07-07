@@ -114,7 +114,7 @@
 
   <Footnote id="9977adf0-b726-46e6-bc98-11176e1d2916">
     The <Term type="element">MetaProperty</Term> elements were added in version
-    <Term type="constant">7.1</Term>
+    <Term type="constant">8.0</Term>
     of the <Term type="term">structural</Term> language.
   </Footnote>
 
