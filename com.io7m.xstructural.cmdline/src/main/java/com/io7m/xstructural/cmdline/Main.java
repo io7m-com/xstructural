@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -53,19 +53,25 @@ public final class Main implements Runnable
 
     final XSCommandRoot r = new XSCommandRoot();
     final var validate = new XSCommandValidate();
+    final var validateXhtml = new XSCommandValidateXHTML();
     final var xhtml = new XSCommandTransformXHTML();
+    final var epub = new XSCommandTransformEPUB();
     final var schema = new XSCommandSchema();
 
     this.commands = new HashMap<>(8);
-    this.commands.put("validate", validate);
-    this.commands.put("xhtml", xhtml);
+    this.commands.put("epub", epub);
     this.commands.put("schema", schema);
+    this.commands.put("validate", validate);
+    this.commands.put("validate-xhtml", validateXhtml);
+    this.commands.put("xhtml", xhtml);
 
     this.commander = new JCommander(r);
     this.commander.setProgramName("xstructural");
-    this.commander.addCommand("validate", validate);
-    this.commander.addCommand("xhtml", xhtml);
+    this.commander.addCommand("epub", epub);
     this.commander.addCommand("schema", schema);
+    this.commander.addCommand("validate", validate);
+    this.commander.addCommand("validate-xhtml", validateXhtml);
+    this.commander.addCommand("xhtml", xhtml);
   }
 
   /**

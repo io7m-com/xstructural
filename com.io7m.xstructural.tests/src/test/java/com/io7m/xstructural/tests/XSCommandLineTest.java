@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -25,6 +25,7 @@ import java.io.IOException;
 import java.io.UncheckedIOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.stream.Collectors;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
 
@@ -60,7 +61,10 @@ public final class XSCommandLineTest
     final var main = new Main(new String[]{
 
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(1, main.exitCode());
   }
 
@@ -73,12 +77,15 @@ public final class XSCommandLineTest
       "--outputDirectory",
       this.outputDirectory.toString()
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(1, main.exitCode());
   }
 
   @Test
-  public void testValidateOK()
+  public void testValidateOK_70()
     throws Exception
   {
     final var main = new Main(new String[]{
@@ -87,18 +94,42 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example0.xml")
+        "example0_70.xml")
         .toString(),
       "--verbose",
       "trace"
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
   }
 
+  @Test
+  public void testValidateOK_80()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "validate",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_80.xml")
+        .toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+  }
 
   @Test
-  public void testTransformXHTMLMissingOutput()
+  public void testTransformXHTMLMissingOutput_70()
     throws Exception
   {
     final var main = new Main(new String[]{
@@ -107,10 +138,13 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example0.xml")
+        "example0_70.xml")
         .toString()
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(1, main.exitCode());
   }
 
@@ -123,12 +157,15 @@ public final class XSCommandLineTest
       "--outputDirectory",
       this.outputDirectory.toString()
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(1, main.exitCode());
   }
 
   @Test
-  public void testTransformXHTMLOK()
+  public void testTransformXHTMLOK_70()
     throws Exception
   {
     final var main = new Main(new String[]{
@@ -137,19 +174,22 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example0.xml")
+        "example0_70.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
       "--verbose",
       "trace"
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
   }
 
   @Test
-  public void testTransformXHTMLSingleOK()
+  public void testTransformXHTMLOK_80()
     throws Exception
   {
     final var main = new Main(new String[]{
@@ -158,7 +198,31 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example0.xml")
+        "example0_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+  }
+
+  @Test
+  public void testTransformXHTMLSingleOK_70()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "xhtml",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_70.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
@@ -171,7 +235,10 @@ public final class XSCommandLineTest
       "--stylesheet",
       "SINGLE_FILE"
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
 
     Assertions.assertTrue(
@@ -189,7 +256,7 @@ public final class XSCommandLineTest
   }
 
   @Test
-  public void testTransformXHTMLSingleBrandingOK()
+  public void testTransformXHTMLSingleOK_80()
     throws Exception
   {
     final var main = new Main(new String[]{
@@ -198,7 +265,7 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example0.xml")
+        "example0_80.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
@@ -208,12 +275,13 @@ public final class XSCommandLineTest
       this.directory.resolve("messages.log").toString(),
       "--verbose",
       "trace",
-      "--brandingFile",
-      this.branding.toString(),
       "--stylesheet",
       "SINGLE_FILE"
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
 
     Assertions.assertTrue(
@@ -231,7 +299,7 @@ public final class XSCommandLineTest
   }
 
   @Test
-  public void testTransformXHTMLMultiOK()
+  public void testTransformXHTMLSingleBrandingOK_70()
     throws Exception
   {
     final var main = new Main(new String[]{
@@ -240,7 +308,97 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example0.xml")
+        "example0_70.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace",
+      "--brandingFile",
+      this.branding.toString(),
+      "--stylesheet",
+      "SINGLE_FILE"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.outputDirectory.resolve("index.xhtml")),
+      "Index file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLSingleBrandingOK_80()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "xhtml",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace",
+      "--brandingFile",
+      this.branding.toString(),
+      "--stylesheet",
+      "SINGLE_FILE"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.outputDirectory.resolve("index.xhtml")),
+      "Index file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLMultiOK_70()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "xhtml",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_70.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
@@ -253,7 +411,10 @@ public final class XSCommandLineTest
       "--stylesheet",
       "MULTIPLE_FILE"
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
 
     Assertions.assertTrue(
@@ -267,7 +428,7 @@ public final class XSCommandLineTest
   }
 
   @Test
-  public void testTransformXHTMLMultiBrandingOK()
+  public void testTransformXHTMLMultiOK_80()
     throws Exception
   {
     final var main = new Main(new String[]{
@@ -276,7 +437,46 @@ public final class XSCommandLineTest
       XSTestDirectories.resourceOf(
         XSCommandLineTest.class,
         this.sourceDirectory,
-        "example0.xml")
+        "example0_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace",
+      "--stylesheet",
+      "MULTIPLE_FILE"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLMultiBrandingOK_70()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "xhtml",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_70.xml")
         .toString(),
       "--outputDirectory",
       this.outputDirectory.toString(),
@@ -291,7 +491,51 @@ public final class XSCommandLineTest
       "--stylesheet",
       "MULTIPLE_FILE"
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLMultiBrandingOK_80()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "xhtml",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace",
+      "--brandingFile",
+      this.branding.toString(),
+      "--stylesheet",
+      "MULTIPLE_FILE"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
 
     Assertions.assertTrue(
@@ -313,9 +557,23 @@ public final class XSCommandLineTest
       "--outputDirectory",
       this.outputDirectory.toString()
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
-    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+
+    final var files =
+      Files.list(this.outputDirectory)
+        .map(Path::getFileName)
+        .map(Path::toString)
+        .collect(Collectors.toList());
+
+    Assertions.assertEquals(4L, (long) files.size());
+    Assertions.assertTrue(files.contains("xml.xsd"));
+    Assertions.assertTrue(files.contains("dc.xsd"));
+    Assertions.assertTrue(files.contains("xstructural-7.xsd"));
+    Assertions.assertTrue(files.contains("xstructural-8.xsd"));
   }
 
   @Test
@@ -327,9 +585,12 @@ public final class XSCommandLineTest
       "--outputDirectory",
       this.outputDirectory.toString()
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
-    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+    Assertions.assertEquals(4L, Files.list(this.outputDirectory).count());
 
     Files.list(this.outputDirectory)
       .forEach(path -> {
@@ -347,7 +608,7 @@ public final class XSCommandLineTest
     });
     mainAgain.run();
     Assertions.assertEquals(0, mainAgain.exitCode());
-    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+    Assertions.assertEquals(4L, Files.list(this.outputDirectory).count());
 
     Files.list(this.outputDirectory)
       .forEach(path -> {
@@ -369,9 +630,12 @@ public final class XSCommandLineTest
       "--outputDirectory",
       this.outputDirectory.toString()
     });
-    main.run();
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
     Assertions.assertEquals(0, main.exitCode());
-    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+    Assertions.assertEquals(4L, Files.list(this.outputDirectory).count());
 
     Files.list(this.outputDirectory)
       .forEach(path -> {
@@ -391,7 +655,7 @@ public final class XSCommandLineTest
     });
     mainAgain.run();
     Assertions.assertEquals(0, mainAgain.exitCode());
-    Assertions.assertEquals(3L, Files.list(this.outputDirectory).count());
+    Assertions.assertEquals(4L, Files.list(this.outputDirectory).count());
 
     Files.list(this.outputDirectory)
       .forEach(path -> {
@@ -402,5 +666,329 @@ public final class XSCommandLineTest
                  }
                }
       );
+  }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample0_70()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_70.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(1, main.exitCode());
+    Assertions.assertTrue(capture.textError().contains(
+      "Producing EPUB files from 7.0 documents is unsupported. Use 8.0 or newer."));
+
+    Assertions.assertFalse(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample1_70()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example1_70.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(1, main.exitCode());
+    Assertions.assertTrue(capture.textError().contains(
+      "Producing EPUB files from 7.0 documents is unsupported. Use 8.0 or newer."));
+
+    Assertions.assertFalse(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample1_80()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example1_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample2_70()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example2_70.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(1, main.exitCode());
+    Assertions.assertTrue(capture.textError().contains(
+      "Producing EPUB files from 7.0 documents is unsupported. Use 8.0 or newer."));
+
+    Assertions.assertFalse(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample2_80()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example2_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
+  }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExample0_80()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("trace.xml")),
+      "Trace file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.directory.resolve("messages.log")),
+      "Messages file exists"
+    );
+    Assertions.assertTrue(
+      Files.isRegularFile(this.outputDirectory.resolve("output.epub")),
+      "EPUB file exists"
+    );
   }
 }

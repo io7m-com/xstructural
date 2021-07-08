@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         id="a49dac27-48f0-4504-8e03-8f0b73cd9c46"
+         title="Document">
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="element">Document</Term> element describes the top-level structure of a document. A document
+      consists of <Link target="027296c3-c406-4191-a444-5b10873094e8">metadata</Link>, and a set of top-level
+      <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">sections</Link>
+      or
+      <Link target="55ae1912-9aec-402a-babe-ed7778e76599">subsections</Link>
+      (but not both).
+    </Paragraph>
+    <Paragraph>
+      A <Term type="element">Document</Term> must carry a <Term type="term">schema version declaration</Term> that
+      indicates to which version of the <Term type="term">structural</Term> language the document is expected to
+      confirm. This is achieved with the use of an <LinkExternal target="https://www.w3.org/TR/REC-xml-names/">xmlns
+    </LinkExternal> attribute on the <Term type="element">Document</Term> element. The currently published language
+      versions are:
+    </Paragraph>
+    <FormalItem title="Language Versions">
+      <Table type="genericTable">
+        <Columns>
+          <Column>Language</Column>
+          <Column>Identifier</Column>
+        </Columns>
+        <Row>
+          <Cell>Structural 7.0</Cell>
+          <Cell>urn:com.io7m.structural:7:0</Cell>
+        </Row>
+        <Row>
+          <Cell>Structural 8.0</Cell>
+          <Cell>urn:com.io7m.structural:8:0</Cell>
+        </Row>
+      </Table>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Tables Of Content">
+    <Paragraph>
+      Renderers encountering a <Term type="element">Document</Term> element will typically generate a table of contents
+      for the entire document. The <Term type="parameter">tableOfContentsDepth</Term> attribute on the <Term type="element">
+      Document
+    </Term> instructs renderers as to how far into the list of
+      <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">sections</Link>
+      or
+      <Link target="55ae1912-9aec-402a-babe-ed7778e76599">subsections</Link>
+      the rendering algorithm should recurse in order to generate the table of contents. For example, an author may
+      choose to only include top-level <Term type="element">Section</Term> elements in the table of contents and would
+      therefore specify <Term type="expression">tableOfContentsDepth="1"</Term>.
+    </Paragraph>
+  </Subsection>
+  
+  <Subsection title="Identities" id="39506c3e-1361-4f81-be32-8c110a19d9bb">
+    <Paragraph>
+      Many elements within a <Term type="element">Document</Term> may be assigned <Term type="term">unique 
+      identifiers</Term>. A <Term type="term">unique identifier</Term> is a
+      <LinkExternal target="https://en.wikipedia.org/wiki/Universally_unique_identifier">UUID</LinkExternal>
+      value specified using the <Term type="parameter">id</Term> attribute. It is possible to then link to
+      those elements from within the document text using the <Link
+      target="88660fca-74ea-4a3b-bb59-32d750a515a3">Link</Link> element, and the schema will guarantee the
+      integrity of internal links at validation time.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Links">
+    <Paragraph>
+      As described in the <Link target="39506c3e-1361-4f81-be32-8c110a19d9bb">Identities</Link> section,
+      many significant elements in a document may be the target of the <Link
+      target="88660fca-74ea-4a3b-bb59-32d750a515a3">Link</Link> element. The <Term type="term">structural</Term> language
+      distinguishes between different types of links in order to apply varying degrees of integrity checking, and
+      to allow renderers to render links differently based on types. The following kinds of links are
+      currently supported:
+    </Paragraph>
+    <FormalItem title="Link Types">
+      <ListUnordered>
+        <Item>
+          <Link target="88660fca-74ea-4a3b-bb59-32d750a515a3">Link</Link> - a link to a document element. Subject
+          to integrity checks at validation time.
+        </Item>
+        <Item>
+          <Link target="217b1f13-a98b-4fe7-a701-700073818f33">LinkExternal</Link> - a link to an external document
+          such as a web site. Not subject to integrity checks.
+        </Item>
+        <Item>
+          <Link target="b611d66f-e82d-4afd-b908-f27340718651">LinkFootnote</Link> - a link to a footnote.
+          Subject to integrity checks at validation time.
+        </Item>
+      </ListUnordered>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Types">
+    <Paragraph>
+      Most elements within documents allow for the specification of
+      <Term type="parameter">type</Term> attributes. The <Term type="parameter">type</Term> attribute is
+      used to add semantic tags to elements that can be interpreted by renderers in various ways. Typically,
+      the <Term type="parameter">type</Term> attribute is translated directly to a
+      <LinkExternal target="https://en.wikipedia.org/wiki/CSS">CSS</LinkExternal> class. The attributes can
+      also be consumed by document processors that are trying to extract other semantic information
+      from documents. For example, in this documentation, the term <Term type="package">xstructural</Term>
+      is always expressed as a <Link target="8265ab1b-7524-4af9-8415-3dc787bd959f">Term</Link> element
+      with a <Term type="parameter">type</Term> attribute set to <Term type="constant">package</Term>. This
+      is intended to indicate to a document processor that the term means "a software package named xstructural".
+      Document authors that are not interested in semantic information can use the
+      <Term type="parameter">type</Term> attribute purely for formatting, or alternatively can ignore it entirely.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Document Example">
+      <Verbatim><![CDATA[
+<Document xmlns="urn:com.io7m.structural:8:0" tableOfContentsDepth="2" id="14ab90da-7947-420c-a5f8-d9c9c87fbddc">
+  ...
+</Document>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+</Section>

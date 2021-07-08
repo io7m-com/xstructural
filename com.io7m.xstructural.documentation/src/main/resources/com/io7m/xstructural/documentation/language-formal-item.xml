@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         id="13029feb-2126-4d72-9151-63607152b7db"
+         title="FormalItem">
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="element">FormalItem</Term> element is analogous to
+      a <Link target="01d0fde7-7742-47a9-864c-b9c55e2e9980">Paragraph</Link>
+      except that it has a defined title. A <Term type="element">FormalItem</Term> element
+      is commonly used to represent an object similar to a
+      <Term type="term">figure</Term> in printed books.
+    </Paragraph>
+    <Paragraph>
+      <Term type="element">FormalItem</Term> elements consist entirely of
+      <Link target="8e536f96-16e1-4f4a-bc3a-6613e20cb504">inline content</Link>.
+    </Paragraph>
+    <Paragraph>
+      <Term type="element">FormalItem</Term> elements are numbered with respect
+      to other <Term type="element">FormalItem</Term> and
+      <Link target="01d0fde7-7742-47a9-864c-b9c55e2e9980">Paragraph</Link>
+      elements within the same
+      <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">Section</Link>
+      or
+      <Link target="55ae1912-9aec-402a-babe-ed7778e76599">Subsection</Link>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <Paragraph>
+      This example is, itself, a <Term type="element">FormalItem</Term> element.
+    </Paragraph>
+    <FormalItem title="FormalItem Example">
+      <Verbatim><![CDATA[
+<Subsection xmlns="urn:com.io7m.structural:8:0"
+         id="0636fa84-2bd5-4cb5-acc5-10ca70948bbf"
+         title="Subsection">
+  <FormalItem title="FormalItem Example">
+    <Image source="http://www.example.com/image.png">
+      An example image.
+    </Image>
+  </FormalItem>
+</Subsection>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+</Section>

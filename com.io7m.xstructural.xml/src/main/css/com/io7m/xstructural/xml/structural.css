@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -19,18 +19,21 @@
  */
 
 :root {
-  --stColumnWidthLeft: 15%;
-  --stColumnWidthMain: 85%;
-  --stContentColor: #202020;
-  --stContentFont: sans-serif;
-  --stHeaderColor: #202020;
-  --stHeaderFont: sans-serif;
-  --stMainWidth: 55em;
-  --stBackgroundColor: #fff;
+  --stBackgroundColor:  #fff;
+  --stColumnWidthLeft:  10%;
+  --stColumnWidthMain:  90%;
+  --stContentColor:     #202020;
+  --stContentFont:      sans-serif;
+  --stDivider:          1px solid #dddddd;
+  --stHeaderColor:      #202020;
+  --stHeaderFont:       sans-serif;
+  --stMainWidth:        50em;
+  --stMetaBorder:       1px solid #dddddd;
+  --stMetaFont:         sans-serif;
+  --stMetaFontSize:     90%;
   --stNavigationRowGap: 0.25em;
-
-  --stDivider: 1px solid #dddddd;
-  --stVerbatimBorder: 1px solid #dddddd;
+  --stVerbatimBorder:   1px solid #dddddd;
+  --stVerbatimFontSize: 80%;
 
   --stH1Size: 1.1em;
   --stH2Size: 1.066em;
@@ -50,8 +53,8 @@ body
 h1, h2, h3, h4, h5, h6
 {
   font-family: var(--stHeaderFont);
-  color: var(--stHeaderColor);
-  margin: 0;
+  color:       var(--stHeaderColor);
+  margin:      0;
   font-weight: bold;
 }
 
@@ -106,7 +109,7 @@ h6
  * Navigation headers and footers.
  */
 
-#stNavigationHeader
+.stNavigationHeader
 {
   width: var(--stMainWidth);
   font-family: var(--stHeaderFont);
@@ -119,7 +122,8 @@ h6
   border-bottom: var(--stDivider);
   padding-bottom: 1em;
 }
-#stNavigationFooter
+
+.stNavigationFooter
 {
   width: var(--stMainWidth);
   font-family: var(--stHeaderFont);
@@ -204,23 +208,9 @@ h6
   text-align: right;
 }
 
-#stMain
+.stMain
 {
-
-}
-
-#stBrandingHeader
-{
-  width: var(--stMainWidth);
-  margin: 1em;
-}
-
-#stBrandingFooter
-{
-  width: var(--stMainWidth);
-  border-top: var(--stDivider);
-  padding-top: 1em;
-  margin: 1em;
+  margin-top: 2em;
 }
 
 /*
@@ -230,6 +220,10 @@ h6
 .stTableOfContents
 {
   font-family: var(--stContentFont);
+}
+.stTableOfContents h1
+{
+  margin-bottom: 1em;
 }
 .stTableOfContents ul
 {
@@ -246,36 +240,18 @@ h6
 }
 
 /*
- * Document headers.
+ * Document title.
  */
 
-.stDocumentHeader
+.stDocumentTitle h1
 {
-  margin-top: 2em;
-}
-.stDocumentHeaderTitle
-{
-
-}
-.stDocumentHeaderSubtitle
-{
-
+  font-size: 120%;
 }
 
 /*
  * Sections.
  */
 
-.stSectionHeader
-{
-
-}
-.stSectionNumber
-{
-  font-family: var(--stHeaderFont);
-  font-size:   var(--stH1Size);
-  font-weight: bold;
-}
 .stSectionTitle
 {
 
@@ -285,16 +261,6 @@ h6
  * Subsections.
  */
 
-.stSubsectionHeader
-{
-
-}
-.stSubsectionNumber
-{
-  font-family: var(--stHeaderFont);
-  font-size:   var(--stH2Size);
-  font-weight: bold;
-}
 .stSubsectionTitle
 {
 
@@ -322,79 +288,61 @@ h6
  * Formal items.
  */
 
-.stFormalItemHeader
+.stFormalItem
 {
-
-}
-.stFormalItemNumber
-{
-  font-family: var(--stHeaderFont);
-  font-size:   var(--stH3Size);
-  font-weight: bold;
-}
-.stFormalItemTitle
-{
-
-}
-.stFormalItemContent
-{
-
-}
-.stFormalItemContent .stRegionContent
-{
-  font-family: var(--stContentFont);
-  color:       var(--stContentColor);
-
-  border:       var(--stVerbatimBorder);
-  padding:      1em;
-  margin-top:   0em;
-  overflow:     scroll;
-  width:        auto;
-  margin-right: 1em;
+  margin-top: 1em;
 }
 
 /*
  * Footnotes.
  */
 
-.stFootnotesHeader
-{
-  margin-top:  2em;
-  padding-top: 2em;
-  border-top:  var(--stDivider);
-}
 .stFootnotes
+{
+  margin-top:  1em;
+  font-family: var(--stContentFont);
+  color:       var(--stContentColor);
+}
+.stFootnotes table
+{
+  border:          var(--stMetaBorder);
+  width:           100%;
+  border-collapse: collapse;
+}
+.stFootnotes td
+{
+  vertical-align: top;
+  border:         var(--stMetaBorder);
+  padding:        0.5em;
+}
+.stFootnoteNumber
 {
 
 }
 .stFootnoteReferences
 {
-  font-family: var(--stContentFont);
-  color:       var(--stContentColor);
-}
-.stFootnote
-{
-
-}
-.stFootnote .stRegionContent
-{
-  font-family: var(--stContentFont);
-  color:       var(--stContentColor);
-}
-.stFootnoteNumber
-{
-  font-family: var(--stHeaderFont);
+  margin-top: 1em;
 }
 
 /*
  * Document metadata.
  */
 
-.stMetadataTable
+.stMetadataTable table
 {
-  font-family:   monospace;
-  margin-bottom: 2em;
-  margin-top:    2em;
+  margin-top:      2em;
+  margin-bottom:   2em;
+  border:          var(--stMetaBorder);
+  width:           100%;
+  border-collapse: collapse;
+  font-family:     var(--stMetaFont);
+  font-size:       var(--stMetaFontSize);
+}
+.stMetadataTable td
+{
+  vertical-align: top;
+  border:         var(--stMetaBorder);
+  padding:        0.5em;
 }
 .stMetadataTable td:nth-child(1)
 {
@@ -403,7 +351,22 @@ h6
 
 .stVerbatim
 {
-  margin: 0em;
+  border:    var(--stVerbatimBorder);
+  font-size: var(--stVerbatimFontSize);
+  padding:   1em;
+  margin:    0em;
+  overflow:  scroll;
+}
+
+/*
+ * Lists.
+ */
+
+.stItem
+{
+  font-family:   var(--stContentFont);
+  color:         var(--stContentColor);
+  padding-right: 1em;
 }
 
 /*

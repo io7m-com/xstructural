@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="Validate-XHTML">
+
+  <Subsection title="Name">
+    <Paragraph>
+      <Term type="command">validate-xhtml</Term> - Validate XHTML
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="command">validate-xhtml</Term> command validates XHTML pages. The command performs validation
+      against a published XHTML 1.1 XSD schema, and also performs extra integrity checking for internal links.
+    </Paragraph>
+
+    <FormalItem title="Parameters">
+      <Table type="genericTable">
+        <Columns>
+          <Column>Parameter</Column>
+          <Column>Type</Column>
+          <Column>Required</Column>
+          <Column>Description</Column>
+        </Columns>
+        <Row>
+          <Cell><Term type="parameter">--sourceDirectory</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>true</Cell>
+          <Cell>The directory containing XHTML files.</Cell>
+        </Row>
+      </Table>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Example" type="example">
+      <Verbatim>
+        <xi:include parse="text"
+                    href="cmdline-validate-xhtml-example.txt"/>
+      </Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="History">
+    <Paragraph>
+      The <Term type="command">validate-xhtml</Term> command was added in <Term type="package">xstructural 1.3.0</Term>.
+    </Paragraph>
+  </Subsection>
+
+</Section>

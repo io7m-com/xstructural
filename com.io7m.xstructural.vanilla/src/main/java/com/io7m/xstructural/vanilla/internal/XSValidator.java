@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -24,11 +24,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.xml.sax.InputSource;
 
-import javax.xml.XMLConstants;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.sax.SAXSource;
-import javax.xml.validation.SchemaFactory;
-import javax.xml.validation.Validator;
 import java.nio.file.Files;
 import java.util.Objects;
 
@@ -38,11 +33,11 @@ import java.util.Objects;
 
 public final class XSValidator implements XSProcessorType
 {
-  private static final Logger LOG = LoggerFactory.getLogger(XSValidator.class);
+  private static final Logger LOG =
+    LoggerFactory.getLogger(XSValidator.class);
 
   private final SXMLResources resources;
   private final XSProcessorRequest request;
-  private final SAXParserFactory parsers;
 
   /**
    * A validator.
@@ -59,8 +54,6 @@ public final class XSValidator implements XSProcessorType
       Objects.requireNonNull(inResources, "resources");
     this.request =
       Objects.requireNonNull(inRequest, "request");
-
-    this.parsers = SAXParserFactory.newInstance();
   }
 
   @Override
@@ -68,90 +61,49 @@ public final class XSValidator implements XSProcessorType
     throws XSValidationException
   {
     LOG.debug("validating source file");
+    this.validate();
+  }
 
+  private void validate()
+    throws XSValidationException
+  {
     try {
-      final var schemaUrl = this.resources.schema();
-      try (var schemaStream = schemaUrl.openStream()) {
-        final var schemaSource = new InputSource();
-        schemaSource.setByteStream(schemaStream);
-        schemaSource.setSystemId(schemaUrl.toString());
+      final var parsers =
+        new XSSAXParsers();
+      final var reader =
+        parsers.createXMLReader(
+          this.request.sourceFile().getParent(),
+          this.resources
+        );
 
-        LOG.debug("creating schema");
-        final var schemaFactory =
-          SchemaFactory.newInstance(XMLConstants.W3C_XML_SCHEMA_NS_URI);
+      final var sourcePath = this.request.sourceFile();
+      LOG.info("validate (xstructural) {}", sourcePath);
 
-        final var schemaErrorHandler =
-          new XSErrorHandler(
-            LoggerFactory.getLogger(XSValidator.class.getCanonicalName() + ".schemaCompilation")
+      try (var sourceStream = Files.newInputStream(sourcePath)) {
+        final var fileSource = new InputSource();
+        fileSource.setByteStream(sourceStream);
+        fileSource.setSystemId(sourcePath.toString());
+
+        final XSErrorHandler errorHandler =
+          new XSErrorHandler(LoggerFactory.getLogger(
+            XSValidator.class.getCanonicalName() + ".validation"));
+
+        reader.setErrorHandler(errorHandler);
+        reader.parse(fileSource);
+
+        if (errorHandler.isFailed()) {
+          LOG.error("one or more validation errors occurred");
+          throw new XSValidationException(
+            String.format(
+              "Document %s is not a valid structural document",
+              sourcePath
+            )
           );
-        schemaFactory.setErrorHandler(schemaErrorHandler);
-        schemaFactory.setResourceResolver(
-          new XSResourceResolver(this.resources));
-
-        final var schema =
-          schemaFactory.newSchema(new SAXSource(schemaSource));
-
-        if (schemaErrorHandler.isFailed()) {
-          throw new XSValidationException("Error compiling schema");
-        }
-
-        final var sourcePath = this.request.sourceFile();
-        LOG.info("validate (xstructural) {}", sourcePath);
-
-        final var parser = this.parsers.newSAXParser();
-        final var reader = parser.getXMLReader();
-
-        reader.setFeature(
-          XMLConstants.FEATURE_SECURE_PROCESSING,
-          true);
-        reader.setProperty(
-          XMLConstants.ACCESS_EXTERNAL_SCHEMA,
-          "");
-        reader.setProperty(
-          XMLConstants.ACCESS_EXTERNAL_DTD,
-          "");
-        reader.setFeature(
-          "http://apache.org/xml/features/nonvalidating/load-external-dtd",
-          false);
-        reader.setFeature(
-          "http://apache.org/xml/features/xinclude",
-          true);
-        reader.setFeature(
-          "http://xml.org/sax/features/namespaces",
-          true);
-        reader.setFeature(
-          "http://xml.org/sax/features/validation",
-          false);
-        reader.setFeature(
-          "http://apache.org/xml/features/validation/schema",
-          false);
-
-        try (var sourceStream = Files.newInputStream(sourcePath)) {
-          final var fileSource = new InputSource();
-          fileSource.setByteStream(sourceStream);
-          fileSource.setSystemId(sourcePath.toString());
-          final var saxSource = new SAXSource(reader, fileSource);
-
-          final Validator validator = schema.newValidator();
-          final XSErrorHandler errorHandler =
-            new XSErrorHandler(LoggerFactory.getLogger(
-              XSValidator.class.getCanonicalName() + ".validation"));
-
-          validator.setErrorHandler(errorHandler);
-          validator.validate(saxSource);
-          if (errorHandler.isFailed()) {
-            LOG.error("one or more validation errors occurred");
-            throw new XSValidationException(
-              String.format(
-                "Document %s is not a valid structural document",
-                sourcePath
-              )
-            );
-          }
         }
       }
-    } catch (final Exception e) {
-      throw new XSValidationException(e);
+
+    } catch (final Exception exception) {
+      throw new XSValidationException(exception);
     }
   }
 }

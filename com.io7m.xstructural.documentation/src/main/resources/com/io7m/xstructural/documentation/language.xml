@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         title="Language">
+
+  <Section title="Description">
+    <Subsection title="Overview">
+      <Paragraph>
+        The <Term type="package">xstructural</Term> package provides an
+        <LinkExternal target="https://www.w3.org/TR/xslt20/">XSLT 2.0</LinkExternal> implementation of
+        the <Term type="language">structural</Term> documentation language.
+      </Paragraph>
+      <Paragraph>
+        In contrast to other systems such as
+        <LinkExternal target="http://www.docbook.org/">DocBook</LinkExternal>, the <Term type="language">structural
+      </Term> language only defines elements concerning the structure of the document and not the semantics of the
+        elements. The intention is that higher level languages will produce <Term type="language">structural</Term> documents
+        as output and then use the provided stylesheets to get various services such as table of contents generation,
+        chapter numbering, footnotes, et cetera, without having to re-implement all of those features for each new
+        language.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="Schema">
+      <Paragraph>
+        The following sections provide informative descriptions of the available language elements. The actual language
+        is defined as an <LinkExternal target="https://www.w3.org/TR/xmlschema-1/">XSD</LinkExternal> schema, and this
+        is provided in the <Link target="3c28e89e-a225-46ba-bbc5-5c989425a509">Schema</Link> section.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="Versioning">
+      <Paragraph>
+        The <Term type="language">structural</Term> language is designed in a manner that is intended to confirm
+        to <LinkExternal target="https://semver.org/">Semantic Versioning 2.0.0</LinkExternal>. More specifically:
+      </Paragraph>
+      <FormalItem title="Versioning Rules">
+        <ListUnordered>
+          <Item>
+            If a document <Term type="constant">D</Term> was written using schema version
+            <Term type="constant">(x, y)</Term>, where
+            <Term type="constant">x</Term>
+            is the schema <Term type="term">major version</Term> and
+            <Term type="constant">y</Term>
+            is the schema <Term type="term">minor version</Term>, then if
+            the schema version declaration in
+            <Term type="constant">D</Term> is changed to
+            <Term type="constant">(x, z)</Term>
+            for any existing schema minor version
+            <Term type="constant">z</Term>, then
+            <Term type="constant">D</Term> is guaranteed to validate against the new schema version.
+          </Item>
+          <Item>
+            If a document <Term type="constant">D</Term> was written using schema version
+            <Term type="constant">(x, y)</Term>, where
+            <Term type="constant">x</Term>
+            is the schema <Term type="term">major version</Term> and
+            <Term type="constant">y</Term>
+            is the schema <Term type="term">minor version</Term>, then if
+            the schema version declaration in
+            <Term type="constant">D</Term> is changed to
+            <Term type="constant">(a, b)</Term>
+            for any existing schema major version
+            <Term type="constant">a</Term> and minor version
+            <Term type="constant">b</Term> such that
+            <Term type="expression">a ≠ x</Term>,
+            then <Term type="constant">D</Term> is NOT guaranteed to validate against the new schema version.
+          </Item>
+        </ListUnordered>
+      </FormalItem>
+      <Paragraph>
+        Informally: Minor version changes indicate compatible changes; if you update your document to use
+        the latest minor version of the same major version schema, then you will not have to modify your
+        document to get it to validate. Major version changes indicate incompatible changes; if you update
+        your document to use the latest major version schema, then you may have to make changes to your
+        document in order to get it to validate.
+      </Paragraph>
+    </Subsection>
+  </Section>
+
+  <xi:include href="language-doc.xml"/>
+  <xi:include href="language-meta.xml"/>
+  <xi:include href="language-section.xml"/>
+  <xi:include href="language-subsection.xml"/>
+  <xi:include href="language-paragraph.xml"/>
+  <xi:include href="language-formal-item.xml"/>
+  <xi:include href="language-footnote.xml"/>
+  <xi:include href="language-inline.xml"/>
+
+</Section>

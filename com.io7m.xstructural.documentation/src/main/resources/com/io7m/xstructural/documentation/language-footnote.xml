@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         id="8abc7eeb-c828-4307-a64d-0d8d6ae25e98"
+         title="Footnote">
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="element">Footnote</Term> element describes a
+      <LinkExternal target="https://en.wikipedia.org/wiki/Note_(typography)">footnote</LinkExternal>.
+    </Paragraph>
+    <Paragraph>
+      Footnotes a rendered at the end of the <Link target="cc5514e1-dc68-4b88-9374-fe09b8741140">Section</Link>
+      within which they are declared, and may be referenced using
+      <Link target="b611d66f-e82d-4afd-b908-f27340718651">LinkFootnote</Link> elements.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Examples">
+    <FormalItem title="Footnote Example">
+      <Verbatim><![CDATA[
+<Footnote id="7c66cd52-4ace-4fd6-a05d-fd0255e441bb">
+  The Dublin Core elements are optional, but some renderers may require them in order to produce sensible output. The
+  title of a <Link target="a49dac27-48f0-4504-8e03-8f0b73cd9c46">Document</Link> is specified using the
+  <LinkExternal target="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/title">dc:title</LinkExternal>
+  element, for example.
+</Footnote>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+</Section>

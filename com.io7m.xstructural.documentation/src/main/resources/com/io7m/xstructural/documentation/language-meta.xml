@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         id="027296c3-c406-4191-a444-5b10873094e8"
+         title="Metadata">
+
+  <Subsection title="Description">
+    <Paragraph>
+      The <Term type="element">Metadata</Term> element describes the metadata of a document. The element consists of a
+      sequence of zero or more <LinkExternal target="http://dublincore.org/">Dublin Core</LinkExternal> elements
+      <LinkFootnote target="7c66cd52-4ace-4fd6-a05d-fd0255e441bb"/>, followed by a sequence of zero or more
+      <Term type="element">MetaProperty</Term>
+      elements
+      <LinkFootnote target="9977adf0-b726-46e6-bc98-11176e1d2916"/>. Metadata is not considered to contribute to the
+      semantics of a document. That is, a document with all of the metadata removed is still considered to be
+      semantically valid if the original document was valid. Metadata is typically used to influence the behaviour of
+      any renderers that are processing the document, and are also used to communicate information to external systems
+      that may be, for example, indexing the document for use in a document retrieval system. Metadata can appear in
+      tables in rendered documents, although this can be controlled using the boolean
+      <Term type="element">visible</Term>
+      attribute (which defaults to <Term type="constant">false</Term>).
+    </Paragraph>
+    <Paragraph>
+      Some <Term type="element">MetaProperty</Term> names are significant to renderers and, where those renderers are
+      known (such as by being part of the <Term type="package">xstructural</Term> package), the significance of names is
+      documented in the following subsections.
+    </Paragraph>
+    <Paragraph>
+      Document authors are strongly recommended to <Term type="element">namespace</Term> their
+      <Term type="element">MetaProperty</Term>
+      names using <LinkExternal target="https://en.wikipedia.org/wiki/Reverse_domain_name_notation">reverse domain name
+      notation</LinkExternal>, ideally using a domain that they control. <Term type="element">MetaProperty</Term> names
+      must contain at least two segments consisting of characters taken from the set
+      <Term type="constant">[a (U+0061), z (U+007A)] ∪ [0 (U+0030), 9 (U+0039)] ∪ { _ (U+005F) } ∪ { _ (U+002D) }</Term>
+      , separated by <Term type="constant">. (U+002E)</Term>.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="EPUB">
+    <Subsection title="Package">
+      <Paragraph>
+        This section documents the property names used by the EPUB renderer included with
+        <Term type="package">xstructural 1.3.0</Term>
+        and newer.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="com.io7m.xstructural.epub.cover">
+      <Paragraph>
+        The contents of this property denote the relative (to the input document) filename of the cover image that will
+        be used for the book. The renderer will translate this name into the correct resource name within the EPUB
+        during rendering.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="com.io7m.xstructural.epub.colophon">
+      <Paragraph>
+        The contents of this property denote the relative (to the input document) filename of an XHTML file that will be
+        inserted into the <Term type="term">colophon</Term> page of the generated EPUB.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="Examples">
+      <FormalItem title="EPUB Example">
+        <Verbatim><![CDATA[
+<Document xmlns="urn:com.io7m.structural:8:0"
+          xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <Metadata>
+    <dc:title>Example Document</dc:title>
+    <MetaProperty name="com.io7m.xstructural.epub.colophon">colophon_extra.xml</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.epub.cover">cover.jpg</MetaProperty>
+  </Metadata>
+...
+]]></Verbatim>
+      </FormalItem>
+    </Subsection>
+  </Subsection>
+
+  <Subsection title="Web">
+    <Subsection title="Package">
+      <Paragraph>
+        This section documents the property names used by the web renderer included with
+        <Term type="package">xstructural 1.3.0</Term>
+        and newer.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="com.io7m.xstructural.web.branding.header">
+      <Paragraph>
+        The contents of this property denote the relative (to the input document) filename of an XHTML file
+        <Term type="file">f</Term>
+        that will be inserted verbatim as the first element of the XHTML
+        <Term type="element">body</Term>
+        element.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="com.io7m.xstructural.web.branding.footer">
+      <Paragraph>
+        The contents of this property denote the relative (to the input document) filename of an XHTML file
+        <Term type="file">f</Term>
+        that will be inserted verbatim as the last element of the XHTML
+        <Term type="element">body</Term>
+        element.
+      </Paragraph>
+    </Subsection>
+  </Subsection>
+
+  <Footnote id="7c66cd52-4ace-4fd6-a05d-fd0255e441bb">
+    The Dublin Core elements are optional, but some renderers may require them in order to produce sensible output. The
+    title of a
+    <Link target="a49dac27-48f0-4504-8e03-8f0b73cd9c46">Document</Link>
+    is specified using the
+    <LinkExternal target="https://www.dublincore.org/specifications/dublin-core/dcmi-terms/#http://purl.org/dc/terms/title">
+      dc:title
+    </LinkExternal>
+    element, for example.
+  </Footnote>
+
+  <Footnote id="9977adf0-b726-46e6-bc98-11176e1d2916">
+    The <Term type="element">MetaProperty</Term> elements were added in version
+    <Term type="constant">8.0</Term>
+    of the <Term type="term">structural</Term> language.
+  </Footnote>
+
+</Section>

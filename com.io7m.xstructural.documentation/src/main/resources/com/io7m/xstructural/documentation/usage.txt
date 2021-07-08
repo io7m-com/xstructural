@@ -1,3 +1,4 @@
+xstructural: Main: INFO: Arguments required.
 Usage: xstructural [options] [command] [command options]
   Options:
     --verbose
@@ -5,35 +6,17 @@ Usage: xstructural [options] [command] [command options]
       Default: info
       Possible Values: [trace, debug, info, warn, error]
   Commands:
-    validate      Validate a structural document
-      Usage: validate [options]
+    epub      Transform a structural document to an EPUB
+      Usage: epub [options]
         Options:
-        * --sourceFile
-            The source document
-          --verbose
-            Set the minimum logging verbosity level
-            Default: info
-            Possible Values: [trace, debug, info, warn, error]
-
-    xhtml      Transform a structural document to XHTML
-      Usage: xhtml [options]
-        Options:
-          --brandingFile
-            The branding XML file
-          --copyResources
-            Should resources (such as CSS) be copied into the output
-            directory?
-            Default: true
           --messagesFile
             The output file for XSLT messages
         * --outputDirectory
             The output directory
+          --outputFileName
+            The output file name
         * --sourceFile
             The source document
-          --stylesheet
-            The stylesheet
-            Default: SINGLE_FILE
-            Possible Values: [SINGLE_FILE, MULTIPLE_FILE]
           --traceFile
             The output file for trace messages
           --verbose
@@ -53,3 +36,52 @@ Usage: xstructural [options] [command] [command options]
             Set the minimum logging verbosity level
             Default: info
             Possible Values: [trace, debug, info, warn, error]
+
+    validate      Validate a structural document
+      Usage: validate [options]
+        Options:
+        * --sourceFile
+            The source document
+          --verbose
+            Set the minimum logging verbosity level
+            Default: info
+            Possible Values: [trace, debug, info, warn, error]
+
+    validate-xhtml      Validate an XHTML document
+      Usage: validate-xhtml [options]
+        Options:
+        * --sourceDirectory
+            The source directory
+          --verbose
+            Set the minimum logging verbosity level
+            Default: info
+            Possible Values: [trace, debug, info, warn, error]
+
+    xhtml      Transform a structural document to XHTML
+      Usage: xhtml [options]
+        Options:
+          --brandingFile
+            The branding XML file
+          --copyResources
+            Should resources (such as CSS) be copied into the output 
+            directory? 
+            Default: true
+          --messagesFile
+            The output file for XSLT messages
+        * --outputDirectory
+            The output directory
+        * --sourceFile
+            The source document
+          --stylesheet
+            The stylesheet
+            Default: SINGLE_FILE
+            Possible Values: [SINGLE_FILE, MULTIPLE_FILE, EPUB]
+          --traceFile
+            The output file for trace messages
+          --verbose
+            Set the minimum logging verbosity level
+            Default: info
+            Possible Values: [trace, debug, info, warn, error]
+
+
+
