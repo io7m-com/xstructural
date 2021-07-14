@@ -253,4 +253,20 @@
     </xsl:element>
   </xsl:template>
 
+  <xsl:template match="s:Image"
+                mode="xstructural.inlines">
+    <xsl:element name="img">
+      <xsl:call-template name="xstructural.classes.attributeFor">
+        <xsl:with-param name="baseClass"
+                        select="'stImage'"/>
+      </xsl:call-template>
+      <xsl:attribute name="src">
+        <xsl:value-of select="@source"/>
+      </xsl:attribute>
+      <xsl:attribute name="alt">
+        <xsl:value-of select="."/>
+      </xsl:attribute>
+    </xsl:element>
+  </xsl:template>
+
 </xsl:stylesheet>
