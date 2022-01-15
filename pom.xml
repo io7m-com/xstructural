@@ -11,7 +11,7 @@
 
   <groupId>com.io7m.xstructural</groupId>
   <artifactId>com.io7m.xstructural</artifactId>
-  <version>1.3.0</version>
+  <version>1.4.0-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <description>Structural document format</description>
