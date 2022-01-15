@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.io7m.xstructural</groupId>
     <artifactId>com.io7m.xstructural</artifactId>
-    <version>1.3.0-SNAPSHOT</version>
+    <version>1.3.0</version>
   </parent>
 
   <artifactId>com.io7m.xstructural.xml</artifactId>
