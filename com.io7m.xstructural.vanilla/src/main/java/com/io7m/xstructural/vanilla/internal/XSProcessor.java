@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -23,6 +23,10 @@ import com.io7m.xstructural.xml.SXMLResources;
 
 import java.util.Objects;
 
+/**
+ * An XSL processor.
+ */
+
 public final class XSProcessor implements XSProcessorType
 {
   private final SXMLResources resources;
@@ -30,6 +34,13 @@ public final class XSProcessor implements XSProcessorType
   private final XSTransformer transformer;
   private final XSValidator validator;
   private final XSXHTMLValidator xhtmlValidator;
+  private final XSEPUBCreator epubCreator;
+
+  /**
+   * An XSL processor.
+   *
+   * @param inRequest An XSL processor request
+   */
 
   public XSProcessor(
     final XSProcessorRequest inRequest)
@@ -45,20 +56,33 @@ public final class XSProcessor implements XSProcessorType
       new XSTransformer(this.resources, this.request);
     this.xhtmlValidator =
       new XSXHTMLValidator(this.resources, this.request);
+    this.epubCreator =
+      new XSEPUBCreator(this.resources, this.request);
   }
 
   @Override
   public void execute()
     throws XSProcessorException
   {
-    this.validator.execute();
-
     switch (this.request.task()) {
       case VALIDATE: {
+        this.validator.execute();
         break;
       }
       case TRANSFORM_XHTML: {
+        this.validator.execute();
         this.transformer.execute();
+        this.xhtmlValidator.execute();
+        break;
+      }
+      case TRANSFORM_EPUB: {
+        this.validator.execute();
+        this.transformer.execute();
+        this.xhtmlValidator.execute();
+        this.epubCreator.execute();
+        break;
+      }
+      case VALIDATE_XHTML: {
         this.xhtmlValidator.execute();
         break;
       }

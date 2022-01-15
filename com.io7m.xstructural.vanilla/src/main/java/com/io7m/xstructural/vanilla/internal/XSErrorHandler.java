@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -23,16 +23,30 @@ import org.xml.sax.SAXParseException;
 
 import java.util.Objects;
 
+/**
+ * An error handler that logs messages and tracks the failure state.
+ */
+
 public final class XSErrorHandler implements ErrorHandler
 {
   private final Logger logger;
   private boolean failed;
+
+  /**
+   * An error handler.
+   *
+   * @param inLogger The target logger
+   */
 
   public XSErrorHandler(
     final Logger inLogger)
   {
     this.logger = Objects.requireNonNull(inLogger, "logger");
   }
+
+  /**
+   * @return {@code true} if an error has occurred
+   */
 
   public boolean isFailed()
   {

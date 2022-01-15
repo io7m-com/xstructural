@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section xmlns="urn:com.io7m.structural:7:0"
+<Section xmlns="urn:com.io7m.structural:8:0"
          xmlns:xi="http://www.w3.org/2001/XInclude"
          title="Schema">
   <Subsection title="Name">
@@ -14,7 +14,7 @@
       The <Term type="command">schema</Term> command exports the Structural schema files into a specified directory.
     </Paragraph>
     <FormalItem title="Parameters">
-      <Table type="parametersTable">
+      <Table type="genericTable">
         <Columns>
           <Column>Parameter</Column>
           <Column>Type</Column>
@@ -36,7 +36,7 @@
       </Table>
     </FormalItem>
   </Subsection>
-  <Subsection title="Example">
+  <Subsection title="Examples">
     <FormalItem title="Example">
       <Verbatim>
         <xi:include parse="text"

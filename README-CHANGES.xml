@@ -19,9 +19,19 @@
         <c:change date="2020-12-19T00:00:00+00:00" summary="Update Saxon-HE 10.2 -&gt; 10.3"/>
       </c:changes>
     </c:release>
-    <c:release date="2020-12-20T11:08:15+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.2.0">
+    <c:release date="2020-12-20T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.2.0">
       <c:changes>
         <c:change date="2020-12-19T00:00:00+00:00" summary="Slightly improve the CSS for table elements"/>
+      </c:changes>
+    </c:release>
+    <c:release date="2021-06-27T16:34:56+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="1.3.0">
+      <c:changes>
+        <c:change date="2021-06-27T00:00:00+00:00" summary="Add EPUB support">
+          <c:tickets>
+            <c:ticket id="13"/>
+          </c:tickets>
+        </c:change>
+        <c:change date="2021-06-27T16:34:56+00:00" summary="Fix a schema bug that rejected valid footnotes in documents"/>
       </c:changes>
     </c:release>
   </c:releases>

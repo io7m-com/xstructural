@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -37,6 +37,14 @@ public final class SXMLResources
 
   }
 
+  /**
+   * Find a W3C XHTML schema resource.
+   *
+   * @param name The name
+   *
+   * @return The resource URL
+   */
+
   public URL w3cXHTMLResourceOf(
     final String name)
   {
@@ -51,6 +59,10 @@ public final class SXMLResources
     }
     return resource;
   }
+
+  /**
+   * @return The available W3C XHTML schema resources
+   */
 
   public Stream<String> w3cXHTMLResources()
   {
@@ -96,6 +108,14 @@ public final class SXMLResources
     );
   }
 
+  /**
+   * Find an XSD resource with the given name.
+   *
+   * @param name The name
+   *
+   * @return The resource URL
+   */
+
   public URL xsdResourceOf(
     final String name)
   {
@@ -111,6 +131,10 @@ public final class SXMLResources
     return resource;
   }
 
+  /**
+   * @return The available XSD resources
+   */
+
   public Stream<String> xsdResources()
   {
     return Stream.of(
@@ -118,6 +142,14 @@ public final class SXMLResources
       "XMLSchema.dtd"
     );
   }
+
+  /**
+   * Find the xstructural resource with the given name.
+   *
+   * @param name The name
+   *
+   * @return The resource URL
+   */
 
   public URL xstructuralResourceOf(
     final String name)
@@ -134,37 +166,202 @@ public final class SXMLResources
     return resource;
   }
 
+  /**
+   * @return The available xstructural resources
+   */
+
   public Stream<String> xstructuralResources()
   {
     return Stream.of(
       "dc.xsd",
       "xml.xsd",
-      "xstructural-1.xsd"
+      "xstructural-7.xsd",
+      "xstructural-8.xsd"
     );
   }
+
+  /**
+   * @return The W3C XHTML schema
+   */
 
   public URL w3cXHTMLSchema()
   {
     return this.w3cXHTMLResourceOf("xhtml11.xsd");
   }
 
+  /**
+   * @return The xstructural XSD schema
+   *
+   * @deprecated Use {@link #schema7p0()}
+   */
+
+  @Deprecated(since = "1.3.0", forRemoval = true)
   public URL schema()
   {
-    return SXMLResources.class.getResource("xstructural-1.xsd");
+    return SXMLResources.class.getResource("xstructural-7.xsd");
   }
 
+  /**
+   * @return The xstructural XSD 7.0 schema
+   *
+   * @since 1.3.0
+   */
+
+  public URL schema7p0()
+  {
+    return SXMLResources.class.getResource("xstructural-7.xsd");
+  }
+
+  /**
+   * @return The xstructural XSD 8.0 schema
+   *
+   * @since 1.3.0
+   */
+
+  public URL schema8p0()
+  {
+    return SXMLResources.class.getResource("xstructural-8.xsd");
+  }
+
+  /**
+   * @return The xstructural core XSL stylesheet
+   *
+   * @deprecated The core stylesheet is no longer available
+   */
+
+  @Deprecated(since = "1.3.0", forRemoval = true)
   public URL core()
   {
-    return SXMLResources.class.getResource("xstructural1-core.xsl");
+    throw new UnsupportedOperationException();
   }
 
+  /**
+   * @return The xstructural multi-page XSL stylesheet
+   *
+   * @deprecated Use a version-specific multi stylesheet
+   */
+
+  @Deprecated(since = "1.3.0", forRemoval = true)
   public URL multi()
   {
-    return SXMLResources.class.getResource("xstructural1-multi.xsl");
+    throw new UnsupportedOperationException();
   }
 
+  /**
+   * @return The xstructural single-page XSL stylesheet
+   *
+   * @deprecated Use a version-specific single stylesheet
+   */
+
+  @Deprecated(since = "1.3.0", forRemoval = true)
   public URL single()
   {
-    return SXMLResources.class.getResource("xstructural1-single.xsl");
+    throw new UnsupportedOperationException();
+  }
+
+  /**
+   * @return The xstructural 7.0 single-page XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s7Single()
+  {
+    return SXMLResources.class.getResource("s7/xstructural7-web-single.xsl");
+  }
+
+  /**
+   * @return The xstructural 7.0 multi-page XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s7Multi()
+  {
+    return SXMLResources.class.getResource("s7/xstructural7-web-multi.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 single-page XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s8Single()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-web-single.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 multi-page XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s8Multi()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-web-multi.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 EPUB XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s8Epub()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-epub.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 EPUB package XSL stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL s8EpubPackage()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-epub-package.xsl");
+  }
+
+  /**
+   * @return The xstructural CSS stylesheet
+   */
+
+  public URL cssStructural()
+  {
+    return SXMLResources.class.getResource("structural.css");
+  }
+
+  /**
+   * @return The xstructural EPUB CSS stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL cssStructuralEPUB()
+  {
+    return SXMLResources.class.getResource("structural-epub.css");
+  }
+
+  /**
+   * @return The xstructural reset CSS stylesheet
+   */
+
+  public URL cssReset()
+  {
+    return SXMLResources.class.getResource("reset.css");
+  }
+
+  /**
+   * @return The xstructural EPUB reset CSS stylesheet
+   *
+   * @since 1.3.0
+   */
+
+  public URL cssResetEPUB()
+  {
+    return SXMLResources.class.getResource("reset-epub.css");
   }
 }

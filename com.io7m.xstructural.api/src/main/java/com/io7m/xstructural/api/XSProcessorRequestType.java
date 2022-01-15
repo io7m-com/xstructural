@@ -1,5 +1,5 @@
 /*
- * Copyright © 2020 Mark Raynsford <code@io7m.com> http://io7m.com
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -99,6 +99,12 @@ public interface XSProcessorRequestType
   Optional<Path> brandingFile();
 
   /**
+   * @return The name of the output file, if relevant to the operation
+   */
+
+  Optional<String> outputName();
+
+  /**
    * The stylesheet that will be used during processing.
    */
 
@@ -116,7 +122,14 @@ public interface XSProcessorRequestType
      * per section.
      */
 
-    MULTIPLE_FILE
+    MULTIPLE_FILE,
+
+    /**
+     * The EPUB stylesheet. Produces a set of output files suitable for
+     * use in an EPUB file.
+     */
+
+    EPUB
   }
 
   /**
@@ -136,7 +149,20 @@ public interface XSProcessorRequestType
      * The input document will be transformed to XHTML.
      */
 
-    TRANSFORM_XHTML
+    TRANSFORM_XHTML,
+
+    /**
+     * The input document will be transformed to an EPUB.
+     */
+
+    TRANSFORM_EPUB,
+
+    /**
+     * The input XHTML will be validated, and no other steps will be
+     * performed.
+     */
+
+    VALIDATE_XHTML,
   }
 
   /**

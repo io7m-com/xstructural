@@ -1,17 +1,24 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<Section xmlns="urn:com.io7m.structural:7:0"
+<Section xmlns="urn:com.io7m.structural:8:0"
          xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="3c28e89e-a225-46ba-bbc5-5c989425a509"
          title="Schema">
 
   <Paragraph>
-    The Structural language is defined by a strict XSD schema. Documents not conforming to the schema MUST
-    be rejected by renderers.
+    The <Term type="language">structural</Term> language is defined by a strict XSD schema. Documents not conforming
+    to the schema MUST be rejected by renderers.
   </Paragraph>
 
-  <FormalItem title="xstructural Schema">
+  <FormalItem title="xstructural 8.0 Schema">
     <Verbatim>
-      <xi:include href="com/io7m/xstructural/xml/xstructural-1.xsd" parse="text"/>
+      <xi:include href="com/io7m/xstructural/xml/xstructural-8.xsd" parse="text"/>
+    </Verbatim>
+  </FormalItem>
+
+  <FormalItem title="xstructural 7.0 Schema">
+    <Verbatim>
+      <xi:include href="com/io7m/xstructural/xml/xstructural-7.xsd" parse="text"/>
     </Verbatim>
   </FormalItem>
 
