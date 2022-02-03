@@ -37,6 +37,8 @@
                  select="concat('Unexpectedly reached catch-all template: ', namespace-uri(.), ':',  node-name(.))"/>
   </xsl:template>
 
+  <xsl:template match="comment()"/>
+
   <!--                                -->
   <!-- Top-level web multi templates. -->
   <!--                                -->
