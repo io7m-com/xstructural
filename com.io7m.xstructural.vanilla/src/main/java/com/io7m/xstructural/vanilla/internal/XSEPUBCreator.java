@@ -44,6 +44,10 @@ import java.util.zip.CRC32;
 import java.util.zip.ZipEntry;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
+import static java.nio.file.StandardOpenOption.CREATE;
+import static java.nio.file.StandardOpenOption.TRUNCATE_EXISTING;
+import static java.nio.file.StandardOpenOption.WRITE;
 
 /**
  * An EPUB creator.
@@ -466,7 +470,7 @@ public final class XSEPUBCreator implements XSProcessorType
           this.oebpsDirectory.resolve(file.getFileName().toString());
 
         LOG.info("copy {} {}", file, outputFile);
-        Files.copy(file, outputFile);
+        Files.copy(file, outputFile, REPLACE_EXISTING);
       }
     }
   }
@@ -488,7 +492,11 @@ public final class XSEPUBCreator implements XSProcessorType
     throws IOException
   {
     try (var stream = resource("container.xml")) {
-      Files.copy(stream, this.metaDirectory.resolve("container.xml"));
+      Files.copy(
+        stream,
+        this.metaDirectory.resolve("container.xml"),
+        REPLACE_EXISTING
+      );
     }
   }
 
@@ -498,7 +506,10 @@ public final class XSEPUBCreator implements XSProcessorType
     Files.writeString(
       this.epubDirectory.resolve("mimetype"),
       "application/epub+zip",
-      UTF_8
+      UTF_8,
+      WRITE,
+      CREATE,
+      TRUNCATE_EXISTING
     );
   }
 

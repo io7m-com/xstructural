@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
+<!-- Comments! -->
+
 <Document xmlns="urn:com.io7m.structural:8:0"
           xmlns:dc="http://purl.org/dc/elements/1.1/"
           tableOfContentsDepth="3"
           tableOfContents="true">
+
+  <!-- Comments! -->
 
   <Metadata>
     <dc:contributor>A Contributor</dc:contributor>
