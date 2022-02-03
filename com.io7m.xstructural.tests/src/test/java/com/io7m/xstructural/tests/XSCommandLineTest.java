@@ -991,4 +991,75 @@ public final class XSCommandLineTest
       "EPUB file exists"
     );
   }
+
+  @Test
+  public void testTransformXHTMLEPUBOKExampleTwice_80()
+    throws Exception
+  {
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "poppy.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "missing.jpg"
+    );
+    XSTestDirectories.resourceOf(
+      XSCommandLineTest.class,
+      this.sourceDirectory,
+      "woods.jpg"
+    );
+
+    {
+      final var main = new Main(new String[]{
+        "epub",
+        "--sourceFile",
+        XSTestDirectories.resourceOf(
+          XSCommandLineTest.class,
+          this.sourceDirectory,
+          "example0_80.xml")
+          .toString(),
+        "--outputDirectory",
+        this.outputDirectory.toString(),
+        "--traceFile",
+        this.directory.resolve("trace.xml").toString(),
+        "--messagesFile",
+        this.directory.resolve("messages.log").toString(),
+        "--verbose",
+        "trace"
+      });
+
+      final var capture =
+        XSOutputCaptured.capture(main::run);
+
+      Assertions.assertEquals(0, main.exitCode());
+    }
+
+    {
+      final var main = new Main(new String[]{
+        "epub",
+        "--sourceFile",
+        XSTestDirectories.resourceOf(
+          XSCommandLineTest.class,
+          this.sourceDirectory,
+          "example0_80.xml")
+          .toString(),
+        "--outputDirectory",
+        this.outputDirectory.toString(),
+        "--traceFile",
+        this.directory.resolve("trace.xml").toString(),
+        "--messagesFile",
+        this.directory.resolve("messages.log").toString(),
+        "--verbose",
+        "trace"
+      });
+
+      final var capture =
+        XSOutputCaptured.capture(main::run);
+
+      Assertions.assertEquals(0, main.exitCode());
+    }
+  }
 }
