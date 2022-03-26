@@ -107,7 +107,7 @@
       <dependency>
         <groupId>net.sf.saxon</groupId>
         <artifactId>Saxon-HE</artifactId>
-        <version>11.2</version>
+        <version>10.3</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
@@ -189,6 +189,11 @@
             <artifactId>animal-sniffer-annotations</artifactId>
           </exclusion>
         </exclusions>
+      </dependency>
+      <dependency>
+        <groupId>xml-apis</groupId>
+        <artifactId>xml-apis</artifactId>
+        <version>1.4.01</version>
       </dependency>
     </dependencies>
   </dependencyManagement>
