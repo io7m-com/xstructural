@@ -64,9 +64,9 @@
         <c:change date="2022-09-20T00:00:00+00:00" summary="Update logback to 1.4.1"/>
       </c:changes>
     </c:release>
-    <c:release date="2022-09-20T18:21:11+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="1.7.0">
+    <c:release date="2022-09-20T18:25:13+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.7.0">
       <c:changes>
-        <c:change date="2022-09-20T18:21:11+00:00" summary="Add the ability to add extra EPUB resources.">
+        <c:change date="2022-09-20T00:00:00+00:00" summary="Add the ability to add extra EPUB resources.">
           <c:tickets>
             <c:ticket id="19"/>
           </c:tickets>
