@@ -144,6 +144,11 @@ public final class XSEPUBPackageCreator implements XSProcessorType
           QName.fromEQName("outputFile"),
           XdmValue.makeValue(outputFile.toUri().toString())
         );
+        transformer.setParameter(
+          QName.fromEQName("sourceDirectory"),
+          XdmValue.makeValue(
+            this.request.sourceFile().getParent().toUri().toString())
+        );
 
         LOG.debug("output file: {}", outputFile);
         LOG.debug("executing stylesheet");

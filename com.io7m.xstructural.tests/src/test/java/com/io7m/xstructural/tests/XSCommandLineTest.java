@@ -23,6 +23,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.io.UncheckedIOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.stream.Collectors;
@@ -1061,5 +1062,105 @@ public final class XSCommandLineTest
 
       Assertions.assertEquals(0, main.exitCode());
     }
+  }
+
+  @Test
+  public void testTransformEPUB4_80()
+    throws Exception
+  {
+    final var file0 =
+      Files.writeString(
+        this.sourceDirectory.resolve("file0.txt"),
+        "Text 0."
+      );
+    final var file1 =
+      Files.writeString(
+        this.sourceDirectory.resolve("file1.txt"),
+        "Text 1."
+      );
+    final var file2 =
+      Files.writeString(
+        this.sourceDirectory.resolve("file2.txt"),
+        "Text 2."
+      );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example4_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+  }
+
+  @Test
+  public void testTransformEPUB5_80()
+    throws Exception
+  {
+    final var file =
+      this.sourceDirectory.resolve("extra-resources.txt");
+
+    try (var writer = Files.newBufferedWriter(file, UTF_8)) {
+      writer.append("file0.txt");
+      writer.newLine();
+      writer.append("file1.txt");
+      writer.newLine();
+      writer.append("file2.txt");
+      writer.newLine();
+    }
+
+    final var file0 =
+      Files.writeString(
+        this.sourceDirectory.resolve("file0.txt"),
+        "Text 0."
+      );
+    final var file1 =
+      Files.writeString(
+        this.sourceDirectory.resolve("file1.txt"),
+        "Text 1."
+      );
+    final var file2 =
+      Files.writeString(
+        this.sourceDirectory.resolve("file2.txt"),
+        "Text 2."
+      );
+
+    final var main = new Main(new String[]{
+      "epub",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example5_80.xml")
+        .toString(),
+      "--outputDirectory",
+      this.outputDirectory.toString(),
+      "--traceFile",
+      this.directory.resolve("trace.xml").toString(),
+      "--messagesFile",
+      this.directory.resolve("messages.log").toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
   }
 }
