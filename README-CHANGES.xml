@@ -48,7 +48,7 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2022-06-30T08:47:08+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.5.0">
+    <c:release date="2022-06-30T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.5.0">
       <c:changes>
         <c:change date="2022-06-30T00:00:00+00:00" summary="Add 1em margin to list items">
           <c:tickets>
@@ -56,6 +56,12 @@
           </c:tickets>
         </c:change>
         <c:change date="2022-06-30T00:00:00+00:00" summary="Update dependencies"/>
+      </c:changes>
+    </c:release>
+    <c:release date="2022-09-20T09:27:44+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.6.0">
+      <c:changes>
+        <c:change date="2022-09-20T00:00:00+00:00" summary="Update slf4j to 2.0.1"/>
+        <c:change date="2022-09-20T00:00:00+00:00" summary="Update logback to 1.4.1"/>
       </c:changes>
     </c:release>
   </c:releases>
