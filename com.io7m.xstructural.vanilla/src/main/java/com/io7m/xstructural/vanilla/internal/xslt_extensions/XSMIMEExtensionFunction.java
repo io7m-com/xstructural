@@ -21,10 +21,9 @@ import net.sf.saxon.s9api.QName;
 import net.sf.saxon.s9api.SequenceType;
 import net.sf.saxon.s9api.XdmAtomicValue;
 import net.sf.saxon.s9api.XdmValue;
+import org.apache.tika.Tika;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.util.Locale;
 
 import static net.sf.saxon.s9api.ItemType.STRING;
 import static net.sf.saxon.s9api.OccurrenceIndicator.ONE;
@@ -39,13 +38,15 @@ public final class XSMIMEExtensionFunction
   private static final Logger LOG =
     LoggerFactory.getLogger(XSMIMEExtensionFunction.class);
 
+  private final Tika tika;
+
   /**
    * The {@code mimeOf} extension function.
    */
 
   public XSMIMEExtensionFunction()
   {
-
+    this.tika = new Tika();
   }
 
   @Override
@@ -70,21 +71,9 @@ public final class XSMIMEExtensionFunction
   public XdmValue call(
     final XdmValue[] arguments)
   {
-    final String arg = arguments[0].itemAt(0).getStringValue();
-    LOG.trace("mimeOf: {}", arg);
-
-    final var argUpper = arg.toUpperCase(Locale.ROOT);
-    if (argUpper.endsWith(".PNG")) {
-      return new XdmAtomicValue("image/png");
-    }
-    if (argUpper.endsWith(".JPG")) {
-      return new XdmAtomicValue("image/jpeg");
-    }
-    if (argUpper.endsWith(".SVG")) {
-      return new XdmAtomicValue("image/svg+xml");
-    }
-    throw new IllegalArgumentException(
-      String.format("Could not determine the type of file '%s'", arg)
-    );
+    final var arg = arguments[0].itemAt(0).getStringValue();
+    final var detected = this.tika.detect(arg);
+    LOG.trace("mimeOf: {} -> {}", arg, detected);
+    return new XdmAtomicValue(detected);
   }
 }

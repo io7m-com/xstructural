@@ -33,6 +33,7 @@ module com.io7m.xstructural.vanilla
   requires java.xml;
   requires org.apache.commons.compress;
   requires org.apache.commons.io;
+  requires org.apache.tika.core;
   requires org.slf4j;
   requires org.w3c.epubcheck;
 

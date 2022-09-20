@@ -180,6 +180,22 @@
 
       <xsl:value-of select=".//s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.cover']"/>
       <xsl:text>&#x000a;</xsl:text>
+
+      <xsl:for-each select=".//s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.resource']">
+        <xsl:value-of select="."/>
+        <xsl:text>&#x000a;</xsl:text>
+      </xsl:for-each>
+
+      <xsl:for-each select=".//s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.resource-list']">
+        <xsl:variable name="resourceFile"
+                      select="concat($xstructural.sourceDirectory, .)"/>
+        <xsl:variable name="resourceFileText"
+                      select="replace(unparsed-text($resourceFile),'\r','')"/>
+        <xsl:for-each select="$resourceFileText">
+          <xsl:value-of select="."/>
+          <xsl:text>&#x000a;</xsl:text>
+        </xsl:for-each>
+      </xsl:for-each>
     </xsl:result-document>
   </xsl:template>
 

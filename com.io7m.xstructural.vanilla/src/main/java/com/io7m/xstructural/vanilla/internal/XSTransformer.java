@@ -162,6 +162,12 @@ public final class XSTransformer implements XSProcessorType
           XdmValue.makeValue(outputPath.toUri().toString())
         );
 
+        transformer.setParameter(
+          QName.fromEQName("xstructural.sourceDirectory"),
+          XdmValue.makeValue(
+            this.request.sourceFile().getParent().toUri().toString())
+        );
+
         this.request.brandingFile()
           .ifPresent(path -> {
             LOG.debug("branding file: {}", path);

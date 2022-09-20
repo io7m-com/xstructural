@@ -26,6 +26,10 @@
              as="xsd:string"
              required="yes"/>
 
+  <xsl:param name="xstructural.sourceDirectory"
+             as="xsd:string"
+             required="yes"/>
+
   <xsl:output name="xstructural.textOutput"
               method="text"
               indent="no"/>

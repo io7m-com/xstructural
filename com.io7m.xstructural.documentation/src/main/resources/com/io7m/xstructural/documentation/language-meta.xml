@@ -57,6 +57,40 @@
         inserted into the <Term type="term">colophon</Term> page of the generated EPUB.
       </Paragraph>
     </Subsection>
+    <Subsection title="com.io7m.xstructural.epub.resource">
+      <Paragraph>
+        The contents of this property add an extra file to the manifest. The property can be specified multiple times to
+        add multiple resources. The resources are resolved relative to the source directory of the document.
+      </Paragraph>
+    </Subsection>
+    <Subsection title="com.io7m.xstructural.epub.resource-list">
+      <Paragraph>
+        The contents of this property denote a file that contains a list of extra resources to add to the manifest. The
+        file name is resolved relative to the source directory of the document. The file must contain one resource file
+        per line. For example, if a file named
+        <Term type="file">extra-files.txt</Term>
+        contains the following text:
+      </Paragraph>
+      <FormalItem title="Example File List">
+        <Verbatim><![CDATA[file0.txt
+file1.txt
+file2.txt
+]]></Verbatim>
+      </FormalItem>
+      <Paragraph>
+        Then the following <Term type="expression">MetaProperty</Term> declarations are effectively equivalent:
+      </Paragraph>
+      <FormalItem title="Example File List">
+        <Verbatim>
+          <![CDATA[<MetaProperty name="com.io7m.xstructural.epub.resource-list">extra-files.txt</MetaProperty>]]></Verbatim>
+      </FormalItem>
+      <FormalItem title="Example Files">
+        <Verbatim><![CDATA[<MetaProperty name="com.io7m.xstructural.epub.resource">file0.txt</MetaProperty>
+<MetaProperty name="com.io7m.xstructural.epub.resource">file1.txt</MetaProperty>
+<MetaProperty name="com.io7m.xstructural.epub.resource">file2.txt</MetaProperty>
+]]></Verbatim>
+      </FormalItem>
+    </Subsection>
     <Subsection title="Examples">
       <FormalItem title="EPUB Example">
         <Verbatim><![CDATA[
@@ -66,6 +100,10 @@
     <dc:title>Example Document</dc:title>
     <MetaProperty name="com.io7m.xstructural.epub.colophon">colophon_extra.xml</MetaProperty>
     <MetaProperty name="com.io7m.xstructural.epub.cover">cover.jpg</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.epub.resource">file0.txt</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.epub.resource">file1.txt</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.epub.resource">file2.txt</MetaProperty>
+    <MetaProperty name="com.io7m.xstructural.epub.resource-list">extra-files.txt</MetaProperty>
   </Metadata>
 ...
 ]]></Verbatim>
