@@ -8,7 +8,7 @@
   <parent>
     <artifactId>com.io7m.xstructural</artifactId>
     <groupId>com.io7m.xstructural</groupId>
-    <version>1.7.1</version>
+    <version>1.7.2-SNAPSHOT</version>
   </parent>
 
   <artifactId>com.io7m.xstructural.tests</artifactId>
