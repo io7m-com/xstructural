@@ -38,8 +38,8 @@
       <xsl:when test="$depthCurrent &lt;= $depthMaximum">
         <xsl:element name="li">
           <xsl:variable name="numberTitle">
-            <xsl:call-template name="xstructural.numbers.sectionNumberTitleOf">
-              <xsl:with-param name="section"
+            <xsl:call-template name="xstructural.numbers.subsectionNumberTitleOf">
+              <xsl:with-param name="subsection"
                               select="."/>
             </xsl:call-template>
           </xsl:variable>
