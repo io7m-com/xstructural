@@ -11,7 +11,7 @@
 
   <groupId>com.io7m.xstructural</groupId>
   <artifactId>com.io7m.xstructural</artifactId>
-  <version>1.7.2</version>
+  <version>1.8.0</version>
   <packaging>pom</packaging>
 
   <description>Structural document format</description>
@@ -21,15 +21,17 @@
   <modules>
     <module>com.io7m.xstructural.api</module>
     <module>com.io7m.xstructural.cmdline</module>
+    <module>com.io7m.xstructural.documentation</module>
+    <module>com.io7m.xstructural.maven_plugin</module>
     <module>com.io7m.xstructural.tests</module>
     <module>com.io7m.xstructural.vanilla</module>
     <module>com.io7m.xstructural.xml</module>
-    <module>com.io7m.xstructural.documentation</module>
   </modules>
 
   <properties>
     <com.io7m.immutables.version>2.8.8</com.io7m.immutables.version>
-    <io7m.api.previousVersion>1.7.1</io7m.api.previousVersion>
+    <io7m.api.previousVersion>1.7.2</io7m.api.previousVersion>
+    <io7m.maven-api.version>3.8.6</io7m.maven-api.version>
     <junit.version>5.7.0</junit.version>
   </properties>
 
@@ -205,10 +207,82 @@
         <artifactId>xercesImpl</artifactId>
         <version>2.12.2</version>
       </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-plugin-api</artifactId>
+        <version>${io7m.maven-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven.plugin-tools</groupId>
+        <artifactId>maven-plugin-annotations</artifactId>
+        <version>3.6.4</version>
+        <scope>provided</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-core</artifactId>
+        <version>${io7m.maven-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-settings</artifactId>
+        <version>${io7m.maven-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-model</artifactId>
+        <version>${io7m.maven-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-compat</artifactId>
+        <version>${io7m.maven-api.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.maven</groupId>
+        <artifactId>maven-artifact</artifactId>
+        <version>${io7m.maven-api.version}</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
   <build>
+    <pluginManagement>
+      <plugins>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-checkstyle-plugin</artifactId>
+          <configuration>
+            <suppressionsLocation>checkstyle-filter.xml</suppressionsLocation>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.codehaus.mojo</groupId>
+          <artifactId>jaxb2-maven-plugin</artifactId>
+          <version>3.1.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-plugin-plugin</artifactId>
+          <version>3.6.4</version>
+        </plugin>
+
+        <plugin>
+          <groupId>com.soebes.itf.jupiter.extension</groupId>
+          <artifactId>itf-maven-plugin</artifactId>
+          <version>0.11.0</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-failsafe-plugin</artifactId>
+          <version>2.22.2</version>
+        </plugin>
+      </plugins>
+    </pluginManagement>
+
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

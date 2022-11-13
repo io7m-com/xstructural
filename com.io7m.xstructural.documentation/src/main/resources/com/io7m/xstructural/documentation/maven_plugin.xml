@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         title="Maven Plugin">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      The <Term type="package">xstructural</Term> package provides a Maven plugin for transforming documents
+      as part of a Maven build.
+    </Paragraph>
+  </Subsection>
+
+  <Subsection title="Usage">
+    <Paragraph>
+      The Maven plugin has a simple interface that mostly matches the <Link
+      target="41890668-2d97-42e1-aa10-7efc4f36297f">command-line</Link> interface.
+    </Paragraph>
+
+    <FormalItem title="POM Definitions">
+      <Verbatim><![CDATA[
+  <build>
+    <plugins>
+      ...
+
+      <!-- Generate documentation in various formats. -->
+      <plugin>
+        <groupId>${project.groupId}</groupId>
+        <artifactId>com.io7m.xstructural.maven_plugin</artifactId>
+        <version>${project.version}</version>
+        <executions>
+          <execution>
+            <id>xhtml-single</id>
+            <phase>package</phase>
+            <goals>
+              <goal>xhtml-single</goal>
+            </goals>
+            <configuration>
+              <brandingFile>src/main/xml/brand.xml</brandingFile>
+              <sourceFile>src/main/xml/main.xml</sourceFile>
+              <outputDirectory>target/documentation</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>xhtml-multi</id>
+            <phase>package</phase>
+            <goals>
+              <goal>xhtml-multi</goal>
+            </goals>
+            <configuration>
+              <brandingFile>src/main/xml/brand.xml</brandingFile>
+              <sourceFile>src/main/xml/main.xml</sourceFile>
+              <outputDirectory>target/documentation</outputDirectory>
+            </configuration>
+          </execution>
+          <execution>
+            <id>epub</id>
+            <phase>package</phase>
+            <goals>
+              <goal>epub</goal>
+            </goals>
+            <configuration>
+              <brandingFile>src/main/xml/brand.xml</brandingFile>
+              <sourceFile>src/main/xml/main.xml</sourceFile>
+              <outputDirectory>target/epub</outputDirectory>
+              <outputFileName>documentation.epub</outputFileName>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Skipping">
+    <Paragraph>
+      Execution of the plugin may be skipped by setting the <Term type="expression">xstructural.skip</Term>
+      system property to <Term type="constant">true</Term>.
+    </Paragraph>
+  </Subsection>
+
+</Section>

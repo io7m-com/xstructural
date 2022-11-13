@@ -20,19 +20,17 @@ import com.io7m.xstructural.api.XSProcessorRequest;
 import com.io7m.xstructural.api.XSProcessorType;
 import com.io7m.xstructural.api.XSValidationException;
 import com.io7m.xstructural.xml.SXMLResources;
+import net.sf.saxon.tree.tiny.TinyAttributeImpl;
+import net.sf.saxon.tree.tiny.TinyElementImpl;
 import net.sf.saxon.xpath.XPathFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.w3c.dom.NamedNodeMap;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXNotRecognizedException;
 import org.xml.sax.SAXNotSupportedException;
 
 import javax.xml.XMLConstants;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParserFactory;
 import javax.xml.transform.sax.SAXSource;
@@ -152,62 +150,41 @@ public final class XSXHTMLValidator implements XSProcessorType
   {
     var failed = false;
 
-    try (var stream = Files.newInputStream(file)) {
-      final var builderFactory =
-        DocumentBuilderFactory.newInstance();
+    final var data = Files.readAllBytes(file);
 
-      builderFactory.setFeature(
-        XMLConstants.FEATURE_SECURE_PROCESSING,
-        true);
-      builderFactory.setFeature(
-        "http://apache.org/xml/features/nonvalidating/load-external-dtd",
-        false);
-      builderFactory.setFeature(
-        "http://apache.org/xml/features/xinclude",
-        false);
-      builderFactory.setFeature(
-        "http://xml.org/sax/features/namespaces",
-        false);
-      builderFactory.setFeature(
-        "http://xml.org/sax/features/validation",
-        false);
-      builderFactory.setFeature(
-        "http://apache.org/xml/features/validation/schema",
-        false);
-
-      builderFactory.setValidating(false);
-      builderFactory.setXIncludeAware(false);
-      builderFactory.setNamespaceAware(false);
-
-      final var builder =
-        builderFactory.newDocumentBuilder();
-      final var xmlDocument =
-        builder.parse(stream);
-
+    try {
       final var xpaths =
         new XPathFactoryImpl();
 
-      final var idPath =
+      final var expIds =
         xpaths.newXPath()
           .compile("//@id");
-      final var aPath =
+      final var expAnchors =
         xpaths.newXPath()
-          .compile("//a");
+          .compile("//*:a");
 
       final var withIds =
-        (NodeList) idPath.evaluate(xmlDocument, NODESET);
+        (ArrayList<TinyAttributeImpl>) expIds.evaluate(
+          new InputSource(new ByteArrayInputStream(data)),
+          NODESET
+        );
+
       final var anchors =
-        (NodeList) aPath.evaluate(xmlDocument, NODESET);
+        (ArrayList<TinyElementImpl>) expAnchors.evaluate(
+          new InputSource(new ByteArrayInputStream(data)),
+          NODESET
+        );
 
-      final var anchorsLocal = new ArrayList<Node>();
-      for (int index = 0; index < anchors.getLength(); ++index) {
-        final var anchor = anchors.item(index);
-        final var attributes = anchor.getAttributes();
-        
-        final var href = attributes.getNamedItem("href");
-        final var hrefText = href.getTextContent();
+      final var anchorsLocal = new ArrayList<TinyElementImpl>();
+      for (int index = 0; index < anchors.size(); ++index) {
+        final var anchor =
+          (TinyElementImpl) anchors.get(index);
+        final var hrefText =
+          anchor.getAttributeValue("", "href");
+        final var cssText =
+          anchor.getAttributeValue("", "class");
 
-        if (!checkFootnoteLink(file, attributes, hrefText)) {
+        if (!checkFootnoteLink(file, cssText, hrefText)) {
           failed = true;
         }
         if (hrefText.startsWith("#")) {
@@ -221,8 +198,9 @@ public final class XSXHTMLValidator implements XSProcessorType
       );
 
       for (final var anchor : anchorsLocal) {
-        final var href = anchor.getAttributes().getNamedItem("href");
-        final var hrefText = href.getTextContent();
+        final var hrefText =
+          anchor.getAttributeValue("", "href");
+
         final var hrefWithout = hrefText.substring(1);
         if (!findId(withIds, hrefWithout)) {
           LOG.error("unable to locate an element with id {}", hrefWithout);
@@ -238,27 +216,26 @@ public final class XSXHTMLValidator implements XSProcessorType
       }
 
       return failed;
-    } catch (final SAXException | XPathExpressionException | ParserConfigurationException e) {
+    } catch (final XPathExpressionException e) {
       throw new IOException(e);
     }
   }
 
   private static boolean checkFootnoteLink(
     final Path file,
-    final NamedNodeMap attributes,
+    final String cssClassText,
     final String hrefText)
   {
-    final var cssClass = attributes.getNamedItem("class");
-    if (cssClass == null) {
+    if (cssClassText == null) {
       return true;
     }
 
-    final var cssClassText = cssClass.getTextContent();
     if (cssClassText.contains("stLinkFootnote")) {
       if (!hrefText.startsWith("#")) {
         if (!hrefText.contains(file.getFileName().toString())) {
-          LOG.error("a footnote link must link to the same file name ({})",
-                    hrefText);
+          LOG.error(
+            "a footnote link must link to the same file name ({})",
+            hrefText);
           return false;
         }
       }
@@ -267,12 +244,12 @@ public final class XSXHTMLValidator implements XSProcessorType
   }
 
   private static boolean findId(
-    final NodeList withIds,
+    final ArrayList<TinyAttributeImpl> withIds,
     final String idName)
   {
-    for (int k = 0; k < withIds.getLength(); ++k) {
-      final var node = withIds.item(k);
-      final var idText = node.getTextContent();
+    for (int k = 0; k < withIds.size(); ++k) {
+      final var node = withIds.get(k);
+      final var idText = node.getStringValue();
       if (idName.equals(idText)) {
         return true;
       }
