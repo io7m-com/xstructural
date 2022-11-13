@@ -25,6 +25,11 @@
 
   <dependencies>
     <dependency>
+      <groupId>xerces</groupId>
+      <artifactId>xercesImpl</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>${project.groupId}</groupId>
       <artifactId>com.io7m.xstructural.api</artifactId>
       <version>${project.version}</version>
