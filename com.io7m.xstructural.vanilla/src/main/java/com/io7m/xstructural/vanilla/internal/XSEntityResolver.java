@@ -66,22 +66,8 @@ public final class XSEntityResolver
   public InputSource getExternalSubset(
     final String name,
     final String baseURI)
-    throws SAXException
   {
-    /*
-     * This will be encountered upon inline entity definitions.
-     */
-
-    final String lineSeparator = System.lineSeparator();
-    throw new SAXException(
-      new StringBuilder(128)
-        .append(
-          "External subsets are explicitly forbidden by this parser configuration.")
-        .append(lineSeparator)
-        .append("  Name: ")
-        .append(name)
-        .append(lineSeparator)
-        .toString());
+    return null;
   }
 
   @Override

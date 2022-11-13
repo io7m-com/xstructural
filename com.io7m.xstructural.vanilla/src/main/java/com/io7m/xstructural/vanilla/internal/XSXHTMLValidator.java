@@ -20,6 +20,7 @@ import com.io7m.xstructural.api.XSProcessorRequest;
 import com.io7m.xstructural.api.XSProcessorType;
 import com.io7m.xstructural.api.XSValidationException;
 import com.io7m.xstructural.xml.SXMLResources;
+import net.sf.saxon.xpath.XPathFactoryImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.w3c.dom.NamedNodeMap;
@@ -27,6 +28,8 @@ import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 
 import javax.xml.XMLConstants;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -36,7 +39,6 @@ import javax.xml.transform.sax.SAXSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.xpath.XPathExpressionException;
-import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -183,7 +185,7 @@ public final class XSXHTMLValidator implements XSProcessorType
         builder.parse(stream);
 
       final var xpaths =
-        XPathFactory.newInstance();
+        new XPathFactoryImpl();
 
       final var idPath =
         xpaths.newXPath()
@@ -298,13 +300,20 @@ public final class XSXHTMLValidator implements XSProcessorType
 
       final var parser = this.saxParsers.newSAXParser();
       final var reader = parser.getXMLReader();
+
       reader.setErrorHandler(errorHandler);
-      reader.setProperty(
-        XMLConstants.ACCESS_EXTERNAL_SCHEMA,
-        "");
-      reader.setProperty(
-        XMLConstants.ACCESS_EXTERNAL_DTD,
-        "");
+
+      try {
+        reader.setProperty(
+          XMLConstants.ACCESS_EXTERNAL_SCHEMA,
+          "");
+        reader.setProperty(
+          XMLConstants.ACCESS_EXTERNAL_DTD,
+          "");
+      } catch (SAXNotRecognizedException | SAXNotSupportedException e) {
+        // Ignored
+      }
+
       reader.setFeature(
         "http://apache.org/xml/features/nonvalidating/load-external-dtd",
         false);

@@ -19,6 +19,8 @@ package com.io7m.xstructural.vanilla.internal;
 import com.io7m.xstructural.api.XSSchemas;
 import com.io7m.xstructural.xml.SXMLResources;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 
 import javax.xml.XMLConstants;
@@ -75,12 +77,16 @@ public final class XSSAXParsers
      * Don't allow access to schemas or DTD files.
      */
 
-    reader.setProperty(
-      XMLConstants.ACCESS_EXTERNAL_SCHEMA,
-      "");
-    reader.setProperty(
-      XMLConstants.ACCESS_EXTERNAL_DTD,
-      "");
+    try {
+      reader.setProperty(
+        XMLConstants.ACCESS_EXTERNAL_SCHEMA,
+        "");
+      reader.setProperty(
+        XMLConstants.ACCESS_EXTERNAL_DTD,
+        "");
+    } catch (final SAXNotRecognizedException e) {
+      // Ignored
+    }
 
     /*
      * Don't load DTDs at all.
@@ -169,17 +175,25 @@ public final class XSSAXParsers
      * restricted even further via a custom entity resolver.
      */
 
-    reader.setProperty(
-      XMLConstants.ACCESS_EXTERNAL_SCHEMA,
-      "file");
+    try {
+      reader.setProperty(
+        XMLConstants.ACCESS_EXTERNAL_SCHEMA,
+        "file");
+    } catch (final SAXNotRecognizedException | SAXNotSupportedException e) {
+      // Ignore
+    }
 
     /*
      * Deny access to external DTD files.
      */
 
-    reader.setProperty(
-      XMLConstants.ACCESS_EXTERNAL_DTD,
-      "");
+    try {
+      reader.setProperty(
+        XMLConstants.ACCESS_EXTERNAL_DTD,
+        "");
+    } catch (final SAXNotRecognizedException | SAXNotSupportedException e) {
+      // Ignore
+    }
 
     /*
      * Don't load DTDs at all.
