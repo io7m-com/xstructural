@@ -2,6 +2,7 @@
 
 <Section xmlns="urn:com.io7m.structural:8:0"
          xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="41890668-2d97-42e1-aa10-7efc4f36297f"
          title="Command-Line Interface">
   <Section title="Overview">
     <Paragraph>

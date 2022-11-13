@@ -82,7 +82,7 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2022-11-13T18:41:33+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.7.2">
+    <c:release date="2022-11-13T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="1.7.2">
       <c:changes>
         <c:change date="2022-11-13T00:00:00+00:00" summary="Update org.osgi:org.osgi.service.component.annotations 1.5.0 → 1.5.1-RC1."/>
         <c:change date="2022-11-13T00:00:00+00:00" summary="Update net.sf.saxon:Saxon-HE 10.3 → 10.8."/>
@@ -92,6 +92,11 @@
         <c:change date="2022-11-13T00:00:00+00:00" summary="Update org.apache.commons:commons-compress 1.21 → 1.22."/>
         <c:change date="2022-11-13T00:00:00+00:00" summary="Update org.apache.tika:tika-core 2.1.0 → 2.6.0."/>
         <c:change date="2022-11-13T00:00:00+00:00" summary="Switch to using xercesImpl instead of depending on JVM XML factories."/>
+      </c:changes>
+    </c:release>
+    <c:release date="2022-11-13T20:18:25+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="1.8.0">
+      <c:changes>
+        <c:change date="2022-11-13T20:18:25+00:00" summary="Add a Maven plugin to avoid classpath pollution during Maven builds."/>
       </c:changes>
     </c:release>
   </c:releases>

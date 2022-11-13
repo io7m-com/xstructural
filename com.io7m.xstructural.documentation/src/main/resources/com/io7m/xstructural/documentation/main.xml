@@ -22,6 +22,7 @@
 
   <xi:include href="language.xml"/>
   <xi:include href="cmdline.xml"/>
+  <xi:include href="maven_plugin.xml"/>
   <xi:include href="api.xml"/>
   <xi:include href="schema.xml"/>
   <xi:include href="back.xml"/>
