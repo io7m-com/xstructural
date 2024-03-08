@@ -419,6 +419,11 @@ public final class XSEPUBCreator implements XSProcessorType
     entry.setCrc(crcOf(source));
     entry.setExtra(EMPTY_EXTRA);
 
+    // https://github.com/w3c/epubcheck/issues/562
+    for (final var f : entry.getExtraFields()) {
+      entry.removeExtraField(f.getHeaderId());
+    }
+
     zipOut.putArchiveEntry(entry);
     Files.copy(source, zipOut);
     zipOut.closeArchiveEntry();
