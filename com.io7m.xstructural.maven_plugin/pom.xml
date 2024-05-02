@@ -14,7 +14,7 @@
 
   <description>Structural document format (Maven plugin)</description>
   <name>com.io7m.xstructural.maven_plugin</name>
-  <url>https://www.github.com/io7m/xstructural</url>
+  <url>https://www.io7m.com/software/xstructural</url>
 
   <properties>
     <bnd.baseline.skip>true</bnd.baseline.skip>

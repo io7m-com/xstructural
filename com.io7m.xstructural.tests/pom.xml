@@ -15,10 +15,13 @@
 
   <description>Structural document format (Test suite)</description>
   <name>com.io7m.xstructural.tests</name>
-  <url>https://www.github.com/io7m/xstructural</url>
+  <url>https://www.io7m.com/software/xstructural</url>
 
   <properties>
+    <bnd.baseline.skip>true</bnd.baseline.skip>
+    <checkstyle.skip>true</checkstyle.skip>
     <mdep.analyze.skip>true</mdep.analyze.skip>
+    <spotbugs.skip>true</spotbugs.skip>
   </properties>
 
   <dependencies>

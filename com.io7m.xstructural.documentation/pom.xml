@@ -17,7 +17,7 @@
 
   <description>Structural document format (Documentation)</description>
   <name>com.io7m.xstructural.documentation</name>
-  <url>https://www.github.com/io7m/xstructural</url>
+  <url>https://www.io7m.com/software/xstructural</url>
 
   <properties>
     <mdep.analyze.skip>true</mdep.analyze.skip>
