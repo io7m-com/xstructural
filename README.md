@@ -20,6 +20,19 @@ XSLT implementation of the structural documentation format.
 
 ## Features
 
+* Extremely simple core language with roughly ~20 elements. Easy to learn!
+* DocBook-like semantic tagging of terms without the need to memorize hundreds
+  of XML elements.
+* Automatic tables of content, section and paragraph numbering.
+* Full, strict XSD schema with mandatory validation of documents.
+* XHTML Strict 1.0 output, in single or multi-page forms.
+* Produces valid and strongly accessible XHTML, with captions and metadata for
+  screen readers. Tools automatically validate their own output and refuse to
+  produce invalid output.
+* Written in Java 17 for platform independence.
+* Fully documented command line tools for document processing.
+* Maven plugin for processing documentation as part of a project build.
+* Large, high-coverage test suite.
 * [OSGi-ready](https://www.osgi.org/)
 * [JPMS-ready](https://en.wikipedia.org/wiki/Java_Platform_Module_System)
 * ISC license.
