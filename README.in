@@ -1,0 +1,14 @@
+
+## xstructural
+
+XSLT implementation of the structural documentation format.
+
+## Features
+
+* [OSGi-ready](https://www.osgi.org/)
+* [JPMS-ready](https://en.wikipedia.org/wiki/Java_Platform_Module_System)
+* ISC license.
+
+## Usage
+
+See the [documentation](https://www.io7m.com/software/xstructural).

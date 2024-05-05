@@ -29,9 +29,12 @@
   </modules>
 
   <properties>
-    <com.io7m.immutables.version>2.10.0</com.io7m.immutables.version>
+    <!-- Configuration -->
     <io7m.api.previousVersion>1.8.0</io7m.api.previousVersion>
-    <io7m.java.targetJavaVersion>21</io7m.java.targetJavaVersion>
+    <io7m.java.targetJavaVersion>17</io7m.java.targetJavaVersion>
+
+    <!-- Third-party dependencies. -->
+    <com.io7m.immutables.version>2.10.0</com.io7m.immutables.version>
     <io7m.maven-api.version>3.9.6</io7m.maven-api.version>
     <junit.version>5.10.1</junit.version>
   </properties>
@@ -73,6 +76,10 @@
       <id>sonatype-nexus-staging</id>
       <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <ciManagement>
