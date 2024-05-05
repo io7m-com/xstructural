@@ -7,6 +7,7 @@
     <li>Automatic tables of content, section and paragraph numbering.</li>
     <li>Full, strict XSD schema with mandatory validation of documents.</li>
     <li>XHTML Strict 1.0 output, in single or multi-page forms.</li>
+    <li>EPUB output.</li>
     <li>Produces valid and strongly accessible XHTML, with captions and metadata for screen readers. Tools automatically validate their own output and refuse to produce invalid output.</li>
     <li>Written in Java 17 for platform independence.</li>
     <li>Fully documented command line tools for document processing.</li>

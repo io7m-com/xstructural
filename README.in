@@ -11,6 +11,7 @@ XSLT implementation of the structural documentation format.
 * Automatic tables of content, section and paragraph numbering.
 * Full, strict XSD schema with mandatory validation of documents.
 * XHTML Strict 1.0 output, in single or multi-page forms.
+* EPUB output.
 * Produces valid and strongly accessible XHTML, with captions and metadata for
   screen readers. Tools automatically validate their own output and refuse to
   produce invalid output.
