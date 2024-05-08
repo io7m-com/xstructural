@@ -6,17 +6,17 @@
   <parent>
     <groupId>com.io7m.primogenitor</groupId>
     <artifactId>com.io7m.primogenitor.full</artifactId>
-    <version>7.4.0</version>
+    <version>8.2.0</version>
   </parent>
 
   <groupId>com.io7m.xstructural</groupId>
   <artifactId>com.io7m.xstructural</artifactId>
-  <version>1.8.0</version>
+  <version>1.8.1</version>
   <packaging>pom</packaging>
 
   <description>Structural document format</description>
   <name>com.io7m.xstructural</name>
-  <url>https://www.github.com/io7m/xstructural</url>
+  <url>https://www.io7m.com/software/xstructural</url>
 
   <modules>
     <module>com.io7m.xstructural.api</module>
@@ -29,23 +29,27 @@
   </modules>
 
   <properties>
-    <com.io7m.immutables.version>2.8.8</com.io7m.immutables.version>
-    <io7m.api.previousVersion>1.7.2</io7m.api.previousVersion>
-    <io7m.maven-api.version>3.8.6</io7m.maven-api.version>
-    <junit.version>5.7.0</junit.version>
+    <!-- Configuration -->
+    <io7m.api.previousVersion>1.8.0</io7m.api.previousVersion>
+    <io7m.java.targetJavaVersion>17</io7m.java.targetJavaVersion>
+
+    <!-- Third-party dependencies. -->
+    <com.io7m.immutables.version>2.10.1</com.io7m.immutables.version>
+    <io7m.maven-api.version>3.9.6</io7m.maven-api.version>
+    <junit.version>5.10.2</junit.version>
   </properties>
 
   <licenses>
     <license>
-      <name>ISC License</name>
+      <name>ISC</name>
       <url>http://io7m.com/license/isc.txt</url>
     </license>
   </licenses>
 
   <scm>
-    <url>https://github.com/io7m/xstructural</url>
-    <connection>scm:git:https://github.com/io7m/xstructural</connection>
-    <developerConnection>scm:git:https://github.com/io7m/xstructural</developerConnection>
+    <url>https://www.github.com/io7m-com/xstructural</url>
+    <connection>scm:git:https://www.github.com/io7m-com/xstructural</connection>
+    <developerConnection>scm:git:https://www.github.com/io7m-com/xstructural</developerConnection>
   </scm>
 
   <developers>
@@ -58,7 +62,7 @@
   </developers>
 
   <issueManagement>
-    <url>http://github.com/io7m/xstructural/issues</url>
+    <url>http://www.github.com/io7m-com/xstructural/issues</url>
     <system>GitHub Issues</system>
   </issueManagement>
 
@@ -72,11 +76,15 @@
       <id>sonatype-nexus-staging</id>
       <url>https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/</url>
     </repository>
+    <snapshotRepository>
+      <id>sonatype-nexus-snapshots</id>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+    </snapshotRepository>
   </distributionManagement>
 
   <ciManagement>
     <system>GitHub Actions</system>
-    <url>https://github.com/io7m/xstructural/actions</url>
+    <url>https://www.github.com/io7m-com/xstructural/actions</url>
   </ciManagement>
 
   <dependencyManagement>
@@ -94,7 +102,7 @@
       <dependency>
         <groupId>org.osgi</groupId>
         <artifactId>org.osgi.service.component.annotations</artifactId>
-        <version>1.5.0</version>
+        <version>1.5.1</version>
       </dependency>
       <dependency>
         <groupId>org.immutables</groupId>
@@ -102,24 +110,24 @@
         <version>${com.io7m.immutables.version}</version>
       </dependency>
       <dependency>
-        <groupId>com.io7m.immutables.style</groupId>
-        <artifactId>com.io7m.immutables.style</artifactId>
-        <version>0.0.1</version>
+        <groupId>com.io7m.immutables-style</groupId>
+        <artifactId>com.io7m.immutables-style</artifactId>
+        <version>1.0.0</version>
       </dependency>
       <dependency>
         <groupId>ch.qos.logback</groupId>
         <artifactId>logback-classic</artifactId>
-        <version>1.4.4</version>
+        <version>1.5.6</version>
       </dependency>
       <dependency>
         <groupId>net.sf.saxon</groupId>
         <artifactId>Saxon-HE</artifactId>
-        <version>10.8</version>
+        <version>12.4</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>2.0.3</version>
+        <version>2.0.13</version>
       </dependency>
       <dependency>
         <groupId>org.junit.jupiter</groupId>
@@ -134,7 +142,7 @@
       <dependency>
         <groupId>com.io7m.junreachable</groupId>
         <artifactId>com.io7m.junreachable.core</artifactId>
-        <version>4.0.0</version>
+        <version>4.0.2</version>
       </dependency>
       <dependency>
         <groupId>com.beust</groupId>
@@ -144,27 +152,27 @@
       <dependency>
         <groupId>com.io7m.primogenitor</groupId>
         <artifactId>com.io7m.primogenitor.support</artifactId>
-        <version>7.4.0</version>
+        <version>8.2.0</version>
       </dependency>
       <dependency>
         <groupId>com.github.marschall</groupId>
         <artifactId>memoryfilesystem</artifactId>
-        <version>2.4.0</version>
+        <version>2.8.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.22</version>
+        <version>1.26.1</version>
       </dependency>
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.11.0</version>
+        <version>2.16.1</version>
       </dependency>
       <dependency>
         <groupId>org.w3c</groupId>
         <artifactId>epubcheck</artifactId>
-        <version>4.2.6</version>
+        <version>5.1.0</version>
         <exclusions>
           <exclusion>
             <groupId>xerces</groupId>
@@ -195,12 +203,12 @@
       <dependency>
         <groupId>org.apache.tika</groupId>
         <artifactId>tika-core</artifactId>
-        <version>2.6.0</version>
+        <version>2.9.2</version>
       </dependency>
       <dependency>
         <groupId>xml-apis</groupId>
         <artifactId>xml-apis</artifactId>
-        <version>1.4.01</version>
+        <version>2.0.2</version>
       </dependency>
       <dependency>
         <groupId>xerces</groupId>
@@ -215,7 +223,7 @@
       <dependency>
         <groupId>org.apache.maven.plugin-tools</groupId>
         <artifactId>maven-plugin-annotations</artifactId>
-        <version>3.6.4</version>
+        <version>3.13.0</version>
         <scope>provided</scope>
       </dependency>
       <dependency>
@@ -266,7 +274,7 @@
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-plugin-plugin</artifactId>
-          <version>3.6.4</version>
+          <version>3.11.0</version>
         </plugin>
 
         <plugin>

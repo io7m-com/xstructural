@@ -2,6 +2,17 @@
 
 <div xmlns="http://www.w3.org/1999/xhtml">
   <ul>
+    <li>Extremely simple core language with roughly ~20 elements. Easy to learn!</li>
+    <li>DocBook-like semantic tagging of terms without the need to memorize hundreds of XML elements.</li>
+    <li>Automatic tables of content, section and paragraph numbering.</li>
+    <li>Full, strict XSD schema with mandatory validation of documents.</li>
+    <li>XHTML Strict 1.0 output, in single or multi-page forms.</li>
+    <li>EPUB output.</li>
+    <li>Produces valid and strongly accessible XHTML, with captions and metadata for screen readers. Tools automatically validate their own output and refuse to produce invalid output.</li>
+    <li>Written in Java 17 for platform independence.</li>
+    <li>Fully documented command line tools for document processing.</li>
+    <li>Maven plugin for processing documentation as part of a project build.</li>
+    <li>Large, high-coverage test suite.</li>
     <li><a href="https://www.osgi.org/">OSGi</a>-ready</li>
     <li><a href="https://en.wikipedia.org/wiki/Java_Platform_Module_System">JPMS</a>-ready</li>
     <li>High-coverage automated test suite.</li>

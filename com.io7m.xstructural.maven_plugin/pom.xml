@@ -6,7 +6,7 @@
   <parent>
     <groupId>com.io7m.xstructural</groupId>
     <artifactId>com.io7m.xstructural</artifactId>
-    <version>1.8.0</version>
+    <version>1.8.1</version>
   </parent>
 
   <artifactId>com.io7m.xstructural.maven_plugin</artifactId>
@@ -14,7 +14,7 @@
 
   <description>Structural document format (Maven plugin)</description>
   <name>com.io7m.xstructural.maven_plugin</name>
-  <url>https://www.github.com/io7m/xstructural</url>
+  <url>https://www.io7m.com/software/xstructural</url>
 
   <properties>
     <bnd.baseline.skip>true</bnd.baseline.skip>
@@ -75,11 +75,14 @@
         <artifactId>maven-plugin-plugin</artifactId>
         <executions>
           <execution>
-            <id>mojo-descriptor</id>
+            <id>default-descriptor</id>
             <phase>process-classes</phase>
             <goals>
               <goal>descriptor</goal>
             </goals>
+            <configuration>
+              <goalPrefix>xstructural</goalPrefix>
+            </configuration>
           </execution>
         </executions>
       </plugin>
