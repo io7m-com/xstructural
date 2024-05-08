@@ -99,9 +99,19 @@
         <c:change date="2022-11-13T00:00:00+00:00" summary="Add a Maven plugin to avoid classpath pollution during Maven builds."/>
       </c:changes>
     </c:release>
-    <c:release date="2024-05-05T19:16:56+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="1.8.1">
+    <c:release date="2024-05-08T21:27:15+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="1.8.1">
       <c:changes>
-        <c:change date="2024-05-05T19:16:56+00:00" summary="Update org.apache.commons:commons-compress 1.25.0 → 1.26.1."/>
+        <c:change date="2024-05-05T00:00:00+00:00" summary="Update org.apache.commons:commons-compress 1.25.0 → 1.26.1."/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update ch.qos.logback:logback-classic:1.4.14 → 1.5.6"/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update org.slf4j:slf4j-api:2.0.10 → 2.0.13"/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update com.io7m.junreachable:com.io7m.junreachable.core:4.0.0 → 4.0.2"/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update com.github.marschall:memoryfilesystem:2.7.0 → 2.8.0"/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update commons-io:commons-io:2.15.1 → 2.16.1"/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update org.apache.tika:tika-core:2.9.1 → 2.9.2"/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update org.apache.maven.plugin-tools:maven-plugin-annotations:3.10.2 → 3.13.0"/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update org.immutables:value:2.10.0 → 2.10.1"/>
+        <c:change date="2024-05-08T00:00:00+00:00" summary="Update org.junit.jupiter:junit-jupiter-api:5.10.1 → 5.10.2"/>
+        <c:change date="2024-05-08T21:27:15+00:00" summary="Update org.junit.jupiter:junit-jupiter-engine:5.10.1 → 5.10.2"/>
       </c:changes>
     </c:release>
   </c:releases>
