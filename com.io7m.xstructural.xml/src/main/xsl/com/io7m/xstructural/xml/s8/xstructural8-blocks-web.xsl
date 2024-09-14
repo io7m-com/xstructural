@@ -273,7 +273,7 @@
 
     <xsl:call-template name="xstructural.regions.standardRegion">
       <xsl:with-param name="class"
-                      select="'stFootnotes'"/>
+                      select="'stFormalItem'"/>
       <xsl:with-param name="stMarginNode">
         <xsl:comment>Empty</xsl:comment>
       </xsl:with-param>

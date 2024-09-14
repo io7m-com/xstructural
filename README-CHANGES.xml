@@ -114,11 +114,16 @@
         <c:change date="2024-05-08T00:00:00+00:00" summary="Update org.junit.jupiter:junit-jupiter-engine:5.10.1 → 5.10.2"/>
       </c:changes>
     </c:release>
-    <c:release date="2024-09-14T15:03:19+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="1.9.0">
+    <c:release date="2024-09-14T15:08:30+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="1.9.0">
       <c:changes>
-        <c:change date="2024-09-14T15:03:19+00:00" summary="Change CSS to a form that scales with screen sizes.">
+        <c:change date="2024-09-14T00:00:00+00:00" summary="Change CSS to a form that scales with screen sizes.">
           <c:tickets>
             <c:ticket id="28"/>
+          </c:tickets>
+        </c:change>
+        <c:change date="2024-09-14T15:08:30+00:00" summary="Formal items were being assigned the wrong CSS class.">
+          <c:tickets>
+            <c:ticket id="26"/>
           </c:tickets>
         </c:change>
       </c:changes>
