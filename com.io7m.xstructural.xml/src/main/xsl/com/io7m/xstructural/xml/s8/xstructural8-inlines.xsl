@@ -54,7 +54,7 @@
         </xsl:call-template>
       </xsl:attribute>
 
-      <xsl:value-of select="."/>
+      <xsl:value-of select="normalize-space(.)"/>
     </xsl:element>
   </xsl:template>
 
@@ -71,7 +71,7 @@
       <xsl:attribute name="title"
                      select="@target"/>
 
-      <xsl:value-of select="."/>
+      <xsl:value-of select="normalize-space(.)"/>
     </xsl:element>
   </xsl:template>
 
