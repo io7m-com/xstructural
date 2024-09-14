@@ -19,43 +19,46 @@
  */
 
 :root {
-  --stBackgroundColor:  #fff;
-  --stColumnWidthLeft:  10%;
-  --stColumnWidthMain:  90%;
-  --stContentColor:     #202020;
-  --stContentFont:      sans-serif;
+  --stBackgroundColor:  #ffffff;
+  --stBodyFont:         sans-serif;
+  --stBodyFontSize:     2vmin;
+  --stBodyLineHeight:   1.4;
+  --stColumnWidthLeft:  3em;
+  --stColumnWidthMain:  97%;
   --stDivider:          1px solid #dddddd;
   --stHeaderColor:      #202020;
   --stHeaderFont:       sans-serif;
-  --stMainWidth:        50em;
+  --stMarginRight:      0.5em;
   --stMetaBorder:       1px solid #dddddd;
-  --stMetaFont:         sans-serif;
-  --stMetaFontSize:     90%;
+  --stMetaFont:         monospace;
   --stNavigationRowGap: 0.25em;
   --stVerbatimBorder:   1px solid #dddddd;
-  --stVerbatimFontSize: 80%;
+  --stVerbatimFont:     monospace;
+  --stVerbatimFontSize: 1.5vmin;
 
-  --stH1Size: 1.1em;
-  --stH2Size: 1.066em;
-  --stH3Size: 1.049em;
-  --stH4Size: 1.033em;
-  --stH5Size: 1.016em;
-  --stH6Size: 1.0em;
+  --stH1Size: 110%;
+  --stH2Size: 106%;
+  --stH3Size: 104%;
+  --stH4Size: 103%;
+  --stH5Size: 101%;
+  --stH6Size: 100%;
 }
 
 body
 {
   background-color: var(--stBackgroundColor);
-
-  line-height: 1.4em;
+  font-family:      var(--stBodyFont);
+  font-size:        var(--stBodyFontSize);
+  line-height:      var(--stBodyLineHeight);
+  margin-right:     var(--stMarginRight);
 }
 
 h1, h2, h3, h4, h5, h6
 {
-  font-family: var(--stHeaderFont);
   color:       var(--stHeaderColor);
-  margin:      0;
+  font-family: var(--stHeaderFont);
   font-weight: bold;
+  margin:      0;
 }
 
 h1
@@ -83,14 +86,17 @@ h6
   font-size: var(--stH6Size);
 }
 
+.stMain
+{
+  margin-top: 2em;
+}
+
 /*
  * Standard regions.
  */
 
 .stRegion
 {
-  width: var(--stMainWidth);
-
   margin-left: 1em;
 }
 .stRegionMargin
@@ -100,7 +106,6 @@ h6
 }
 .stRegionContent
 {
-  width:         var(--stColumnWidthMain);
   margin-left:   var(--stColumnWidthLeft);
   margin-bottom: 1em;
 }
@@ -111,8 +116,8 @@ h6
 
 .stNavigationHeader
 {
-  width: var(--stMainWidth);
   font-family: var(--stHeaderFont);
+  color:       var(--stHeaderColor);
 
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
@@ -125,9 +130,6 @@ h6
 
 .stNavigationFooter
 {
-  width: var(--stMainWidth);
-  font-family: var(--stHeaderFont);
-
   display: grid;
   grid-template-columns: 33.3% 33.3% 33.3%;
   grid-row-gap: var(--stNavigationRowGap);
@@ -208,18 +210,13 @@ h6
   text-align: right;
 }
 
-.stMain
-{
-  margin-top: 2em;
-}
-
 /*
  * Table of contents.
  */
 
 .stTableOfContents
 {
-  font-family: var(--stContentFont);
+
 }
 .stTableOfContents h1
 {
@@ -276,12 +273,12 @@ h6
 }
 .stParagraphNumber
 {
-  font-family: var(--stHeaderFont);
+
 }
 .stParagraph .stRegionContent
 {
-  font-family: var(--stContentFont);
-  color:       var(--stContentColor);
+  margin-right: calc(2 * var(--stMarginRight));
+  color:        var(--stContentColor);
 }
 
 /*
@@ -293,15 +290,16 @@ h6
   margin-top: 1em;
 }
 
+
 /*
  * Footnotes.
  */
 
 .stFootnotes
 {
-  margin-top:  1em;
-  font-family: var(--stContentFont);
-  color:       var(--stContentColor);
+  margin-right: var(--stMarginRight);
+  margin-top:   1em;
+  color:        var(--stContentColor);
 }
 .stFootnotes table
 {
@@ -328,15 +326,18 @@ h6
  * Document metadata.
  */
 
+.stRegionContent .stMetadataTable
+{
+  margin-right: calc(2 * var(--stMarginRight));
+}
 .stMetadataTable table
 {
+  font-family:     var(--stMetaFont);
   margin-top:      2em;
   margin-bottom:   2em;
   border:          var(--stMetaBorder);
   width:           100%;
   border-collapse: collapse;
-  font-family:     var(--stMetaFont);
-  font-size:       var(--stMetaFontSize);
 }
 .stMetadataTable td
 {
@@ -351,11 +352,13 @@ h6
 
 .stVerbatim
 {
-  border:    var(--stVerbatimBorder);
-  font-size: var(--stVerbatimFontSize);
-  padding:   1em;
-  margin:    0em;
-  overflow:  scroll;
+  border:       var(--stVerbatimBorder);
+  padding:      1em;
+  margin:       0em;
+  overflow:     scroll;
+  margin-right: var(--stMarginRight);
+  font-family:  var(--stVerbatimFont);
+  font-size:    var(--stVerbatimFontSize);
 }
 
 /*
@@ -364,7 +367,6 @@ h6
 
 .stItem
 {
-  font-family:   var(--stContentFont);
   color:         var(--stContentColor);
   padding-right: 1em;
   margin-top:    1em;
