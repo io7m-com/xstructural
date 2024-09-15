@@ -137,6 +137,12 @@ file2.txt
         element.
       </Paragraph>
     </Subsection>
+    <Subsection title="com.io7m.xstructural.web.cover">
+      <Paragraph>
+        The contents of this property denote the relative (to the input document) filename of the cover image that will
+        be used for the book.
+      </Paragraph>
+    </Subsection>
   </Subsection>
 
   <Footnote id="7c66cd52-4ace-4fd6-a05d-fd0255e441bb">

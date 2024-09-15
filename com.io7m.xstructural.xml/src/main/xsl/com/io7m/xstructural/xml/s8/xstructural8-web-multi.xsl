@@ -155,6 +155,9 @@
             <xsl:apply-templates select="."
                                  mode="xstructural.titleElement"/>
 
+            <xsl:apply-templates select="."
+                                 mode="xstructural.documentTitleImageElement"/>
+
             <xsl:apply-templates select="s:Metadata"
                                  mode="xstructural.metadata.table"/>
 

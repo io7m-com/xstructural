@@ -371,4 +371,35 @@
     </xsl:choose>
   </xsl:template>
 
+  <xdoc:doc>
+    Generate a document title image element in a rendered document.
+  </xdoc:doc>
+
+  <xsl:template match="s:Document"
+                mode="xstructural.documentTitleImageElement">
+    <xsl:if test="s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.web.cover']">
+      <xsl:variable name="content" as="element()">
+        <div class="stWebCoverImage">
+          <xsl:element name="img">
+            <xsl:attribute name="src">
+              <xsl:value-of select="s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.web.cover']"/>
+            </xsl:attribute>
+            <xsl:attribute name="alt">
+              <xsl:value-of select="normalize-space(s:Metadata/dc:title)"/>
+            </xsl:attribute>
+          </xsl:element>
+        </div>
+      </xsl:variable>
+
+      <xsl:call-template name="xstructural.regions.standardRegion">
+        <xsl:with-param name="class"
+                        select="'stWebCoverImage'"/>
+        <xsl:with-param name="stMarginNode">
+          <xsl:comment>Empty</xsl:comment>
+        </xsl:with-param>
+        <xsl:with-param name="stContentNode" select="$content"/>
+      </xsl:call-template>
+    </xsl:if>
+  </xsl:template>
+
 </xsl:stylesheet>
