@@ -176,7 +176,8 @@ public final class SXMLResources
       "dc.xsd",
       "xml.xsd",
       "xstructural-7.xsd",
-      "xstructural-8.xsd"
+      "xstructural-8.xsd",
+      "xstructural-8-index.xsd"
     );
   }
 
@@ -301,6 +302,17 @@ public final class SXMLResources
   public URL s8Multi()
   {
     return SXMLResources.class.getResource("s8/xstructural8-web-multi.xsl");
+  }
+
+  /**
+   * @return The xstructural 8.0 multi-page index XSL stylesheet
+   *
+   * @since 1.9.0
+   */
+
+  public URL s8Index()
+  {
+    return SXMLResources.class.getResource("s8/xstructural8-index.xsl");
   }
 
   /**

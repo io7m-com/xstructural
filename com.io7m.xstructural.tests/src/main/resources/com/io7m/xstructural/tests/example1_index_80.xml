@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!-- Comments! -->
+
+<Document xmlns="urn:com.io7m.structural:8:0"
+          xmlns:dc="http://purl.org/dc/elements/1.1/"
+          tableOfContentsDepth="3"
+          tableOfContents="true">
+
+  <!-- Comments! -->
+
+  <Metadata>
+    <dc:contributor>A Contributor</dc:contributor>
+    <dc:creator>A Creator</dc:creator>
+    <dc:date>2020-04-23T10:19:25+00:00</dc:date>
+    <dc:description>An example article.</dc:description>
+    <dc:identifier>c65fa00d-0870-405e-8f13-258e5cf4992d</dc:identifier>
+    <dc:language>English</dc:language>
+    <dc:publisher>A Publisher</dc:publisher>
+    <dc:relation>A Relation</dc:relation>
+    <dc:rights>CC-0</dc:rights>
+    <dc:source>A Source</dc:source>
+    <dc:title>Example Document</dc:title>
+  </Metadata>
+
+  <Section title="Section-A" id="59259ed7-a88d-4411-b397-b9aa20aec3a0">
+    <Subsection title="Subsection-A" id="27174ab0-0c36-43c9-9f7e-1e140ade8510">
+      <Paragraph id="24cafbdf-cfb6-4fee-a8d6-496d98b4def7">
+        Paragraphy.
+      </Paragraph>
+      <FormalItem title="Formal-A" id="cdbeb82b-ba49-4504-9c7f-86fe5186184d">
+        <Verbatim>Hello!</Verbatim>
+      </FormalItem>
+    </Subsection>
+  </Section>
+
+  <Section title="Section-B" id="1b3fed5d-31dd-42bd-98c1-30bfaa873de4">
+    <Subsection title="Subsection-B" id="5455c2c4-5468-4dc3-8f0f-27d8da7331cd">
+      <Paragraph id="ee1f2ec7-d958-4a31-8773-36235e63c9ab">
+        Paragraphy.
+      </Paragraph>
+      <FormalItem title="Formal-B" id="b8bc55d6-3f1e-491e-a3f1-8e6c40461a51">
+        <Verbatim>Hello!</Verbatim>
+      </FormalItem>
+    </Subsection>
+  </Section>
+
+</Document>

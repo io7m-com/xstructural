@@ -570,11 +570,12 @@ public final class XSCommandLineTest
         .map(Path::toString)
         .collect(Collectors.toList());
 
-    Assertions.assertEquals(4L, (long) files.size());
+    Assertions.assertEquals(5L, (long) files.size());
     Assertions.assertTrue(files.contains("xml.xsd"));
     Assertions.assertTrue(files.contains("dc.xsd"));
     Assertions.assertTrue(files.contains("xstructural-7.xsd"));
     Assertions.assertTrue(files.contains("xstructural-8.xsd"));
+    Assertions.assertTrue(files.contains("xstructural-8-index.xsd"));
   }
 
   @Test
@@ -591,7 +592,7 @@ public final class XSCommandLineTest
       XSOutputCaptured.capture(main::run);
 
     Assertions.assertEquals(0, main.exitCode());
-    Assertions.assertEquals(4L, Files.list(this.outputDirectory).count());
+    Assertions.assertEquals(5L, Files.list(this.outputDirectory).count());
 
     Files.list(this.outputDirectory)
       .forEach(path -> {
@@ -609,7 +610,7 @@ public final class XSCommandLineTest
     });
     mainAgain.run();
     Assertions.assertEquals(0, mainAgain.exitCode());
-    Assertions.assertEquals(4L, Files.list(this.outputDirectory).count());
+    Assertions.assertEquals(5L, Files.list(this.outputDirectory).count());
 
     Files.list(this.outputDirectory)
       .forEach(path -> {
@@ -636,7 +637,7 @@ public final class XSCommandLineTest
       XSOutputCaptured.capture(main::run);
 
     Assertions.assertEquals(0, main.exitCode());
-    Assertions.assertEquals(4L, Files.list(this.outputDirectory).count());
+    Assertions.assertEquals(5L, Files.list(this.outputDirectory).count());
 
     Files.list(this.outputDirectory)
       .forEach(path -> {
@@ -656,7 +657,7 @@ public final class XSCommandLineTest
     });
     mainAgain.run();
     Assertions.assertEquals(0, mainAgain.exitCode());
-    Assertions.assertEquals(4L, Files.list(this.outputDirectory).count());
+    Assertions.assertEquals(5L, Files.list(this.outputDirectory).count());
 
     Files.list(this.outputDirectory)
       .forEach(path -> {

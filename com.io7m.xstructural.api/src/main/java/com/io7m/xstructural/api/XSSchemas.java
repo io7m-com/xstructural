@@ -38,7 +38,8 @@ public final class XSSchemas
   {
     return Set.of(
       namespace7p0(),
-      namespace8p0()
+      namespace8p0(),
+      namespace8Index()
     );
   }
 
@@ -67,6 +68,15 @@ public final class XSSchemas
   public static URI namespace8p0()
   {
     return URI.create("urn:com.io7m.structural:8:0");
+  }
+
+  /**
+   * @return The structural 8.0 index schema
+   */
+
+  public static URI namespace8Index()
+  {
+    return URI.create("urn:com.io7m.structural.index:1:0");
   }
 
   /**

@@ -97,6 +97,7 @@ public final class XSEntityResolver
 
         case "xstructural-8.xsd":
         case "xstructural-7.xsd":
+        case "xstructural-8-index.xsd":
         case "xml.xsd":
         case "dc.xsd": {
           final var source = new InputSource(systemId);
