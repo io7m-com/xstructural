@@ -72,6 +72,8 @@
                 content="application/xhtml+xml; charset=utf-8"/>
           <meta name="generator"
                 content="${project.groupId}/${project.version}"/>
+          <meta name="viewport"
+                content="width=device-width, initial-scale=1.0"/>
 
           <link rel="stylesheet"
                 type="text/css"

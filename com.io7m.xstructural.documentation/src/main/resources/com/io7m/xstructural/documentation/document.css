@@ -16,13 +16,14 @@
 
 .brandingContainer
 {
-  margin: 1em;
+  margin-top:    1em;
+  margin-bottom: 1em;
+  font-size:     80%;
 }
 
 .branding
 {
   font-family: monospace;
-  font-size:   80%;
 }
 
 .command,
@@ -34,7 +35,6 @@
 .parameter
 {
   font-family: monospace;
-  font-size:   90%;
 }
 
 .term
@@ -45,7 +45,6 @@
 .genericTable
 {
   border:          1px solid #dddddd;
-  width:           100%;
   border-collapse: collapse;
 }
 .genericTable th

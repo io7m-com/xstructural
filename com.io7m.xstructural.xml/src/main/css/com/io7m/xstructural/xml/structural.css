@@ -21,20 +21,21 @@
 :root {
   --stBackgroundColor:  #ffffff;
   --stBodyFont:         sans-serif;
-  --stBodyFontSize:     2vmin;
+  --stBodyFontSize:     16px;
   --stBodyLineHeight:   1.4;
-  --stColumnWidthLeft:  3em;
-  --stColumnWidthMain:  97%;
+  --stColumnWidthLeft:  2em;
+  --stColumnWidthMain:  100%;
   --stDivider:          1px solid #dddddd;
   --stHeaderColor:      #202020;
   --stHeaderFont:       sans-serif;
-  --stMarginRight:      0.5em;
+  --stMarginLeft:       1em;
+  --stMarginRight:      1em;
   --stMetaBorder:       1px solid #dddddd;
   --stMetaFont:         monospace;
   --stNavigationRowGap: 0.25em;
   --stVerbatimBorder:   1px solid #dddddd;
   --stVerbatimFont:     monospace;
-  --stVerbatimFontSize: 1.5vmin;
+  --stVerbatimFontSize: 14px;
 
   --stH1Size: 110%;
   --stH2Size: 106%;
@@ -50,6 +51,7 @@ body
   font-family:      var(--stBodyFont);
   font-size:        var(--stBodyFontSize);
   line-height:      var(--stBodyLineHeight);
+  margin-left:      var(--stMarginLeft);
   margin-right:     var(--stMarginRight);
 }
 
@@ -97,7 +99,7 @@ h6
 
 .stRegion
 {
-  margin-left: 1em;
+
 }
 .stRegionMargin
 {
@@ -123,7 +125,6 @@ h6
   grid-template-columns: 33.3% 33.3% 33.3%;
   grid-row-gap: var(--stNavigationRowGap);
 
-  margin: 1em;
   border-bottom: var(--stDivider);
   padding-bottom: 1em;
 }
@@ -134,10 +135,9 @@ h6
   grid-template-columns: 33.3% 33.3% 33.3%;
   grid-row-gap: var(--stNavigationRowGap);
 
-  margin: 1em;
   margin-top: 2em;
-  border-top: var(--stDivider);
   padding-top: 1em;
+  border-top: var(--stDivider);
 }
 
 .stNavigationHeaderPrevTitle
@@ -240,9 +240,10 @@ h6
  * Document title.
  */
 
-.stDocumentTitle h1
+.stDocumentTitle
 {
-  font-size: 120%;
+  font-size:   130%;
+  font-weight: bold;
 }
 
 /*
@@ -277,8 +278,7 @@ h6
 }
 .stParagraph .stRegionContent
 {
-  margin-right: calc(2 * var(--stMarginRight));
-  color:        var(--stContentColor);
+
 }
 
 /*
@@ -297,14 +297,11 @@ h6
 
 .stFootnotes
 {
-  margin-right: var(--stMarginRight);
-  margin-top:   1em;
-  color:        var(--stContentColor);
+  margin-top: 1em;
 }
 .stFootnotes table
 {
   border:          var(--stMetaBorder);
-  width:           100%;
   border-collapse: collapse;
 }
 .stFootnotes td
@@ -328,7 +325,7 @@ h6
 
 .stRegionContent .stMetadataTable
 {
-  margin-right: calc(2 * var(--stMarginRight));
+
 }
 .stMetadataTable table
 {
@@ -336,7 +333,6 @@ h6
   margin-top:      2em;
   margin-bottom:   2em;
   border:          var(--stMetaBorder);
-  width:           100%;
   border-collapse: collapse;
 }
 .stMetadataTable td
@@ -347,7 +343,7 @@ h6
 }
 .stMetadataTable td:nth-child(1)
 {
-  width: 12em;
+  width: 8em;
 }
 
 .stVerbatim
@@ -356,7 +352,6 @@ h6
   padding:      1em;
   margin:       0em;
   overflow:     scroll;
-  margin-right: var(--stMarginRight);
   font-family:  var(--stVerbatimFont);
   font-size:    var(--stVerbatimFontSize);
 }

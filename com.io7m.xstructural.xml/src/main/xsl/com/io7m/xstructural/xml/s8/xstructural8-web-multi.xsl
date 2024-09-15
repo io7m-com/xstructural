@@ -19,7 +19,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:xdoc="http://www.pnp-software.com/XSLTdoc"
-                xmlns:si="xstructural-index.xsd"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
                 xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
@@ -126,6 +125,8 @@
         <head>
           <meta name="generator"
                 content="${project.groupId}/${project.version}"/>
+          <meta name="viewport"
+                content="width=device-width, initial-scale=1.0"/>
 
           <link rel="stylesheet"
                 type="text/css"
