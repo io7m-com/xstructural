@@ -90,7 +90,8 @@ h6
 
 .stMain
 {
-  margin-top: 2em;
+  margin-top:   2em;
+  margin-right: var(--stColumnWidthLeft);
 }
 
 /*
@@ -334,6 +335,7 @@ h6
   margin-bottom:   2em;
   border:          var(--stMetaBorder);
   border-collapse: collapse;
+  width:           100%;
 }
 .stMetadataTable td
 {
