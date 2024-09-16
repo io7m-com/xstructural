@@ -86,6 +86,8 @@
         <head>
           <meta name="generator"
                 content="${project.groupId}/${project.version}"/>
+          <meta name="viewport"
+                content="width=device-width, initial-scale=1.0"/>
 
           <link rel="stylesheet"
                 type="text/css"
@@ -110,6 +112,9 @@
           <div class="stMain">
             <xsl:apply-templates select="."
                                  mode="xstructural.titleElement"/>
+
+            <xsl:apply-templates select="."
+                                 mode="xstructural.documentTitleImageElement"/>
 
             <xsl:apply-templates select="s:Metadata"
                                  mode="xstructural.metadata.table"/>

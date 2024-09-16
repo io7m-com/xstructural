@@ -93,6 +93,18 @@ public final class XSTransformer implements XSProcessorType
     return new XSTransformException(builder.toString());
   }
 
+  private static XSTransformException index7NotSupported()
+  {
+    final var lineSeparator = System.lineSeparator();
+    final var builder = new StringBuilder(128);
+    builder.append("Unsupported configuration.");
+    builder.append(lineSeparator);
+    builder.append(
+      "  Problem: Producing index files from 7.0 documents is unsupported. Use 8.0 or newer.");
+    builder.append(lineSeparator);
+    return new XSTransformException(builder.toString());
+  }
+
   @Override
   public void execute()
     throws XSTransformException
@@ -224,7 +236,8 @@ public final class XSTransformer implements XSProcessorType
       final var builder = new StringBuilder(128);
       builder.append("Ambiguous document.");
       builder.append(lineSeparator);
-      builder.append("  Problem: The input document uses multiple xstructural schemas");
+      builder.append(
+        "  Problem: The input document uses multiple xstructural schemas");
       builder.append(lineSeparator);
       builder.append("           Cannot determine which XSLT stylesheet to use!");
       builder.append(lineSeparator);
@@ -275,40 +288,47 @@ public final class XSTransformer implements XSProcessorType
     final URI target)
     throws XSTransformException
   {
-    switch (this.request.stylesheet()) {
-      case SINGLE_FILE: {
+    return switch (this.request.stylesheet()) {
+      case SINGLE_FILE -> {
         if (Objects.equals(target, XSSchemas.namespace7p0())) {
-          return this.resources.s7Single();
+          yield this.resources.s7Single();
         }
         if (Objects.equals(target, XSSchemas.namespace8p0())) {
-          return this.resources.s8Single();
+          yield this.resources.s8Single();
         }
         throw new IllegalStateException();
       }
 
-      case MULTIPLE_FILE: {
+      case MULTIPLE_FILE -> {
         if (Objects.equals(target, XSSchemas.namespace7p0())) {
-          return this.resources.s7Multi();
+          yield this.resources.s7Multi();
         }
         if (Objects.equals(target, XSSchemas.namespace8p0())) {
-          return this.resources.s8Multi();
+          yield this.resources.s8Multi();
         }
         throw new IllegalStateException();
       }
 
-      case EPUB: {
+      case EPUB -> {
         if (Objects.equals(target, XSSchemas.namespace7p0())) {
           throw epub7NotSupported();
         }
         if (Objects.equals(target, XSSchemas.namespace8p0())) {
-          return this.resources.s8Epub();
+          yield this.resources.s8Epub();
         }
         throw new IllegalStateException();
       }
-      default: {
+
+      case MULTIPLE_FILE_INDEX_ONLY -> {
+        if (Objects.equals(target, XSSchemas.namespace7p0())) {
+          throw index7NotSupported();
+        }
+        if (Objects.equals(target, XSSchemas.namespace8p0())) {
+          yield this.resources.s8Index();
+        }
         throw new IllegalStateException();
       }
-    }
+    };
   }
 
   private XSLTTraceListener createTraceListener()

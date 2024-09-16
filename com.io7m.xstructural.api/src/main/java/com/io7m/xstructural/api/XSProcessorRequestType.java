@@ -129,7 +129,21 @@ public interface XSProcessorRequestType
      * use in an EPUB file.
      */
 
-    EPUB
+    EPUB,
+
+    /**
+     * <p>The multiple file index stylesheet. Produces a single index file
+     * that contains references to elements as they would appear had they
+     * been handled by the {@link #MULTIPLE_FILE} stylesheet.</p>
+     *
+     * <p>Essentially, the index answers the question "Given an element in my
+     * source document, in which file does that element appear in the output
+     * document?".</p>
+     *
+     * @since 1.9.0
+     */
+
+    MULTIPLE_FILE_INDEX_ONLY
   }
 
   /**

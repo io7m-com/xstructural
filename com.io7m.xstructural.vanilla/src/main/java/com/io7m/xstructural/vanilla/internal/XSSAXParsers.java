@@ -242,6 +242,7 @@ public final class XSSAXParsers
 
     schemas.put(XSSchemas.namespace7p0(), "xstructural-7.xsd");
     schemas.put(XSSchemas.namespace8p0(), "xstructural-8.xsd");
+    schemas.put(XSSchemas.namespace8Index(), "xstructural-8-index.xsd");
     schemas.forEach((key, value) -> {
       locations.append(key);
       locations.append(' ');
