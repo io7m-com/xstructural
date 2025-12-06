@@ -50,8 +50,17 @@
                as="item()*"/>
 
     <xsl:element name="div">
-      <xsl:attribute name="class"
-                     select="concat('stRegion ',$class)"/>
+      <xsl:attribute name="class">
+        <xsl:choose>
+          <xsl:when test="@type">
+            <xsl:value-of select="concat('stRegion ',$class,' ',@type)"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="concat('stRegion ',$class)"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:attribute>
+
       <xsl:element name="div">
         <xsl:attribute name="class"
                        select="'stRegionMargin'"/>

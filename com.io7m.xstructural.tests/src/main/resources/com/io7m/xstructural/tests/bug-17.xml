@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Document xmlns="urn:com.io7m.structural:8:0"
+          xmlns:dc="http://purl.org/dc/elements/1.1/">
+  <Metadata>
+    <dc:title>A Document.</dc:title>
+  </Metadata>
+  <Section title="X">
+    <Paragraph type="note">
+      A note.
+    </Paragraph>
+  </Section>
+</Document>
