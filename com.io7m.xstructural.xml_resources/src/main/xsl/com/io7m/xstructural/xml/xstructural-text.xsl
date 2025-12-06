@@ -21,7 +21,7 @@
                 xmlns:xdoc="http://www.pnp-software.com/XSLTdoc"
                 xmlns:xsc="urn:com.io7m.xstructural.case"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:s="urn:com.io7m.structural:7:0"
+                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
@@ -40,7 +40,7 @@
                   as="xsd:string">
       <xsl:number level="multiple"
                   select="$node"
-                  count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
+                  count="*:Section|*:Subsection|*:Paragraph|*:FormalItem"/>
     </xsl:variable>
 
     <xsl:variable name="type"
@@ -87,17 +87,17 @@
     Generate title text in a rendered document.
   </xdoc:doc>
 
-  <xsl:template match="s:Document"
+  <xsl:template match="*:Document"
                 mode="xstructural.titleText"
                 as="xsd:string">
-    <xsl:value-of select="s:Metadata/dc:title"/>
+    <xsl:value-of select="*:Metadata/dc:title"/>
   </xsl:template>
 
   <xdoc:doc>
     Generate title text in a rendered section.
   </xdoc:doc>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.titleText"
                 as="xsd:string">
     <xsl:variable name="sectionNumber">
@@ -113,7 +113,7 @@
     Generate title text in a rendered subsection.
   </xdoc:doc>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="*:Subsection"
                 mode="xstructural.titleText"
                 as="xsd:string">
     <xsl:variable name="numberTitle">
@@ -129,7 +129,7 @@
     Generate title text in a rendered formal item.
   </xdoc:doc>
 
-  <xsl:template match="s:FormalItem"
+  <xsl:template match="*:FormalItem"
                 mode="xstructural.titleText"
                 as="xsd:string">
     <xsl:variable name="numberTitle">
@@ -228,7 +228,7 @@
                required="yes"/>
     <xsl:number level="multiple"
                 select="$section"
-                count="s:Section"/>
+                count="*:Section"/>
   </xsl:template>
 
   <xdoc:doc>
@@ -246,11 +246,11 @@
     <xsl:variable name="sectionNumber"
                   as="xsd:string">
       <xsl:choose>
-        <xsl:when test="count(ancestor::s:Section) > 0">
+        <xsl:when test="count(ancestor::*:Section) > 0">
           <xsl:variable name="numericPart">
             <xsl:call-template name="xstructural.numbers.sectionNumberTitleOf">
               <xsl:with-param name="section"
-                              select="ancestor::s:Section[1]"/>
+                              select="ancestor::*:Section[1]"/>
             </xsl:call-template>
           </xsl:variable>
           <xsl:value-of select="concat($numericPart,'.')"/>
@@ -265,7 +265,7 @@
                   as="xsd:string">
       <xsl:number level="multiple"
                   select="$subsection"
-                  count="s:Subsection"/>
+                  count="*:Subsection"/>
     </xsl:variable>
 
     <xsl:value-of select="concat($sectionNumber,$subsectionNumber)"/>
@@ -284,20 +284,20 @@
                required="yes"/>
     <xsl:number select="$formalItem"
                 level="multiple"
-                count="s:Section|s:Subsection|s:Paragraph|s:FormalItem"/>
+                count="*:Section|*:Subsection|*:Paragraph|*:FormalItem"/>
   </xsl:template>
 
   <xdoc:doc>
     Generate headers for HTML documents based on metadata.
   </xdoc:doc>
 
-  <xsl:template match="s:Metadata"
+  <xsl:template match="*:Metadata"
                 mode="xstructural.metadata.header">
     <xsl:apply-templates select="*"
                          mode="xstructural.metadata.header"/>
   </xsl:template>
 
-  <xsl:template match="s:MetaProperty"
+  <xsl:template match="*:MetaProperty"
                 mode="xstructural.metadata.header">
     <xsl:if test="@visible">
       <xsl:element name="meta">

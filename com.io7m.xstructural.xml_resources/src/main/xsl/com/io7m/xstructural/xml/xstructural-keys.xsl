@@ -22,28 +22,16 @@
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural8-blocks-web.xsl"/>
+  <xsl:key name="xstructural.footnotes.referenceKey"
+           match="/*:Document//*:LinkFootnote"
+           use="@target"/>
 
-  <!--                                     -->
-  <!-- Web-single block content overrides. -->
-  <!--                                     -->
+  <xsl:key name="xstructural.footnotes.key"
+           match="/*:Document//*:Footnote"
+           use="@id"/>
 
-  <xsl:template match="s:Section"
-                mode="xstructural.blocks">
-
-    <xsl:apply-templates select="."
-                         mode="xstructural.titleElement"/>
-
-    <xsl:apply-templates select="."
-                         mode="xstructural.tableOfContentsOptional">
-      <xsl:with-param name="withTitle"
-                      select="false()"/>
-    </xsl:apply-templates>
-
-    <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
-                         mode="xstructural.blocks"/>
-
-    <xsl:call-template name="xstructural.blocks.footnotesOptional"/>
-  </xsl:template>
+  <xsl:key name="xstructural.links.key"
+           match="/*:Document//(*:Paragraph|*:FormalItem|*:Section|*:Subsection|*:Footnote)"
+           use="@id"/>
 
 </xsl:stylesheet>

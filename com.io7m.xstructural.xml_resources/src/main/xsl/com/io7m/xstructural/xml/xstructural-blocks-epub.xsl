@@ -19,23 +19,22 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural8-blocks.xsl"/>
-  <xsl:import href="xstructural8-inlines.xsl"/>
-  <xsl:import href="xstructural8-links.xsl"/>
-  <xsl:import href="xstructural8-outputs.xsl"/>
-  <xsl:import href="xstructural8-text.xsl"/>
-  <xsl:import href="xstructural8-tocs.xsl"/>
+  <xsl:import href="xstructural-blocks.xsl"/>
+  <xsl:import href="xstructural-inlines.xsl"/>
+  <xsl:import href="xstructural-links.xsl"/>
+  <xsl:import href="xstructural-outputs.xsl"/>
+  <xsl:import href="xstructural-text.xsl"/>
+  <xsl:import href="xstructural-tocs.xsl"/>
 
   <!--                                        -->
   <!-- EPUB-specific block content overrides. -->
   <!--                                        -->
 
-  <xsl:template match="s:Footnote"
+  <xsl:template match="*:Footnote"
                 as="element()*"
                 mode="xstructural.blocks">
 
@@ -43,7 +42,7 @@
                   as="xsd:string">
       <xsl:number level="single"
                   select="."
-                  count="s:Footnote"/>
+                  count="*:Footnote"/>
     </xsl:variable>
 
     <tr>
@@ -101,13 +100,13 @@
 
     <div class="stFootnotes">
       <table>
-        <xsl:apply-templates select="s:Footnote"
+        <xsl:apply-templates select="*:Footnote"
                              mode="xstructural.blocks"/>
       </table>
     </div>
   </xsl:template>
 
-  <xsl:template match="s:Paragraph"
+  <xsl:template match="*:Paragraph"
                 mode="xstructural.blocks">
     <xsl:element name="p">
       <xsl:call-template name="xstructural.ids.idAttributeFor">
@@ -124,7 +123,7 @@
     <xsl:text>&#x000a;</xsl:text>
   </xsl:template>
 
-  <xsl:template match="s:FormalItem"
+  <xsl:template match="*:FormalItem"
                 mode="xstructural.blocks">
     <xsl:apply-templates select="."
                          mode="xstructural.titleElement"/>
@@ -139,15 +138,15 @@
     <xsl:text>&#x000a;</xsl:text>
   </xsl:template>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="*:Subsection"
                 mode="xstructural.blocks">
     <xsl:apply-templates select="."
                          mode="xstructural.titleElement"/>
-    <xsl:apply-templates select="s:Paragraph|s:FormalItem|s:Subsection"
+    <xsl:apply-templates select="*:Paragraph|*:FormalItem|*:Subsection"
                          mode="xstructural.blocks"/>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.blocks">
     <xsl:variable name="sectionCurrFile"
                   as="xsd:string">
@@ -156,7 +155,7 @@
 
     <xsl:variable name="documentTitle"
                   as="xsd:string">
-      <xsl:value-of select="ancestor::s:Document[1]/s:Metadata/dc:title[1]"/>
+      <xsl:value-of select="ancestor::*:Document[1]/*:Metadata/dc:title[1]"/>
     </xsl:variable>
 
     <xsl:variable name="sectionFilePath"
@@ -217,7 +216,7 @@
                               select="false()"/>
             </xsl:apply-templates>
 
-            <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
+            <xsl:apply-templates select="*:Section|*:Subsection|*:Paragraph|*:FormalItem"
                                  mode="xstructural.blocks"/>
 
             <xsl:call-template name="xstructural.blocks.footnotesOptional"/>

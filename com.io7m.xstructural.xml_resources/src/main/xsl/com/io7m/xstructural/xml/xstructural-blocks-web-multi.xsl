@@ -19,27 +19,26 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:s="urn:com.io7m.structural:7:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural7-branding.xsl"/>
-  <xsl:import href="xstructural7-navigation.xsl"/>
-  <xsl:import href="xstructural7-text.xsl"/>
+  <xsl:import href="xstructural-branding.xsl"/>
+  <xsl:import href="xstructural-navigation.xsl"/>
+  <xsl:import href="xstructural-text.xsl"/>
 
-  <xsl:import href="xstructural7-blocks-web.xsl"/>
+  <xsl:import href="xstructural-blocks-web.xsl"/>
 
   <!--                                    -->
   <!-- Web-multi block content overrides. -->
   <!--                                    -->
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.blocks">
 
     <xsl:variable name="documentTitle"
                   as="xsd:string"
-                  select="ancestor::s:Document/s:Metadata/dc:title"/>
+                  select="ancestor::*:Document/*:Metadata/dc:title"/>
 
     <xsl:variable name="sectionCurrBaseTitle"
                   as="xsd:string">
@@ -72,6 +71,8 @@
                 content="application/xhtml+xml; charset=utf-8"/>
           <meta name="generator"
                 content="${project.groupId}/${project.version}"/>
+          <meta name="viewport"
+                content="width=device-width, initial-scale=1.0"/>
 
           <link rel="stylesheet"
                 type="text/css"
@@ -86,14 +87,14 @@
           <link rel="schema.DC"
                 href="http://purl.org/dc/elements/1.1/"/>
 
-          <xsl:apply-templates select="ancestor::s:Document/s:Metadata/*"
+          <xsl:apply-templates select="ancestor::*:Document/*:Metadata/*"
                                mode="xstructural.metadata.header"/>
           <title>
             <xsl:value-of select="$sectionCurrTitle"/>
           </title>
         </head>
         <body>
-          <xsl:apply-templates select="ancestor::s:Document/s:Metadata/*"
+          <xsl:apply-templates select="ancestor::*:Document/*:Metadata/*"
                                mode="xstructural.web.branding.header"/>
 
           <xsl:apply-templates select="."
@@ -109,7 +110,7 @@
                               select="false()"/>
             </xsl:apply-templates>
 
-            <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
+            <xsl:apply-templates select="*:Section|*:Subsection|*:Paragraph|*:FormalItem"
                                  mode="xstructural.blocks"/>
 
             <xsl:call-template name="xstructural.blocks.footnotesOptional"/>
@@ -118,7 +119,7 @@
           <xsl:apply-templates select="."
                                mode="xstructural.navigation.footer"/>
 
-          <xsl:apply-templates select="ancestor::s:Document/s:Metadata/*"
+          <xsl:apply-templates select="ancestor::*:Document/*:Metadata/*"
                                mode="xstructural.web.branding.footer"/>
         </body>
       </html>

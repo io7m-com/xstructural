@@ -290,23 +290,11 @@ public final class XSTransformer implements XSProcessorType
   {
     return switch (this.request.stylesheet()) {
       case SINGLE_FILE -> {
-        if (Objects.equals(target, XSSchemas.namespace7p0())) {
-          yield this.resources.s7Single();
-        }
-        if (Objects.equals(target, XSSchemas.namespace8p0())) {
-          yield this.resources.s8Single();
-        }
-        throw new IllegalStateException();
+        yield this.resources.s8Single();
       }
 
       case MULTIPLE_FILE -> {
-        if (Objects.equals(target, XSSchemas.namespace7p0())) {
-          yield this.resources.s7Multi();
-        }
-        if (Objects.equals(target, XSSchemas.namespace8p0())) {
-          yield this.resources.s8Multi();
-        }
-        throw new IllegalStateException();
+        yield this.resources.s8Multi();
       }
 
       case EPUB -> {

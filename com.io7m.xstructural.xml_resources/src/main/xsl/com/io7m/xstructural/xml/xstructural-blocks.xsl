@@ -19,40 +19,39 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xdoc="http://www.pnp-software.com/XSLTdoc"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:template match="s:Paragraph"
+  <xsl:template match="*:Paragraph"
                 mode="xstructural.blocks">
     <xsl:message terminate="yes">
       s80:Paragraph xstructural.blocks template must be overridden.
     </xsl:message>
   </xsl:template>
 
-  <xsl:template match="s:FormalItem"
+  <xsl:template match="*:FormalItem"
                 mode="xstructural.blocks">
     <xsl:message terminate="yes">
       s80:FormalItem xstructural.blocks template must be overridden.
     </xsl:message>
   </xsl:template>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="*:Subsection"
                 mode="xstructural.blocks">
     <xsl:message terminate="yes">
       s80:Subsection xstructural.blocks template must be overridden.
     </xsl:message>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.blocks">
     <xsl:message terminate="yes">
       s80:Section xstructural.blocks template must be overridden.
     </xsl:message>
   </xsl:template>
 
-  <xsl:template match="s:Footnote"
+  <xsl:template match="*:Footnote"
                 mode="xstructural.blocks">
     <xsl:message terminate="yes">
       s80:Footnote xstructural.blocks template must be overridden.
@@ -64,7 +63,7 @@
   </xdoc:doc>
 
   <xsl:template name="xstructural.blocks.footnotesOptional">
-    <xsl:if test="count(s:Footnote) > 0">
+    <xsl:if test="count(*:Footnote) > 0">
       <xsl:call-template name="xstructural.blocks.footnotes"/>
     </xsl:if>
   </xsl:template>
@@ -83,17 +82,17 @@
     Generate a table for metadata.
   </xdoc:doc>
 
-  <xsl:template match="s:Metadata"
+  <xsl:template match="*:Metadata"
                 mode="xstructural.metadata.table">
     <div class="stMetadataTable">
       <table>
-        <xsl:apply-templates select="s:MetaProperty|dc:*"
+        <xsl:apply-templates select="*:MetaProperty|dc:*"
                              mode="xstructural.metadata.table"/>
       </table>
     </div>
   </xsl:template>
 
-  <xsl:template match="s:MetaProperty"
+  <xsl:template match="*:MetaProperty"
                 mode="xstructural.metadata.table">
     <xsl:if test="@visible">
       <tr>
@@ -134,10 +133,10 @@
     Generate a title element in a rendered document.
   </xdoc:doc>
 
-  <xsl:template match="s:Document"
+  <xsl:template match="*:Document"
                 mode="xstructural.titleElement">
     <h1 class="stDocumentTitle">
-      <xsl:value-of select="s:Metadata/dc:title"/>
+      <xsl:value-of select="*:Metadata/dc:title"/>
     </h1>
   </xsl:template>
 
@@ -145,7 +144,7 @@
     Generate a title element in a rendered section.
   </xdoc:doc>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.titleElement">
     <h1 class="stSectionTitle">
       <xsl:element name="a">
@@ -184,7 +183,7 @@
     Generate a title element in a rendered subsection.
   </xdoc:doc>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="*:Subsection"
                 mode="xstructural.titleElement">
     <h2 class="stSubsectionTitle">
       <xsl:element name="a">
@@ -224,7 +223,7 @@
     Generate a title element in a rendered formal item.
   </xdoc:doc>
 
-  <xsl:template match="s:FormalItem"
+  <xsl:template match="*:FormalItem"
                 mode="xstructural.titleElement">
     <h3 class="stFormalItemTitle">
       <xsl:element name="a">

@@ -19,14 +19,14 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:xdoc="http://www.pnp-software.com/XSLTdoc"
-                xmlns:s="urn:com.io7m.structural:7:0"
+                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural7-links.xsl"/>
-  <xsl:import href="xstructural7-outputs.xsl"/>
-  <xsl:import href="xstructural7-text.xsl"/>
+  <xsl:import href="xstructural-links.xsl"/>
+  <xsl:import href="xstructural-outputs.xsl"/>
+  <xsl:import href="xstructural-text.xsl"/>
 
   <xdoc:doc>
     Generate a navigation table at the top of the document.
@@ -352,64 +352,64 @@
     </div>
   </xsl:template>
 
-  <xsl:template match="s:Document"
+  <xsl:template match="*:Document"
                 mode="xstructural.navigation.header"
                 as="element()?">
 
-    <xsl:if test="count(s:Section) > 0">
+    <xsl:if test="count(*:Section) > 0">
       <xsl:call-template name="xstructural.navigation.header.frontPage">
         <xsl:with-param name="sectionNext"
-                        select="s:Section[1]"/>
+                        select="*:Section[1]"/>
         <xsl:with-param name="sectionNextTitle">
           <xsl:apply-templates mode="xstructural.titleText"
-                               select="s:Section[1]"/>
+                               select="*:Section[1]"/>
         </xsl:with-param>
         <xsl:with-param name="sectionNextFile">
-          <xsl:value-of select="concat(generate-id(s:Section[1]),'.xhtml')"/>
+          <xsl:value-of select="concat(generate-id(*:Section[1]),'.xhtml')"/>
         </xsl:with-param>
       </xsl:call-template>
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="s:Document"
+  <xsl:template match="*:Document"
                 mode="xstructural.navigation.footer"
                 as="element()?">
 
-    <xsl:if test="count(s:Section) > 0">
+    <xsl:if test="count(*:Section) > 0">
       <xsl:call-template name="xstructural.navigation.footer.frontPage">
         <xsl:with-param name="sectionNext"
-                        select="s:Section[1]"/>
+                        select="*:Section[1]"/>
         <xsl:with-param name="sectionNextTitle">
           <xsl:apply-templates mode="xstructural.titleText"
-                               select="s:Section[1]"/>
+                               select="*:Section[1]"/>
         </xsl:with-param>
         <xsl:with-param name="sectionNextFile">
-          <xsl:value-of select="concat(generate-id(s:Section[1]),'.xhtml')"/>
+          <xsl:value-of select="concat(generate-id(*:Section[1]),'.xhtml')"/>
         </xsl:with-param>
       </xsl:call-template>
     </xsl:if>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.navigation.header"
                 as="element()">
 
     <xsl:variable name="documentOwning"
                   as="element()"
-                  select="ancestor::s:Document"/>
+                  select="ancestor::*:Document"/>
 
     <xsl:variable name="sectionsPreceding"
                   as="element()*"
-                  select="$documentOwning//s:Section[. &lt;&lt; current()]"/>
+                  select="$documentOwning//*:Section[. &lt;&lt; current()]"/>
     <xsl:variable name="sectionsFollowing"
                   as="element()*"
-                  select="$documentOwning//s:Section[. &gt;&gt; current()]"/>
+                  select="$documentOwning//*:Section[. &gt;&gt; current()]"/>
     <xsl:variable name="sectionUpNode"
                   as="element()?"
-                  select="parent::s:Section"/>
+                  select="parent::*:Section"/>
     <xsl:variable name="sectionsPrecedingUp"
                   as="element()*"
-                  select="$documentOwning//s:Section[. &lt;&lt; $sectionUpNode]"/>
+                  select="$documentOwning//*:Section[. &lt;&lt; $sectionUpNode]"/>
 
     <xsl:variable name="sectionPrev"
                   as="element()">
@@ -558,26 +558,26 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.navigation.footer"
                 as="element()">
 
     <xsl:variable name="documentOwning"
                   as="element()"
-                  select="ancestor::s:Document"/>
+                  select="ancestor::*:Document"/>
 
     <xsl:variable name="sectionsPreceding"
                   as="element()*"
-                  select="$documentOwning//s:Section[. &lt;&lt; current()]"/>
+                  select="$documentOwning//*:Section[. &lt;&lt; current()]"/>
     <xsl:variable name="sectionsFollowing"
                   as="element()*"
-                  select="$documentOwning//s:Section[. &gt;&gt; current()]"/>
+                  select="$documentOwning//*:Section[. &gt;&gt; current()]"/>
     <xsl:variable name="sectionUpNode"
                   as="element()?"
-                  select="parent::s:Section"/>
+                  select="parent::*:Section"/>
     <xsl:variable name="sectionsPrecedingUp"
                   as="element()*"
-                  select="$documentOwning//s:Section[. &lt;&lt; $sectionUpNode]"/>
+                  select="$documentOwning//*:Section[. &lt;&lt; $sectionUpNode]"/>
 
     <xsl:variable name="sectionPrev"
                   as="element()">

@@ -21,14 +21,13 @@
                 xmlns:xdoc="http://www.pnp-software.com/XSLTdoc"
                 xmlns:ncx="http://www.daisy.org/z3986/2005/ncx/"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural8-links.xsl"/>
-  <xsl:import href="xstructural8-blocks-epub.xsl"/>
-  <xsl:import href="xstructural8-outputs.xsl"/>
+  <xsl:import href="xstructural-links.xsl"/>
+  <xsl:import href="xstructural-blocks-epub.xsl"/>
+  <xsl:import href="xstructural-outputs.xsl"/>
 
   <!--                           -->
   <!-- Top-level EPUB templates. -->
@@ -46,11 +45,11 @@
     <xsl:variable name="owningSection"
                   as="element()">
       <xsl:choose>
-        <xsl:when test="$target/ancestor-or-self::s:Section[1]">
-          <xsl:sequence select="$target/ancestor-or-self::s:Section[1]"/>
+        <xsl:when test="$target/ancestor-or-self::*:Section[1]">
+          <xsl:sequence select="$target/ancestor-or-self::*:Section[1]"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:sequence select="$target/ancestor::s:Document"/>
+          <xsl:sequence select="$target/ancestor::*:Document"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -72,12 +71,12 @@
     <xsl:value-of select="$completeHref"/>
   </xsl:template>
 
-  <xsl:template match="s:Document">
+  <xsl:template match="*:Document">
     <xsl:message select="concat('Processing document ', generate-id(.))"/>
 
     <xsl:choose>
-      <xsl:when test="count(s:Section) > 0">
-        <xsl:apply-templates select="s:Section"
+      <xsl:when test="count(*:Section) > 0">
+        <xsl:apply-templates select="*:Section"
                              mode="xstructural.blocks"/>
       </xsl:when>
       <xsl:otherwise>
@@ -98,7 +97,7 @@
     Render a document that only contains subsection-level content.
   </xdoc:doc>
 
-  <xsl:template match="s:Document"
+  <xsl:template match="*:Document"
                 mode="xstructural.epub.documentSubsectionsOnly">
 
     <xsl:variable name="sectionFilePath"
@@ -148,7 +147,7 @@
                               select="false()"/>
             </xsl:apply-templates>
 
-            <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
+            <xsl:apply-templates select="*:Section|*:Subsection|*:Paragraph|*:FormalItem"
                                  mode="xstructural.blocks"/>
 
             <xsl:call-template name="xstructural.blocks.footnotesOptional"/>
@@ -173,20 +172,20 @@
 
     <xsl:result-document href="{$resourcesFilePath}"
                          format="xstructural.textOutput">
-      <xsl:for-each select=".//s:Image">
+      <xsl:for-each select=".//*:Image">
         <xsl:value-of select="@source"/>
         <xsl:text>&#x000a;</xsl:text>
       </xsl:for-each>
 
-      <xsl:value-of select=".//s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.cover']"/>
+      <xsl:value-of select=".//*:Metadata/*:MetaProperty[@name='com.io7m.xstructural.epub.cover']"/>
       <xsl:text>&#x000a;</xsl:text>
 
-      <xsl:for-each select=".//s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.resource']">
+      <xsl:for-each select=".//*:Metadata/*:MetaProperty[@name='com.io7m.xstructural.epub.resource']">
         <xsl:value-of select="."/>
         <xsl:text>&#x000a;</xsl:text>
       </xsl:for-each>
 
-      <xsl:for-each select=".//s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.resource-list']">
+      <xsl:for-each select=".//*:Metadata/*:MetaProperty[@name='com.io7m.xstructural.epub.resource-list']">
         <xsl:variable name="resourceFile"
                       select="concat($xstructural.sourceDirectory, .)"/>
         <xsl:variable name="resourceFileText"
@@ -236,33 +235,33 @@
                 href="document.css"/>
 
           <title>
-            <xsl:apply-templates select="s:Metadata"
+            <xsl:apply-templates select="*:Metadata"
                                  mode="xstructural.epub.documentCoverTitle"/>
           </title>
         </head>
         <body>
           <div class="stEPUBCover">
             <h1>
-              <xsl:apply-templates select="s:Metadata"
+              <xsl:apply-templates select="*:Metadata"
                                    mode="xstructural.epub.documentCoverTitle"/>
             </h1>
 
-            <xsl:if test="s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.cover']">
+            <xsl:if test="*:Metadata/*:MetaProperty[@name='com.io7m.xstructural.epub.cover']">
               <div class="stEPUBCoverImage">
                 <xsl:element name="img">
                   <xsl:attribute name="src">
-                    <xsl:value-of select="s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.cover']"/>
+                    <xsl:value-of select="*:Metadata/*:MetaProperty[@name='com.io7m.xstructural.epub.cover']"/>
                   </xsl:attribute>
                   <xsl:attribute name="alt">
-                    <xsl:apply-templates select="s:Metadata"
+                    <xsl:apply-templates select="*:Metadata"
                                          mode="xstructural.epub.documentCoverTitle"/>
                   </xsl:attribute>
                 </xsl:element>
               </div>
 
-              <xsl:if test="s:Metadata/dc:creator">
+              <xsl:if test="*:Metadata/dc:creator">
                 <h2 class="stEPUBCoverCreator">
-                  <xsl:value-of select="s:Metadata/dc:creator"/>
+                  <xsl:value-of select="*:Metadata/dc:creator"/>
                 </h2>
               </xsl:if>
             </xsl:if>
@@ -272,7 +271,7 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s:Metadata"
+  <xsl:template match="*:Metadata"
                 mode="xstructural.epub.documentCoverTitle">
     <xsl:value-of select="dc:title"/>
   </xsl:template>
@@ -314,7 +313,7 @@
                 href="document.css"/>
 
           <title>
-            <xsl:apply-templates select="s:Metadata"
+            <xsl:apply-templates select="*:Metadata"
                                  mode="xstructural.epub.colophonTitle"/>
           </title>
         </head>
@@ -322,12 +321,12 @@
           <div class="stEPUBColophon">
             <h1>Book Metadata</h1>
             <table class="stMetadataTable">
-              <xsl:apply-templates select="s:Metadata/*"
+              <xsl:apply-templates select="*:Metadata/*"
                                    mode="xstructural.epub.colophonMetadata">
                 <xsl:sort select="local-name()"/>
               </xsl:apply-templates>
             </table>
-            <xsl:apply-templates select="s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.epub.colophon']"
+            <xsl:apply-templates select="*:Metadata/*:MetaProperty[@name='com.io7m.xstructural.epub.colophon']"
                                  mode="xstructural.epub.colophonExtra"/>
           </div>
         </body>
@@ -335,17 +334,17 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s:MetaProperty[@name = 'com.io7m.xstructural.epub.colophon']"
+  <xsl:template match="*:MetaProperty[@name = 'com.io7m.xstructural.epub.colophon']"
                 mode="xstructural.epub.colophonExtra">
     <xsl:copy-of select="document(.)"/>
   </xsl:template>
 
-  <xsl:template match="s:Metadata|s:Metadata"
+  <xsl:template match="*:Metadata|*:Metadata"
                 mode="xstructural.epub.colophonTitle">
     <xsl:value-of select="concat(dc:title, ': Colophon')"/>
   </xsl:template>
 
-  <xsl:template match="s:MetaProperty"
+  <xsl:template match="*:MetaProperty"
                 mode="xstructural.epub.colophonMetadata"/>
 
   <xsl:template match="dc:*"
@@ -382,7 +381,7 @@
         <ncx:head>
           <xsl:element name="ncx:meta">
             <xsl:attribute name="content">
-              <xsl:apply-templates select="s:Metadata"
+              <xsl:apply-templates select="*:Metadata"
                                    mode="xstructural.epub.documentTOCId"/>
             </xsl:attribute>
             <xsl:attribute name="name">
@@ -392,7 +391,7 @@
         </ncx:head>
         <ncx:docTitle>
           <ncx:text>
-            <xsl:apply-templates select="s:Metadata"
+            <xsl:apply-templates select="*:Metadata"
                                  mode="xstructural.epub.documentTOCTitle"/>
           </ncx:text>
         </ncx:docTitle>
@@ -421,7 +420,7 @@
             <ncx:content src="toc.xhtml"/>
           </ncx:navPoint>
 
-          <xsl:apply-templates select="s:Section|s:Subsection"
+          <xsl:apply-templates select="*:Section|*:Subsection"
                                mode="xstructural.epub.ncxItem">
             <xsl:with-param name="offset"
                             select="3"/>
@@ -431,7 +430,7 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s:Section|s:Subsection"
+  <xsl:template match="*:Section|*:Subsection"
                 mode="xstructural.epub.ncxItem"
                 as="element()">
     <xsl:param name="offset"
@@ -440,7 +439,7 @@
 
     <xsl:variable name="preceding"
                   as="xsd:integer">
-      <xsl:number count="s:Section|s:Subsection"
+      <xsl:number count="*:Section|*:Subsection"
                   level="any"/>
     </xsl:variable>
 
@@ -480,7 +479,7 @@
         </xsl:attribute>
       </xsl:element>
 
-      <xsl:apply-templates select="s:Section|s:Subsection"
+      <xsl:apply-templates select="*:Section|*:Subsection"
                            mode="xstructural.epub.ncxItem">
         <xsl:with-param name="offset"
                         select="$offset"/>
@@ -488,17 +487,17 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Metadata"
+  <xsl:template match="*:Metadata"
                 mode="xstructural.epub.documentTOCId">
     <xsl:value-of select="dc:identifier"/>
   </xsl:template>
 
-  <xsl:template match="s:Metadata"
+  <xsl:template match="*:Metadata"
                 mode="xstructural.epub.documentTOCTitle">
     <xsl:value-of select="dc:title"/>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.epub.documentTableOfContentsElementTitle">
     <xsl:variable name="number">
       <xsl:call-template name="xstructural.numbers.sectionNumberTitleOf">
@@ -509,7 +508,7 @@
     <xsl:value-of select="concat($number,'. ',@title)"/>
   </xsl:template>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="*:Subsection"
                 mode="xstructural.epub.documentTableOfContentsElementTitle">
     <xsl:variable name="number">
       <xsl:call-template name="xstructural.numbers.subsectionNumberTitleOf">
@@ -548,7 +547,7 @@
                 content="${project.groupId}/${project.version}"/>
 
           <title>
-            <xsl:apply-templates select="s:Metadata"
+            <xsl:apply-templates select="*:Metadata"
                                  mode="xstructural.epub.documentTOCTitle"/>
           </title>
         </head>
@@ -568,7 +567,7 @@
                 <a href="toc.xhtml">Table Of Contents</a>
               </li>
 
-              <xsl:apply-templates select="s:Section|s:Subsection"
+              <xsl:apply-templates select="*:Section|*:Subsection"
                                    mode="xstructural.epub.tableOfContentsInvisibleXHTMLItem"/>
             </ol>
           </nav>
@@ -577,7 +576,7 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s:Section|s:Subsection"
+  <xsl:template match="*:Section|*:Subsection"
                 mode="xstructural.epub.tableOfContentsInvisibleXHTMLItem">
 
     <xsl:variable name="label">
@@ -600,9 +599,9 @@
         <xsl:value-of select="$label"/>
       </xsl:element>
 
-      <xsl:if test="count(s:Section|s:Subsection) > 0">
+      <xsl:if test="count(*:Section|*:Subsection) > 0">
         <ol>
-          <xsl:apply-templates select="s:Section|s:Subsection"
+          <xsl:apply-templates select="*:Section|*:Subsection"
                                mode="xstructural.epub.tableOfContentsInvisibleXHTMLItem"/>
         </ol>
       </xsl:if>
@@ -647,7 +646,7 @@
                 href="document.css"/>
 
           <title>
-            <xsl:apply-templates select="s:Metadata"
+            <xsl:apply-templates select="*:Metadata"
                                  mode="xstructural.epub.documentTOCTitle"/>
           </title>
         </head>
@@ -666,7 +665,7 @@
                 <a href="toc.xhtml">Table Of Contents</a>
               </li>
 
-              <xsl:apply-templates select="s:Section|s:Subsection"
+              <xsl:apply-templates select="*:Section|*:Subsection"
                                    mode="xstructural.epub.tableOfContentsXHTMLItem"/>
             </ul>
           </div>
@@ -675,7 +674,7 @@
     </xsl:result-document>
   </xsl:template>
 
-  <xsl:template match="s:Section|s:Subsection"
+  <xsl:template match="*:Section|*:Subsection"
                 mode="xstructural.epub.tableOfContentsXHTMLItem">
 
     <xsl:variable name="label">
@@ -698,9 +697,9 @@
         <xsl:value-of select="$label"/>
       </xsl:element>
 
-      <xsl:if test="count(s:Section|s:Subsection) > 0">
+      <xsl:if test="count(*:Section|*:Subsection) > 0">
         <ul>
-          <xsl:apply-templates select="s:Section|s:Subsection"
+          <xsl:apply-templates select="*:Section|*:Subsection"
                                mode="xstructural.epub.tableOfContentsXHTMLItem"/>
         </ul>
       </xsl:if>

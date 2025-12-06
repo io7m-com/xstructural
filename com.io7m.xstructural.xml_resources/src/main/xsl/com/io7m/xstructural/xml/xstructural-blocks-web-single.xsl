@@ -17,25 +17,32 @@
 -->
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-                xmlns:s="urn:com.io7m.structural:7:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:template mode="xstructural.web.branding.header"
-                match="@*|node()"/>
+  <xsl:import href="xstructural-blocks-web.xsl"/>
 
-  <xsl:template mode="xstructural.web.branding.header"
-                match="s:MetaProperty[@name = 'com.io7m.xstructural.web.branding.header']">
-    <xsl:copy-of select="document(.)"/>
-  </xsl:template>
+  <!--                                     -->
+  <!-- Web-single block content overrides. -->
+  <!--                                     -->
 
-  <xsl:template mode="xstructural.web.branding.footer"
-                match="@*|node()"/>
+  <xsl:template match="*:Section"
+                mode="xstructural.blocks">
 
-  <xsl:template mode="xstructural.web.branding.footer"
-                match="s:MetaProperty[@name = 'com.io7m.xstructural.web.branding.footer']">
-    <xsl:copy-of select="document(.)"/>
+    <xsl:apply-templates select="."
+                         mode="xstructural.titleElement"/>
+
+    <xsl:apply-templates select="."
+                         mode="xstructural.tableOfContentsOptional">
+      <xsl:with-param name="withTitle"
+                      select="false()"/>
+    </xsl:apply-templates>
+
+    <xsl:apply-templates select="*:Section|*:Subsection|*:Paragraph|*:FormalItem"
+                         mode="xstructural.blocks"/>
+
+    <xsl:call-template name="xstructural.blocks.footnotesOptional"/>
   </xsl:template>
 
 </xsl:stylesheet>
