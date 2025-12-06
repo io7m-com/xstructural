@@ -19,8 +19,8 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:sx="urn:com.io7m.xstructural.mime"
                 xmlns:s="urn:com.io7m.structural:8:0"
+                xmlns:sx="urn:com.io7m.xstructural.mime"
                 xmlns="http://www.idpf.org/2007/opf"
                 exclude-result-prefixes="#all"
                 version="3.0">
@@ -33,7 +33,7 @@
              as="xsd:string"
              required="yes"/>
 
-  <xsl:template match="s:Document">
+  <xsl:template match="*:Document">
     <xsl:message select="concat('OUTPUT: ',$outputFile)"/>
 
     <xsl:result-document href="{$outputFile}"
@@ -46,7 +46,7 @@
         <xsl:namespace name="dc"
                        select="'http://purl.org/dc/elements/1.1/'"/>
         <metadata>
-          <xsl:apply-templates select="s:Metadata|s:Metadata"
+          <xsl:apply-templates select="*:Metadata|*:Metadata"
                                mode="s:metadataItem"/>
         </metadata>
 
@@ -61,14 +61,14 @@
                 href="OEBPS/document.css"
                 media-type="text/css"/>
 
-          <xsl:apply-templates select=".//s:Image"
+          <xsl:apply-templates select=".//*:Image"
                                mode="s:manifestItem"/>
-          <xsl:apply-templates select=".//s:Section"
+          <xsl:apply-templates select=".//*:Section"
                                mode="s:manifestItem"/>
-          <xsl:apply-templates select="s:Metadata|s:Metadata"
+          <xsl:apply-templates select="*:Metadata|*:Metadata"
                                mode="s:manifestItem"/>
 
-          <xsl:if test="count(s:Subsection) > 0">
+          <xsl:if test="count(*:Subsection) > 0">
             <xsl:call-template name="topLevelDocumentFile"/>
           </xsl:if>
 
@@ -95,11 +95,11 @@
           <itemref idref="colophon"/>
           <itemref idref="toc"/>
 
-          <xsl:if test="count(s:Subsection) > 0">
+          <xsl:if test="count(*:Subsection) > 0">
             <xsl:call-template name="topLevelDocumentFileReference"/>
           </xsl:if>
 
-          <xsl:apply-templates select=".//s:Section"
+          <xsl:apply-templates select=".//*:Section"
                                mode="s:spineItem"/>
         </spine>
       </package>
@@ -132,7 +132,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="s:manifestItem">
     <xsl:variable name="sectionId"
                   select="generate-id(.)"/>
@@ -149,7 +149,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Image"
+  <xsl:template match="*:Image"
                 mode="s:manifestItem">
     <xsl:element name="item">
       <xsl:attribute name="href">
@@ -164,7 +164,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="s:spineItem">
     <xsl:variable name="sectionId"
                   select="generate-id(.)"/>
@@ -175,7 +175,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Metadata|s:Metadata"
+  <xsl:template match="*:Metadata|*:Metadata"
                 mode="s:metadataItem">
     <xsl:for-each select="dc:*">
       <xsl:if test="not(local-name(.) = 'identifier')">
@@ -189,7 +189,7 @@
     </dc:identifier>
 
     <xsl:choose>
-      <xsl:when test="s:MetaProperty[@name='com.io7m.xstructural.epub.cover']">
+      <xsl:when test="*:MetaProperty[@name='com.io7m.xstructural.epub.cover']">
         <xsl:element name="meta">
           <xsl:attribute name="content">cover_image</xsl:attribute>
           <xsl:attribute name="name">cover</xsl:attribute>
@@ -209,13 +209,13 @@
     </meta>
   </xsl:template>
 
-  <xsl:template match="s:Metadata|s:Metadata"
+  <xsl:template match="*:Metadata|*:Metadata"
                 mode="s:manifestItem">
-    <xsl:apply-templates select="s:MetaProperty"
+    <xsl:apply-templates select="*:MetaProperty"
                          mode="s:manifestItem"/>
   </xsl:template>
 
-  <xsl:template match="s:MetaProperty[@name='com.io7m.xstructural.epub.cover']"
+  <xsl:template match="*:MetaProperty[@name='com.io7m.xstructural.epub.cover']"
                 mode="s:manifestItem">
     <xsl:variable name="cover"
                   select="."/>
@@ -230,7 +230,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:MetaProperty[@name='com.io7m.xstructural.epub.resource']"
+  <xsl:template match="*:MetaProperty[@name='com.io7m.xstructural.epub.resource']"
                 mode="s:manifestItem">
     <xsl:variable name="resource_id"
                   select="replace(.,'\.','_')"/>
@@ -246,7 +246,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:MetaProperty[@name='com.io7m.xstructural.epub.resource-list']"
+  <xsl:template match="*:MetaProperty[@name='com.io7m.xstructural.epub.resource-list']"
                 mode="s:manifestItem">
     <xsl:variable name="resourceFile"
                   select="concat($sourceDirectory, .)"/>

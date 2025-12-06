@@ -18,21 +18,20 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural8-links.xsl"/>
-  <xsl:import href="xstructural8-text.xsl"/>
-  <xsl:import href="xstructural8-keys.xsl"/>
+  <xsl:import href="xstructural-links.xsl"/>
+  <xsl:import href="xstructural-text.xsl"/>
+  <xsl:import href="xstructural-keys.xsl"/>
 
   <xsl:template match="text()"
                 mode="xstructural.inlines">
     <xsl:copy-of select="."/>
   </xsl:template>
 
-  <xsl:template match="s:Link"
+  <xsl:template match="*:Link"
                 mode="xstructural.inlines">
     <xsl:element name="a">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -58,7 +57,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:LinkExternal"
+  <xsl:template match="*:LinkExternal"
                 mode="xstructural.inlines">
     <xsl:element name="a">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -75,13 +74,13 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Footnote"
+  <xsl:template match="*:Footnote"
                 mode="xstructural.footnotes.index"
                 as="xsd:integer">
-    <xsl:number count="s:Footnote"/>
+    <xsl:number count="*:Footnote"/>
   </xsl:template>
 
-  <xsl:template match="s:LinkFootnote"
+  <xsl:template match="*:LinkFootnote"
                 mode="xstructural.inlines">
 
     <xsl:variable name="targetFootnote"
@@ -120,7 +119,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Cell"
+  <xsl:template match="*:Cell"
                 mode="xstructural.inlines">
     <xsl:element name="td">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -132,19 +131,19 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Row"
+  <xsl:template match="*:Row"
                 mode="xstructural.inlines">
     <xsl:element name="tr">
       <xsl:call-template name="xstructural.classes.attributeFor">
         <xsl:with-param name="baseClass"
                         select="'stTableRow'"/>
       </xsl:call-template>
-      <xsl:apply-templates select="s:Cell"
+      <xsl:apply-templates select="*:Cell"
                            mode="xstructural.inlines"/>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Column"
+  <xsl:template match="*:Column"
                 mode="xstructural.inlines">
     <xsl:element name="th">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -156,7 +155,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Columns"
+  <xsl:template match="*:Columns"
                 mode="xstructural.inlines">
     <xsl:element name="thead">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -165,13 +164,13 @@
       </xsl:call-template>
 
       <tr>
-        <xsl:apply-templates select="s:Column"
+        <xsl:apply-templates select="*:Column"
                              mode="xstructural.inlines"/>
       </tr>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Table"
+  <xsl:template match="*:Table"
                 mode="xstructural.inlines">
     <xsl:element name="table">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -179,16 +178,16 @@
                         select="'stTable'"/>
       </xsl:call-template>
 
-      <xsl:apply-templates select="s:Columns"
+      <xsl:apply-templates select="*:Columns"
                            mode="xstructural.inlines"/>
       <tbody>
-        <xsl:apply-templates select="s:Row"
+        <xsl:apply-templates select="*:Row"
                              mode="xstructural.inlines"/>
       </tbody>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Item"
+  <xsl:template match="*:Item"
                 mode="xstructural.inlines">
     <xsl:element name="li">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -200,31 +199,31 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:ListOrdered"
+  <xsl:template match="*:ListOrdered"
                 mode="xstructural.inlines">
     <xsl:element name="ol">
       <xsl:call-template name="xstructural.classes.attributeFor">
         <xsl:with-param name="baseClass"
                         select="'stListOrdered'"/>
       </xsl:call-template>
-      <xsl:apply-templates select="s:Item"
+      <xsl:apply-templates select="*:Item"
                            mode="xstructural.inlines"/>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:ListUnordered"
+  <xsl:template match="*:ListUnordered"
                 mode="xstructural.inlines">
     <xsl:element name="ul">
       <xsl:call-template name="xstructural.classes.attributeFor">
         <xsl:with-param name="baseClass"
                         select="'stListUnordered'"/>
       </xsl:call-template>
-      <xsl:apply-templates select="s:Item"
+      <xsl:apply-templates select="*:Item"
                            mode="xstructural.inlines"/>
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Verbatim"
+  <xsl:template match="*:Verbatim"
                 mode="xstructural.inlines">
     <xsl:element name="pre">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -241,7 +240,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Term"
+  <xsl:template match="*:Term"
                 mode="xstructural.inlines">
     <xsl:element name="span">
       <xsl:call-template name="xstructural.classes.attributeFor">
@@ -253,7 +252,7 @@
     </xsl:element>
   </xsl:template>
 
-  <xsl:template match="s:Image"
+  <xsl:template match="*:Image"
                 mode="xstructural.inlines">
     <xsl:element name="img">
       <xsl:call-template name="xstructural.classes.attributeFor">

@@ -19,7 +19,6 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:si="urn:com.io7m.structural.index:1:0"
-                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
@@ -32,11 +31,11 @@
     <xsl:variable name="targetOwner"
                   as="element()">
       <xsl:choose>
-        <xsl:when test="count($target/ancestor-or-self::s:Section) > 0">
-          <xsl:sequence select="$target/ancestor-or-self::s:Section[1]"/>
+        <xsl:when test="count($target/ancestor-or-self::*:Section) > 0">
+          <xsl:sequence select="$target/ancestor-or-self::*:Section[1]"/>
         </xsl:when>
-        <xsl:when test="count($target/ancestor-or-self::s:Document) > 0">
-          <xsl:sequence select="$target/ancestor-or-self::s:Document[1]"/>
+        <xsl:when test="count($target/ancestor-or-self::*:Document) > 0">
+          <xsl:sequence select="$target/ancestor-or-self::*:Document[1]"/>
         </xsl:when>
       </xsl:choose>
     </xsl:variable>
@@ -44,7 +43,7 @@
     <xsl:value-of select="concat(generate-id($targetOwner), '.xhtml')"/>
   </xsl:template>
 
-  <xsl:template match="s:Document">
+  <xsl:template match="*:Document">
     <xsl:result-document href="xstructural-index.xml"
                          method="xml"
                          include-content-type="no"
@@ -52,14 +51,14 @@
       <xsl:element name="si:Index">
         <xsl:apply-templates mode="xstructural.indexing.item"
                              select="."/>
-        <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
+        <xsl:apply-templates select="*:Section|*:Subsection|*:Paragraph|*:FormalItem"
                              mode="xstructural.indexing"/>
       </xsl:element>
     </xsl:result-document>
   </xsl:template>
 
   <xsl:template mode="xstructural.indexing"
-                match="s:Section|s:Subsection|s:Paragraph|s:FormalItem">
+                match="*:Section|*:Subsection|*:Paragraph|*:FormalItem">
     <xsl:apply-templates mode="xstructural.indexing.item"
                          select="."/>
     <xsl:apply-templates mode="xstructural.indexing"/>

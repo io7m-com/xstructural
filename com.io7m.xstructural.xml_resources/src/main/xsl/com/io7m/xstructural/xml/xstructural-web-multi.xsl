@@ -20,16 +20,17 @@
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:xdoc="http://www.pnp-software.com/XSLTdoc"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:s="urn:com.io7m.structural:7:0"
+                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural7-links.xsl"/>
-  <xsl:import href="xstructural7-branding.xsl"/>
+  <xsl:import href="xstructural-links.xsl"/>
+  <xsl:import href="xstructural-branding.xsl"/>
+  <xsl:import href="xstructural-navigation.xsl"/>
 
-  <xsl:import href="xstructural7-outputs.xsl"/>
-  <xsl:import href="xstructural7-blocks-web-single.xsl"/>
+  <xsl:import href="xstructural-outputs.xsl"/>
+  <xsl:import href="xstructural-blocks-web-multi.xsl"/>
 
   <xsl:template match="@*|node()">
     <xsl:message terminate="yes"
@@ -38,12 +39,32 @@
 
   <xsl:template match="comment()"/>
 
-  <!--                                 -->
-  <!-- Top-level web single templates. -->
-  <!--                                 -->
+  <!--                                -->
+  <!-- Top-level web multi templates. -->
+  <!--                                -->
+
+  <xsl:template name="xstructural.fileOf"
+                as="xsd:string">
+    <xsl:param name="target"
+               as="element()"/>
+
+    <xsl:variable name="targetOwner"
+                  as="element()">
+      <xsl:choose>
+        <xsl:when test="count($target/ancestor-or-self::*:Section) > 0">
+          <xsl:sequence select="$target/ancestor-or-self::*:Section[1]"/>
+        </xsl:when>
+        <xsl:when test="count($target/ancestor-or-self::*:Document) > 0">
+          <xsl:sequence select="$target/ancestor-or-self::*:Document[1]"/>
+        </xsl:when>
+      </xsl:choose>
+    </xsl:variable>
+
+    <xsl:value-of select="concat(generate-id($targetOwner), '.xhtml')"/>
+  </xsl:template>
 
   <xdoc:doc>
-    An override of the anchorOf function that works for single-page XHTML files.
+    An override of the anchorOf function that works for multi-page XHTML files.
   </xdoc:doc>
 
   <xsl:template name="xstructural.links.anchorOf"
@@ -51,13 +72,31 @@
     <xsl:param name="target"
                as="element()"/>
 
+    <xsl:message select="concat('anchorOf: ', local-name($target))"/>
+
+    <xsl:variable name="owningFile"
+                  as="xsd:string">
+      <xsl:choose>
+        <xsl:when test="$target/ancestor-or-self::*:Section[1]">
+          <xsl:variable name="owningSection"
+                        as="element()">
+            <xsl:sequence select="$target/ancestor-or-self::*:Section[1]"/>
+          </xsl:variable>
+          <xsl:value-of select="concat(generate-id($owningSection),'.xhtml')"/>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="$xstructural.web.indexMulti"/>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+
     <xsl:variable name="completeHref">
       <xsl:choose>
         <xsl:when test="$target/attribute::id">
-          <xsl:value-of select="concat('#id_',$target/attribute::id[1])"/>
+          <xsl:value-of select="concat($owningFile,'#id_',$target/attribute::id[1])"/>
         </xsl:when>
         <xsl:otherwise>
-          <xsl:value-of select="concat('#',generate-id($target))"/>
+          <xsl:value-of select="concat($owningFile,'#',generate-id($target))"/>
         </xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
@@ -65,12 +104,12 @@
     <xsl:value-of select="$completeHref"/>
   </xsl:template>
 
-  <xsl:template match="s:Document">
+  <xsl:template match="*:Document">
     <xsl:message select="concat('Processing document ', generate-id(.))"/>
 
     <xsl:variable name="file"
                   as="xsd:string"
-                  select="concat($xstructural.outputDirectory,'/',$xstructural.web.indexSingle)"/>
+                  select="concat($xstructural.outputDirectory,'/index-m.xhtml')"/>
 
     <xsl:message select="concat('create ', $file)"/>
 
@@ -86,6 +125,8 @@
         <head>
           <meta name="generator"
                 content="${project.groupId}/${project.version}"/>
+          <meta name="viewport"
+                content="width=device-width, initial-scale=1.0"/>
 
           <link rel="stylesheet"
                 type="text/css"
@@ -97,21 +138,27 @@
                 type="text/css"
                 href="document.css"/>
 
-          <xsl:apply-templates select="s:Metadata"
+          <xsl:apply-templates select="*:Metadata"
                                mode="xstructural.metadata.header"/>
           <title>
-            <xsl:value-of select="s:Metadata/dc:title"/>
+            <xsl:value-of select="*:Metadata/dc:title"/>
           </title>
         </head>
         <body>
-          <xsl:apply-templates select="s:Metadata/*"
+          <xsl:apply-templates select="*:Metadata/*"
                                mode="xstructural.web.branding.header"/>
+
+          <xsl:apply-templates select="."
+                               mode="xstructural.navigation.header"/>
 
           <div class="stMain">
             <xsl:apply-templates select="."
                                  mode="xstructural.titleElement"/>
 
-            <xsl:apply-templates select="s:Metadata"
+            <xsl:apply-templates select="."
+                                 mode="xstructural.documentTitleImageElement"/>
+
+            <xsl:apply-templates select="*:Metadata"
                                  mode="xstructural.metadata.table"/>
 
             <xsl:apply-templates select="."
@@ -120,13 +167,16 @@
                               select="true()"/>
             </xsl:apply-templates>
 
-            <xsl:apply-templates select="s:Section|s:Subsection|s:Paragraph|s:FormalItem"
+            <xsl:apply-templates select="*:Section|*:Subsection|*:Paragraph|*:FormalItem"
                                  mode="xstructural.blocks"/>
 
             <xsl:call-template name="xstructural.blocks.footnotesOptional"/>
           </div>
 
-          <xsl:apply-templates select="s:Metadata/*"
+          <xsl:apply-templates select="."
+                               mode="xstructural.navigation.footer"/>
+
+          <xsl:apply-templates select="*:Metadata/*"
                                mode="xstructural.web.branding.footer"/>
         </body>
       </html>

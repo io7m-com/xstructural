@@ -18,15 +18,14 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                xmlns:s="urn:com.io7m.structural:7:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural7-links.xsl"/>
-  <xsl:import href="xstructural7-text.xsl"/>
+  <xsl:import href="xstructural-links.xsl"/>
+  <xsl:import href="xstructural-text.xsl"/>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="*:Subsection"
                 mode="xstructural.tableOfContents">
 
     <xsl:param name="depthMaximum"
@@ -64,10 +63,10 @@
                         as="xsd:integer"
                         select="$depthCurrent + 1"/>
           <xsl:variable name="haveSections"
-                        select="count(s:Section) > 0"
+                        select="count(*:Section) > 0"
                         as="xsd:boolean"/>
           <xsl:variable name="haveSubsections"
-                        select="count(s:Subsection) > 0"
+                        select="count(*:Subsection) > 0"
                         as="xsd:boolean"/>
           <xsl:variable name="haveElements"
                         select="$haveSections or $haveSubsections"
@@ -80,7 +79,7 @@
 
           <xsl:if test="$shouldCreateSubList">
             <ul>
-              <xsl:apply-templates select="s:Section|s:Subsection"
+              <xsl:apply-templates select="*:Section|*:Subsection"
                                    mode="xstructural.tableOfContents">
                 <xsl:with-param name="depthMaximum"
                                 select="$depthMaximum"/>
@@ -94,7 +93,7 @@
     </xsl:choose>
   </xsl:template>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.tableOfContents">
     <xsl:param name="depthMaximum"
                as="xsd:integer"/>
@@ -131,10 +130,10 @@
                         as="xsd:integer"
                         select="$depthCurrent + 1"/>
           <xsl:variable name="haveSections"
-                        select="count(s:Section) > 0"
+                        select="count(*:Section) > 0"
                         as="xsd:boolean"/>
           <xsl:variable name="haveSubsections"
-                        select="count(s:Subsection) > 0"
+                        select="count(*:Subsection) > 0"
                         as="xsd:boolean"/>
           <xsl:variable name="haveElements"
                         select="$haveSections or $haveSubsections"
@@ -147,7 +146,7 @@
 
           <xsl:if test="$shouldCreateSubList">
             <ul>
-              <xsl:apply-templates select="s:Section|s:Subsection"
+              <xsl:apply-templates select="*:Section|*:Subsection"
                                    mode="xstructural.tableOfContents">
                 <xsl:with-param name="depthMaximum"
                                 select="$depthMaximum"/>
@@ -171,7 +170,7 @@
     </xsl:message>
   </xsl:template>
 
-  <xsl:template match="s:Document|s:Section"
+  <xsl:template match="*:Document|*:Section"
                 mode="xstructural.tableOfContentsOptional">
     <xsl:param name="withTitle"
                as="xsd:boolean"
@@ -179,7 +178,7 @@
 
     <xsl:choose>
       <xsl:when test="@tableOfContents = 'false'"/>
-      <xsl:when test="count(s:Section) = 0 and count(s:Subsection) = 0"/>
+      <xsl:when test="count(*:Section) = 0 and count(*:Subsection) = 0"/>
 
       <xsl:otherwise>
         <xsl:variable name="maximumDepth">
@@ -199,7 +198,7 @@
           </xsl:if>
 
           <ul>
-            <xsl:apply-templates select="s:Section|s:Subsection"
+            <xsl:apply-templates select="*:Section|*:Subsection"
                                  mode="xstructural.tableOfContents">
               <xsl:with-param name="depthCurrent"
                               select="0"/>

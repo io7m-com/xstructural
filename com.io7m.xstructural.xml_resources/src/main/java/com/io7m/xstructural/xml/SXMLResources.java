@@ -225,64 +225,6 @@ public final class SXMLResources
   }
 
   /**
-   * @return The xstructural core XSL stylesheet
-   *
-   * @deprecated The core stylesheet is no longer available
-   */
-
-  @Deprecated(since = "1.3.0", forRemoval = true)
-  public URL core()
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * @return The xstructural multi-page XSL stylesheet
-   *
-   * @deprecated Use a version-specific multi stylesheet
-   */
-
-  @Deprecated(since = "1.3.0", forRemoval = true)
-  public URL multi()
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * @return The xstructural single-page XSL stylesheet
-   *
-   * @deprecated Use a version-specific single stylesheet
-   */
-
-  @Deprecated(since = "1.3.0", forRemoval = true)
-  public URL single()
-  {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * @return The xstructural 7.0 single-page XSL stylesheet
-   *
-   * @since 1.3.0
-   */
-
-  public URL s7Single()
-  {
-    return SXMLResources.class.getResource("s7/xstructural7-web-single.xsl");
-  }
-
-  /**
-   * @return The xstructural 7.0 multi-page XSL stylesheet
-   *
-   * @since 1.3.0
-   */
-
-  public URL s7Multi()
-  {
-    return SXMLResources.class.getResource("s7/xstructural7-web-multi.xsl");
-  }
-
-  /**
    * @return The xstructural 8.0 single-page XSL stylesheet
    *
    * @since 1.3.0
@@ -290,7 +232,7 @@ public final class SXMLResources
 
   public URL s8Single()
   {
-    return SXMLResources.class.getResource("s8/xstructural8-web-single.xsl");
+    return SXMLResources.class.getResource("xstructural-web-single.xsl");
   }
 
   /**
@@ -301,7 +243,7 @@ public final class SXMLResources
 
   public URL s8Multi()
   {
-    return SXMLResources.class.getResource("s8/xstructural8-web-multi.xsl");
+    return SXMLResources.class.getResource("xstructural-web-multi.xsl");
   }
 
   /**
@@ -312,7 +254,7 @@ public final class SXMLResources
 
   public URL s8Index()
   {
-    return SXMLResources.class.getResource("s8/xstructural8-index.xsl");
+    return SXMLResources.class.getResource("xstructural-index.xsl");
   }
 
   /**
@@ -323,7 +265,7 @@ public final class SXMLResources
 
   public URL s8Epub()
   {
-    return SXMLResources.class.getResource("s8/xstructural8-epub.xsl");
+    return SXMLResources.class.getResource("xstructural-epub.xsl");
   }
 
   /**
@@ -334,7 +276,7 @@ public final class SXMLResources
 
   public URL s8EpubPackage()
   {
-    return SXMLResources.class.getResource("s8/xstructural8-epub-package.xsl");
+    return SXMLResources.class.getResource("xstructural-epub-package.xsl");
   }
 
   /**

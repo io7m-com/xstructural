@@ -20,17 +20,16 @@
                 xmlns:xsd="http://www.w3.org/2001/XMLSchema"
                 xmlns:xdoc="http://www.pnp-software.com/XSLTdoc"
                 xmlns:dc="http://purl.org/dc/elements/1.1/"
-                xmlns:s="urn:com.io7m.structural:8:0"
                 xmlns="http://www.w3.org/1999/xhtml"
                 exclude-result-prefixes="#all"
                 version="2.0">
 
-  <xsl:import href="xstructural8-blocks.xsl"/>
-  <xsl:import href="xstructural8-inlines.xsl"/>
-  <xsl:import href="xstructural8-links.xsl"/>
-  <xsl:import href="xstructural8-outputs.xsl"/>
-  <xsl:import href="xstructural8-text.xsl"/>
-  <xsl:import href="xstructural8-tocs.xsl"/>
+  <xsl:import href="xstructural-blocks.xsl"/>
+  <xsl:import href="xstructural-inlines.xsl"/>
+  <xsl:import href="xstructural-links.xsl"/>
+  <xsl:import href="xstructural-outputs.xsl"/>
+  <xsl:import href="xstructural-text.xsl"/>
+  <xsl:import href="xstructural-tocs.xsl"/>
 
   <!--                              -->
   <!-- Web block content overrides. -->
@@ -71,7 +70,7 @@
     Generate a title element in a rendered document.
   </xdoc:doc>
 
-  <xsl:template match="s:Document"
+  <xsl:template match="*:Document"
                 mode="xstructural.titleElement">
 
     <xsl:call-template name="xstructural.regions.standardRegion">
@@ -82,7 +81,7 @@
       </xsl:with-param>
       <xsl:with-param name="stContentNode">
         <h1 class="stDocumentTitle">
-          <xsl:value-of select="s:Metadata/dc:title"/>
+          <xsl:value-of select="*:Metadata/dc:title"/>
         </h1>
       </xsl:with-param>
     </xsl:call-template>
@@ -92,7 +91,7 @@
     Generate a title element in a rendered section.
   </xdoc:doc>
 
-  <xsl:template match="s:Section"
+  <xsl:template match="*:Section"
                 mode="xstructural.titleElement">
 
     <xsl:call-template name="xstructural.regions.standardRegion">
@@ -135,7 +134,7 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="s:Footnote"
+  <xsl:template match="*:Footnote"
                 as="element()*"
                 mode="xstructural.blocks">
 
@@ -143,7 +142,7 @@
                   as="xsd:string">
       <xsl:number level="single"
                   select="."
-                  count="s:Footnote"/>
+                  count="*:Footnote"/>
     </xsl:variable>
 
     <tr>
@@ -202,7 +201,7 @@
       <h2>Footnotes</h2>
       <div class="stFootnotes">
         <table>
-          <xsl:apply-templates select="s:Footnote"
+          <xsl:apply-templates select="*:Footnote"
                                mode="xstructural.blocks"/>
         </table>
       </div>
@@ -219,7 +218,7 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="s:Paragraph"
+  <xsl:template match="*:Paragraph"
                 mode="xstructural.blocks">
     <xsl:variable name="stParagraphNumber"
                   as="element()">
@@ -240,7 +239,7 @@
                             select="."/>
           </xsl:call-template>
         </xsl:attribute>
-        <xsl:value-of select="count(preceding-sibling::s:Paragraph|preceding-sibling::s:FormalItem) + 1"/>
+        <xsl:value-of select="count(preceding-sibling::*:Paragraph|preceding-sibling::*:FormalItem) + 1"/>
       </xsl:element>
     </xsl:variable>
 
@@ -256,7 +255,7 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="s:FormalItem"
+  <xsl:template match="*:FormalItem"
                 mode="xstructural.blocks">
     <xsl:variable name="formalItemContent">
       <xsl:apply-templates select="."
@@ -282,7 +281,7 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="s:Subsection"
+  <xsl:template match="*:Subsection"
                 mode="xstructural.blocks">
 
     <xsl:call-template name="xstructural.regions.standardRegion">
@@ -297,11 +296,11 @@
       </xsl:with-param>
     </xsl:call-template>
 
-    <xsl:apply-templates select="s:Paragraph|s:FormalItem|s:Subsection"
+    <xsl:apply-templates select="*:Paragraph|*:FormalItem|*:Subsection"
                          mode="xstructural.blocks"/>
   </xsl:template>
 
-  <xsl:template match="s:Metadata"
+  <xsl:template match="*:Metadata"
                 mode="xstructural.metadata.table">
 
     <xsl:call-template name="xstructural.regions.standardRegion">
@@ -313,7 +312,7 @@
       <xsl:with-param name="stContentNode">
         <div class="stMetadataTable">
           <table>
-            <xsl:apply-templates select="s:MetaProperty|dc:*"
+            <xsl:apply-templates select="*:MetaProperty|dc:*"
                                  mode="xstructural.metadata.table"/>
           </table>
         </div>
@@ -321,7 +320,7 @@
     </xsl:call-template>
   </xsl:template>
 
-  <xsl:template match="s:Document|s:Section"
+  <xsl:template match="*:Document|*:Section"
                 mode="xstructural.tableOfContentsOptional">
     <xsl:param name="withTitle"
                as="xsd:boolean"
@@ -329,7 +328,7 @@
 
     <xsl:choose>
       <xsl:when test="@tableOfContents = 'false'"/>
-      <xsl:when test="count(s:Section) = 0 and count(s:Subsection) = 0"/>
+      <xsl:when test="count(*:Section) = 0 and count(*:Subsection) = 0"/>
 
       <xsl:otherwise>
         <xsl:variable name="maximumDepth">
@@ -356,7 +355,7 @@
               </xsl:if>
 
               <ul>
-                <xsl:apply-templates select="s:Section|s:Subsection"
+                <xsl:apply-templates select="*:Section|*:Subsection"
                                      mode="xstructural.tableOfContents">
                   <xsl:with-param name="depthCurrent"
                                   select="0"/>
@@ -375,17 +374,17 @@
     Generate a document title image element in a rendered document.
   </xdoc:doc>
 
-  <xsl:template match="s:Document"
+  <xsl:template match="*:Document"
                 mode="xstructural.documentTitleImageElement">
-    <xsl:if test="s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.web.cover']">
+    <xsl:if test="*:Metadata/*:MetaProperty[@name='com.io7m.xstructural.web.cover']">
       <xsl:variable name="content" as="element()">
         <div class="stWebCoverImage">
           <xsl:element name="img">
             <xsl:attribute name="src">
-              <xsl:value-of select="s:Metadata/s:MetaProperty[@name='com.io7m.xstructural.web.cover']"/>
+              <xsl:value-of select="*:Metadata/*:MetaProperty[@name='com.io7m.xstructural.web.cover']"/>
             </xsl:attribute>
             <xsl:attribute name="alt">
-              <xsl:value-of select="normalize-space(s:Metadata/dc:title)"/>
+              <xsl:value-of select="normalize-space(*:Metadata/dc:title)"/>
             </xsl:attribute>
           </xsl:element>
         </div>
