@@ -1,5 +1,5 @@
 /*
- * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ * Copyright © 2025 Mark Raynsford <code@io7m.com> https://www.io7m.com
  *
  * Permission to use, copy, modify, and/or distribute this software for any
  * purpose with or without fee is hereby granted, provided that the above
@@ -14,13 +14,27 @@
  * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
  */
 
+package com.io7m.xstructural.vanilla.internal;
+
+import java.util.Map;
+
 /**
- * XStructural (API)
+ * A collection of type attribute declarations.
+ *
+ * @param types The types
  */
 
-@Export
-@Version("1.3.0")
-package com.io7m.xstructural.api;
+public record XSTypeAttributeDeclarationCollection(
+  Map<String, XSTypeAttributeDeclaration> types)
+{
+  /**
+   * A collection of type attribute declarations.
+   *
+   * @param types The types
+   */
 
-import org.osgi.annotation.bundle.Export;
-import org.osgi.annotation.versioning.Version;
+  public XSTypeAttributeDeclarationCollection
+  {
+    types = Map.copyOf(types);
+  }
+}

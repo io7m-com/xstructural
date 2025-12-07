@@ -179,7 +179,8 @@
               <excludes>module-info.java</excludes>
               <includes>
                 com/io7m/xstructural/xml/xstructural-7.xsd,
-                com/io7m/xstructural/xml/xstructural-8.xsd
+                com/io7m/xstructural/xml/xstructural-8.xsd,
+                com/io7m/xstructural/xml/xstructural-types-1.xsd
               </includes>
               <includeGroupIds>${project.groupId}</includeGroupIds>
               <includeArtifactIds>com.io7m.xstructural.xml_resources</includeArtifactIds>

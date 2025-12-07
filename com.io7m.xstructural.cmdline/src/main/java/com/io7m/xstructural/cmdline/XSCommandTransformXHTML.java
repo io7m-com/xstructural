@@ -37,6 +37,13 @@ final class XSCommandTransformXHTML extends XSCommandRoot
   private Path sourceFile;
 
   @Parameter(
+    required = false,
+    description = "The type description file.",
+    names = "--typeFile"
+  )
+  private Path typesFile;
+
+  @Parameter(
     required = true,
     description = "The output directory",
     names = "--outputDirectory"
@@ -108,6 +115,9 @@ final class XSCommandTransformXHTML extends XSCommandRoot
     }
     if (this.brandingFile != null) {
       requestBuilder.setBrandingFile(this.brandingFile.toAbsolutePath());
+    }
+    if (this.typesFile != null) {
+      requestBuilder.setTypeDescriptionFile(this.typesFile);
     }
 
     final var request = requestBuilder.build();

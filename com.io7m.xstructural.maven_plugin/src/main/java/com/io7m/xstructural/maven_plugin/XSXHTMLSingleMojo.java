@@ -47,6 +47,11 @@ public final class XSXHTMLSingleMojo extends AbstractMojo
   private String sourceFile;
 
   @Parameter(
+    name = "typeFile",
+    required = false)
+  private String typeFile;
+
+  @Parameter(
     name = "brandingFile",
     required = false)
   private String brandingFile;
@@ -97,6 +102,11 @@ public final class XSXHTMLSingleMojo extends AbstractMojo
       if (this.brandingFile != null) {
         requestBuilder.setBrandingFile(
           Paths.get(this.brandingFile).toAbsolutePath());
+      }
+      if (this.typeFile != null) {
+        requestBuilder.setTypeDescriptionFile(
+          Paths.get(this.typeFile).toAbsolutePath()
+        );
       }
 
       final var request = requestBuilder.build();

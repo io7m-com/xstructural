@@ -130,6 +130,62 @@ public final class XSCommandLineTest
   }
 
   @Test
+  public void testValidateTypeAttributesOK_80()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "validate",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_80.xml")
+        .toString(),
+      "--typeFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "types-example-0.xml")
+        .toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(0, main.exitCode());
+  }
+
+  @Test
+  public void testValidateTypeAttributesNotOK_80()
+    throws Exception
+  {
+    final var main = new Main(new String[]{
+      "validate",
+      "--sourceFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "example0_80.xml")
+        .toString(),
+      "--typeFile",
+      XSTestDirectories.resourceOf(
+        XSCommandLineTest.class,
+        this.sourceDirectory,
+        "types-1.xml")
+        .toString(),
+      "--verbose",
+      "trace"
+    });
+
+    final var capture =
+      XSOutputCaptured.capture(main::run);
+
+    Assertions.assertEquals(1, main.exitCode());
+  }
+
+  @Test
   public void testTransformXHTMLMissingOutput_70()
     throws Exception
   {

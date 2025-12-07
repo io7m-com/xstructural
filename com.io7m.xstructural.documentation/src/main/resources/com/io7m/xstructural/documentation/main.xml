@@ -22,6 +22,7 @@
   </Metadata>
 
   <xi:include href="language.xml"/>
+  <xi:include href="types.xml"/>
   <xi:include href="cmdline.xml"/>
   <xi:include href="maven_plugin.xml"/>
   <xi:include href="api.xml"/>

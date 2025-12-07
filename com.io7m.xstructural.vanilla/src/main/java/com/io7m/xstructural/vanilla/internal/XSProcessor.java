@@ -19,9 +19,11 @@ package com.io7m.xstructural.vanilla.internal;
 import com.io7m.xstructural.api.XSProcessorException;
 import com.io7m.xstructural.api.XSProcessorRequest;
 import com.io7m.xstructural.api.XSProcessorType;
+import com.io7m.xstructural.api.XSValidationException;
 import com.io7m.xstructural.xml.SXMLResources;
 
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * An XSL processor.
@@ -35,6 +37,7 @@ public final class XSProcessor implements XSProcessorType
   private final XSValidator validator;
   private final XSXHTMLValidator xhtmlValidator;
   private final XSEPUBCreator epubCreator;
+  private final Optional<XSTypeValidator> typeValidator;
 
   /**
    * An XSL processor.
@@ -58,6 +61,9 @@ public final class XSProcessor implements XSProcessorType
       new XSXHTMLValidator(this.resources, this.request);
     this.epubCreator =
       new XSEPUBCreator(this.resources, this.request);
+    this.typeValidator =
+      this.request.typeDescriptionFile()
+        .map(p -> new XSTypeValidator(this.resources, this.request));
   }
 
   @Override
@@ -67,16 +73,19 @@ public final class XSProcessor implements XSProcessorType
     switch (this.request.task()) {
       case VALIDATE: {
         this.validator.execute();
+        this.typeValidatorExecute();
         break;
       }
       case TRANSFORM_XHTML: {
         this.validator.execute();
+        this.typeValidatorExecute();
         this.transformer.execute();
         this.xhtmlValidator.execute();
         break;
       }
       case TRANSFORM_EPUB: {
         this.validator.execute();
+        this.typeValidatorExecute();
         this.transformer.execute();
         this.xhtmlValidator.execute();
         this.epubCreator.execute();
@@ -85,6 +94,19 @@ public final class XSProcessor implements XSProcessorType
       case VALIDATE_XHTML: {
         this.xhtmlValidator.execute();
         break;
+      }
+    }
+  }
+
+  private void typeValidatorExecute()
+    throws XSProcessorException
+  {
+    if (this.typeValidator.isPresent()) {
+      final var exec = this.typeValidator.get();
+      try {
+        exec.execute();
+      } catch (final XSValidationException e) {
+        throw new XSProcessorException(e);
       }
     }
   }

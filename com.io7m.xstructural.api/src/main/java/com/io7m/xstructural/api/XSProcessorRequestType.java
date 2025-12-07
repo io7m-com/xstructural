@@ -105,6 +105,14 @@ public interface XSProcessorRequestType
   Optional<String> outputName();
 
   /**
+   * @return The type description file used to validate type attributes.
+   *
+   * @since 2.0.0
+   */
+
+  Optional<Path> typeDescriptionFile();
+
+  /**
    * The stylesheet that will be used during processing.
    */
 
@@ -190,6 +198,7 @@ public interface XSProcessorRequestType
     checkAbsolute(this.messageFile());
     checkAbsolute(this.traceFile());
     this.brandingFile().ifPresent(XSProcessorRequestType::checkAbsolute);
+    this.typeDescriptionFile().ifPresent(XSProcessorRequestType::checkAbsolute);
     checkAbsolute(this.sourceFile());
   }
 

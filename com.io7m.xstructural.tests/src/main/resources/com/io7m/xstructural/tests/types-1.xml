@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Types xmlns="urn:com.io7m.structural.types:1:0">
+  <Type Name="x">
+    <Description xml:lang="en">
+      Something.
+    </Description>
+  </Type>
+</Types>

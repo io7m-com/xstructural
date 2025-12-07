@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!--
+  Copyright © 2025 Mark Raynsford <code@io7m.com> https://www.io7m.com
+
+  Permission to use, copy, modify, and/or distribute this software for any
+  purpose with or without fee is hereby granted, provided that the above
+  copyright notice and this permission notice appear in all copies.
+
+  THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+  WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+  MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+  SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+  WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+  ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+  IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            xmlns:t="urn:com.io7m.structural.types:1:0"
+            targetNamespace="urn:com.io7m.structural.types:1:0">
+
+  <xsd:import namespace="http://www.w3.org/XML/1998/namespace"
+              schemaLocation="xml.xsd"/>
+
+  <xsd:simpleType name="VersionNameType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of package (semantic) versions.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="([0-9]{1,8})\.([0-9]{1,8})\.([0-9]{1,8})"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="PackageNameType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of package names.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="([a-z][a-z0-9_-]{0,63})(\.[a-z][a-z0-9_-]{0,62}){0,15}"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="TypeNameType">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        The type of type names. Type names are used to categorize elements and
+        are somewhat analogous to CSS classes, except that they are intended to
+        be used for more than just styling documents.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:restriction base="xsd:string">
+      <xsd:pattern value="[a-zA-Z][a-zA-Z0-9_\.\-]*"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:complexType name="DescriptionType"
+                   mixed="true">
+    <xsd:annotation>
+      <xsd:documentation xml:lang="en">
+        A human-readable description of the meaning of a type.
+      </xsd:documentation>
+    </xsd:annotation>
+    <xsd:attribute ref="xml:lang"
+                   use="required"/>
+  </xsd:complexType>
+
+  <xsd:element name="Description"
+               type="t:DescriptionType"/>
+
+  <xsd:element name="Type">
+    <xsd:complexType>
+      <xsd:annotation>
+        <xsd:documentation xml:lang="en">
+          The type of types.
+        </xsd:documentation>
+      </xsd:annotation>
+
+      <xsd:sequence>
+        <xsd:sequence minOccurs="1"
+                      maxOccurs="unbounded">
+          <xsd:element ref="t:Description"/>
+        </xsd:sequence>
+      </xsd:sequence>
+
+      <xsd:attribute ref="xml:base"/>
+      <xsd:attribute type="t:TypeNameType"
+                     name="Name"
+                     use="required"/>
+    </xsd:complexType>
+
+    <xsd:unique name="LanguageUnique">
+      <xsd:selector xpath="t:Description"/>
+      <xsd:field xpath="@xml:lang"/>
+    </xsd:unique>
+  </xsd:element>
+
+  <xsd:element name="Types">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:sequence minOccurs="0"
+                      maxOccurs="unbounded">
+          <xsd:choice>
+            <xsd:element ref="t:Types"/>
+            <xsd:element ref="t:Type"/>
+          </xsd:choice>
+        </xsd:sequence>
+      </xsd:sequence>
+
+      <xsd:attribute ref="xml:base"/>
+    </xsd:complexType>
+
+    <xsd:key name="TypeNameUnique">
+      <xsd:selector xpath=".//t:Type"/>
+      <xsd:field xpath="@Name"/>
+    </xsd:key>
+  </xsd:element>
+
+</xsd:schema>
