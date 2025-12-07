@@ -92,7 +92,7 @@
     </FormalItem>
   </Subsection>
 
-  <Subsection title="Types">
+  <Subsection title="Types" id="09b89d86-aed4-4d4b-805d-d8aec81206e1">
     <Paragraph>
       Most elements within documents allow for the specification of
       <Term type="parameter">type</Term> attributes. The <Term type="parameter">type</Term> attribute is

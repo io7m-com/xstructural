@@ -52,6 +52,11 @@ public final class XSEPUBMojo extends AbstractMojo
   private String brandingFile;
 
   @Parameter(
+    name = "typeFile",
+    required = false)
+  private String typeFile;
+
+  @Parameter(
     name = "copyResources",
     defaultValue = "true",
     required = false
@@ -106,6 +111,11 @@ public final class XSEPUBMojo extends AbstractMojo
       }
       if (this.outputFileName != null) {
         requestBuilder.setOutputName(this.outputFileName);
+      }
+      if (this.typeFile != null) {
+        requestBuilder.setTypeDescriptionFile(
+          Paths.get(this.typeFile).toAbsolutePath()
+        );
       }
 
       final var request = requestBuilder.build();

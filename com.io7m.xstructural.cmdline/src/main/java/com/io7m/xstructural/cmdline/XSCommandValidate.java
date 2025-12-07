@@ -36,6 +36,13 @@ final class XSCommandValidate extends XSCommandRoot
   )
   private Path sourceFile;
 
+  @Parameter(
+    required = false,
+    description = "The type description file.",
+    names = "--typeFile"
+  )
+  private Path typesFile;
+
   XSCommandValidate()
   {
 
@@ -56,6 +63,10 @@ final class XSCommandValidate extends XSCommandRoot
     requestBuilder.setOutputDirectory(directory);
     requestBuilder.setSourceFile(this.sourceFile.toAbsolutePath());
     requestBuilder.setTask(Task.VALIDATE);
+
+    if (this.typesFile != null) {
+      requestBuilder.setTypeDescriptionFile(this.typesFile);
+    }
 
     final var request = requestBuilder.build();
     final var processors = XSServices.findProcessors();

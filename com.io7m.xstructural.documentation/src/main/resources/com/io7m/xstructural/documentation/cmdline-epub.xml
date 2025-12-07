@@ -43,6 +43,12 @@
           <Cell>The path to the input document.</Cell>
         </Row>
         <Row>
+          <Cell><Term type="parameter">--typeFile</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>true</Cell>
+          <Cell>The path to the type description file.</Cell>
+        </Row>
+        <Row>
           <Cell><Term type="parameter">--outputDirectory</Term></Cell>
           <Cell>Path</Cell>
           <Cell>true</Cell>

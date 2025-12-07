@@ -580,4 +580,34 @@ public final class XSProcessorTest
       assertEquals(1, nodeSet.getLength());
     }
   }
+
+  @Test
+  public void testCompileSingleExampleTypeAttributes0_70()
+    throws Exception
+  {
+    final var request =
+      XSProcessorRequest.builder()
+        .setOutputDirectory(this.outputDirectory)
+        .setSourceFile(
+          XSTestDirectories.resourceOf(
+            XSProcessorTest.class,
+            this.sourceDirectory,
+            "example0_70.xml"
+          )
+        )
+        .setTypeDescriptionFile(
+          XSTestDirectories.resourceOf(
+            XSProcessorTest.class,
+            this.sourceDirectory,
+            "types-example-0.xml"
+          )
+        )
+        .setTraceFile(this.directory.resolve("trace.xml"))
+        .setMessageFile(this.directory.resolve("messages.txt"))
+        .setStylesheet(XSProcessorRequestType.Stylesheet.SINGLE_FILE)
+        .build();
+
+    final var processor = this.processors.create(request);
+    Assertions.assertTimeout(TIMEOUT, processor::execute);
+  }
 }

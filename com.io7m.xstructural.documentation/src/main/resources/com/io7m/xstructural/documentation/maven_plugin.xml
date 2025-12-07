@@ -50,6 +50,7 @@
               <brandingFile>src/main/xml/brand.xml</brandingFile>
               <sourceFile>src/main/xml/main.xml</sourceFile>
               <outputDirectory>target/documentation</outputDirectory>
+              <typeFile>src/main/xml/types.xml</typeFile>
             </configuration>
           </execution>
           <execution>
