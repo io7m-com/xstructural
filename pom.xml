@@ -37,7 +37,7 @@
 
     <!-- Third-party dependencies. -->
     <com.io7m.immutables.version>2.12.1</com.io7m.immutables.version>
-    <io7m.maven-api.version>3.9.11</io7m.maven-api.version>
+    <io7m.maven-api.version>3.9.12</io7m.maven-api.version>
     <org.junit.version>5.10.2</org.junit.version>
   </properties>
 
