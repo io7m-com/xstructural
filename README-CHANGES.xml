@@ -143,7 +143,7 @@
         </c:change>
       </c:changes>
     </c:release>
-    <c:release date="2025-12-07T10:22:51+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="2.0.0">
+    <c:release date="2026-03-28T19:02:28+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="2.0.0">
       <c:changes>
         <c:change compatible="false" date="2025-12-06T00:00:00+00:00" summary="Rename the .xml module due to a long-standing Dependabot bug."/>
         <c:change date="2025-12-06T00:00:00+00:00" summary="Unify the XSLT stylesheets.">
@@ -156,11 +156,12 @@
             <c:ticket id="17"/>
           </c:tickets>
         </c:change>
-        <c:change date="2025-12-07T10:22:51+00:00" summary="Add a type checker for type attributes.">
+        <c:change date="2025-12-07T00:00:00+00:00" summary="Add a type checker for type attributes.">
           <c:tickets>
             <c:ticket id="40"/>
           </c:tickets>
         </c:change>
+        <c:change date="2026-03-28T19:02:28+00:00" summary="Add a new max-width and line-height."/>
       </c:changes>
     </c:release>
   </c:releases>

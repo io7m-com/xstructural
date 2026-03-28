@@ -22,7 +22,7 @@
   --stBackgroundColor:  #ffffff;
   --stBodyFont:         sans-serif;
   --stBodyFontSize:     16px;
-  --stBodyLineHeight:   1.4;
+  --stBodyLineHeight:   1.5;
   --stColumnWidthLeft:  2em;
   --stColumnWidthMain:  100%;
   --stDivider:          1px solid #dddddd;
@@ -36,6 +36,7 @@
   --stVerbatimBorder:   1px solid #dddddd;
   --stVerbatimFont:     monospace;
   --stVerbatimFontSize: 14px;
+  --stMaxWidth:         800px;
 
   --stH1Size: 110%;
   --stH2Size: 106%;
@@ -281,7 +282,7 @@ h6
 }
 .stParagraph .stRegionContent
 {
-
+  max-width: var(--stMaxWidth);
 }
 
 /*
@@ -292,7 +293,10 @@ h6
 {
   margin-top: 1em;
 }
-
+.stFormalItem .stRegionContent
+{
+  max-width: var(--stMaxWidth);
+}
 
 /*
  * Footnotes.
@@ -301,6 +305,7 @@ h6
 .stFootnotes
 {
   margin-top: 1em;
+  max-width: var(--stMaxWidth);
 }
 .stFootnotes table
 {
@@ -338,6 +343,7 @@ h6
   border:          var(--stMetaBorder);
   border-collapse: collapse;
   width:           100%;
+  max-width:       var(--stMaxWidth);
 }
 .stMetadataTable td
 {
