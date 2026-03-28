@@ -186,9 +186,9 @@
         <c:change date="2026-03-28T00:00:00+00:00" summary="Add a new max-width and line-height."/>
       </c:changes>
     </c:release>
-    <c:release date="2026-03-28T19:56:01+00:00" is-open="true" ticket-system="com.github.io7m.xstructural" version="2.0.1">
+    <c:release date="2026-03-28T20:07:02+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="2.0.1">
       <c:changes>
-        <c:change date="2026-03-28T19:56:01+00:00" summary="Apply max-width to stWebCoverImage."/>
+        <c:change date="2026-03-28T00:00:00+00:00" summary="Apply max-width to stWebCoverImage."/>
       </c:changes>
     </c:release>
   </c:releases>
