@@ -37,6 +37,13 @@ final class XSCommandTransformEPUB extends XSCommandRoot
   private Path sourceFile;
 
   @Parameter(
+    required = false,
+    description = "The type description file.",
+    names = "--typeFile"
+  )
+  private Path typesFile;
+
+  @Parameter(
     required = true,
     description = "The output directory",
     names = "--outputDirectory"
@@ -92,6 +99,9 @@ final class XSCommandTransformEPUB extends XSCommandRoot
     }
     if (this.outputFileName != null) {
       requestBuilder.setOutputName(this.outputFileName);
+    }
+    if (this.typesFile != null) {
+      requestBuilder.setTypeDescriptionFile(this.typesFile);
     }
 
     final var request = requestBuilder.build();

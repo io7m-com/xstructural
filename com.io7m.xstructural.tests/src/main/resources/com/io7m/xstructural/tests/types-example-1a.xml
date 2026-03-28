@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Types xmlns="urn:com.io7m.structural.types:1:0">
+  <Type Name="y">
+    <Description xml:lang="en">
+      Something.
+    </Description>
+    <Description xml:lang="fr">
+      Quelque chose.
+    </Description>
+    <Description xml:lang="de">
+      Etwas.
+    </Description>
+  </Type>
+</Types>

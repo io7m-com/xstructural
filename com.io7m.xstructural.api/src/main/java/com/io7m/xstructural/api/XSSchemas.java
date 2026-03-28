@@ -87,4 +87,15 @@ public final class XSSchemas
   {
     return namespace8p0().toString();
   }
+
+  /**
+   * @return The structural type declaration schema
+   *
+   * @since 2.0.0
+   */
+
+  public static URI namespaceTypes()
+  {
+    return URI.create("urn:com.io7m.structural.types:1:0");
+  }
 }

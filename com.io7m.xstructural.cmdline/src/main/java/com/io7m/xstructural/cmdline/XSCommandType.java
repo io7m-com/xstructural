@@ -25,7 +25,13 @@ interface XSCommandType
 
   enum Status
   {
+    /**
+     * Succeeded.
+     */
     SUCCESS,
+    /**
+     * Failed.
+     */
     FAILURE;
 
     int exitCode()

@@ -240,6 +240,7 @@ public final class XSSAXParsers
     final var locations = new StringBuilder(128);
     final var schemas = new HashMap<URI, String>();
 
+    schemas.put(XSSchemas.namespaceTypes(), "xstructural-types-1.xsd");
     schemas.put(XSSchemas.namespace7p0(), "xstructural-7.xsd");
     schemas.put(XSSchemas.namespace8p0(), "xstructural-8.xsd");
     schemas.put(XSSchemas.namespace8Index(), "xstructural-8-index.xsd");

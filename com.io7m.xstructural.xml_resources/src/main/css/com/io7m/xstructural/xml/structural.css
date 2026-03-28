@@ -1,0 +1,404 @@
+/*
+ * Copyright © 2021 Mark Raynsford <code@io7m.com> https://www.io7m.com
+ *
+ * Permission to use, copy, modify, and/or distribute this software for any
+ * purpose with or without fee is hereby granted, provided that the above
+ * copyright notice and this permission notice appear in all copies.
+ *
+ * THE SOFTWARE IS PROVIDED "AS IS" AND THE AUTHOR DISCLAIMS ALL WARRANTIES
+ * WITH REGARD TO THIS SOFTWARE INCLUDING ALL IMPLIED WARRANTIES OF
+ * MERCHANTABILITY AND FITNESS. IN NO EVENT SHALL THE AUTHOR BE LIABLE FOR ANY
+ * SPECIAL, DIRECT, INDIRECT, OR CONSEQUENTIAL DAMAGES OR ANY DAMAGES
+ * WHATSOEVER RESULTING FROM LOSS OF USE, DATA OR PROFITS, WHETHER IN AN
+ * ACTION OF CONTRACT, NEGLIGENCE OR OTHER TORTIOUS ACTION, ARISING OUT OF OR
+ * IN CONNECTION WITH THE USE OR PERFORMANCE OF THIS SOFTWARE.
+ */
+
+/*
+ * Structural CSS ${project.artifactId}/${project.version}
+ */
+
+:root {
+  --stBackgroundColor:  #ffffff;
+  --stBodyFont:         sans-serif;
+  --stBodyFontSize:     16px;
+  --stBodyLineHeight:   1.5;
+  --stColumnWidthLeft:  2em;
+  --stColumnWidthMain:  100%;
+  --stDivider:          1px solid #dddddd;
+  --stHeaderColor:      #202020;
+  --stHeaderFont:       sans-serif;
+  --stMarginLeft:       1em;
+  --stMarginRight:      1em;
+  --stMetaBorder:       1px solid #dddddd;
+  --stMetaFont:         monospace;
+  --stNavigationRowGap: 0.25em;
+  --stVerbatimBorder:   1px solid #dddddd;
+  --stVerbatimFont:     monospace;
+  --stVerbatimFontSize: 14px;
+  --stMaxWidth:         800px;
+
+  --stH1Size: 110%;
+  --stH2Size: 106%;
+  --stH3Size: 104%;
+  --stH4Size: 103%;
+  --stH5Size: 101%;
+  --stH6Size: 100%;
+}
+
+body
+{
+  background-color: var(--stBackgroundColor);
+  font-family:      var(--stBodyFont);
+  font-size:        var(--stBodyFontSize);
+  line-height:      var(--stBodyLineHeight);
+  margin-left:      var(--stMarginLeft);
+  margin-right:     var(--stMarginRight);
+}
+
+h1, h2, h3, h4, h5, h6
+{
+  color:       var(--stHeaderColor);
+  font-family: var(--stHeaderFont);
+  font-weight: bold;
+  margin:      0;
+}
+
+h1
+{
+  font-size: var(--stH1Size);
+}
+h2
+{
+  font-size: var(--stH2Size);
+}
+h3
+{
+  font-size: var(--stH3Size);
+}
+h4
+{
+  font-size: var(--stH4Size);
+}
+h5
+{
+  font-size: var(--stH5Size);
+}
+h6
+{
+  font-size: var(--stH6Size);
+}
+
+.stMain
+{
+  margin-top:   2em;
+  margin-right: var(--stColumnWidthLeft);
+}
+
+/*
+ * Standard regions.
+ */
+
+.stRegion
+{
+
+}
+.stRegionMargin
+{
+  width: var(--stColumnWidthLeft);
+  float: left;
+}
+.stRegionContent
+{
+  margin-left:   var(--stColumnWidthLeft);
+  margin-bottom: 1em;
+}
+
+/*
+ * Navigation headers and footers.
+ */
+
+.stNavigationHeader
+{
+  font-family: var(--stHeaderFont);
+  color:       var(--stHeaderColor);
+
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  grid-row-gap: var(--stNavigationRowGap);
+
+  border-bottom: var(--stDivider);
+  padding-bottom: 1em;
+  margin-top: 1em;
+}
+
+.stNavigationFooter
+{
+  display: grid;
+  grid-template-columns: 33.3% 33.3% 33.3%;
+  grid-row-gap: var(--stNavigationRowGap);
+
+  margin-top: 2em;
+  padding-top: 1em;
+  border-top: var(--stDivider);
+  margin-bottom: 1em;
+}
+
+.stNavigationHeaderPrevTitle
+{
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+.stNavigationHeaderPrevLink
+{
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+.stNavigationHeaderUpTitle
+{
+  grid-column-start: 2;
+  grid-row-start: 1;
+  text-align: center;
+}
+.stNavigationHeaderUpLink
+{
+  grid-column-start: 2;
+  grid-row-start: 2;
+  text-align: center;
+}
+.stNavigationHeaderNextTitle
+{
+  grid-column-start: 3;
+  grid-row-start: 1;
+  text-align: right;
+}
+.stNavigationHeaderNextLink
+{
+  grid-column-start: 3;
+  grid-row-start: 2;
+  text-align: right;
+}
+
+.stNavigationFooterPrevTitle
+{
+  grid-column-start: 1;
+  grid-row-start: 2;
+}
+.stNavigationFooterPrevLink
+{
+  grid-column-start: 1;
+  grid-row-start: 1;
+}
+.stNavigationFooterUpTitle
+{
+  grid-column-start: 2;
+  grid-row-start: 2;
+  text-align: center;
+}
+.stNavigationFooterUpLink
+{
+  grid-column-start: 2;
+  grid-row-start: 1;
+  text-align: center;
+}
+.stNavigationFooterNextTitle
+{
+  grid-column-start: 3;
+  grid-row-start: 2;
+  text-align: right;
+}
+.stNavigationFooterNextLink
+{
+  grid-column-start: 3;
+  grid-row-start: 1;
+  text-align: right;
+}
+
+/*
+ * Table of contents.
+ */
+
+.stTableOfContents
+{
+
+}
+.stTableOfContents h1
+{
+  margin-bottom: 1em;
+}
+.stTableOfContents ul
+{
+  padding: 0;
+  margin: 0;
+}
+.stTableOfContents li > ul
+{
+  padding-left: 1em;
+}
+.stTableOfContents li
+{
+  list-style: none;
+}
+
+/*
+ * Document title.
+ */
+
+.stDocumentTitle
+{
+  font-size:   130%;
+  font-weight: bold;
+}
+
+/*
+ * Sections.
+ */
+
+.stSectionTitle
+{
+
+}
+
+/*
+ * Subsections.
+ */
+
+.stSubsectionTitle
+{
+
+}
+
+/*
+ * Paragraphs.
+ */
+
+.stParagraph
+{
+
+}
+.stParagraphNumber
+{
+
+}
+.stParagraph .stRegionContent
+{
+  max-width: var(--stMaxWidth);
+}
+
+/*
+ * Formal items.
+ */
+
+.stFormalItem
+{
+  margin-top: 1em;
+}
+.stFormalItem .stRegionContent
+{
+  max-width: var(--stMaxWidth);
+}
+
+/*
+ * Footnotes.
+ */
+
+.stFootnotes
+{
+  margin-top: 1em;
+  max-width: var(--stMaxWidth);
+}
+.stFootnotes table
+{
+  border:          var(--stMetaBorder);
+  border-collapse: collapse;
+}
+.stFootnotes td
+{
+  vertical-align: top;
+  border:         var(--stMetaBorder);
+  padding:        0.5em;
+}
+.stFootnoteNumber
+{
+
+}
+.stFootnoteReferences
+{
+  margin-top: 1em;
+}
+
+/*
+ * Document metadata.
+ */
+
+.stRegionContent .stMetadataTable
+{
+
+}
+.stMetadataTable table
+{
+  font-family:     var(--stMetaFont);
+  margin-top:      2em;
+  margin-bottom:   2em;
+  border:          var(--stMetaBorder);
+  border-collapse: collapse;
+  width:           100%;
+  max-width:       var(--stMaxWidth);
+}
+.stMetadataTable td
+{
+  vertical-align: top;
+  border:         var(--stMetaBorder);
+  padding:        0.5em;
+}
+.stMetadataTable td:nth-child(1)
+{
+  width: 8em;
+}
+
+.stVerbatim
+{
+  border:       var(--stVerbatimBorder);
+  padding:      1em;
+  margin:       0em;
+  overflow:     scroll;
+  font-family:  var(--stVerbatimFont);
+  font-size:    var(--stVerbatimFontSize);
+}
+
+/*
+ * Lists.
+ */
+
+.stItem
+{
+  color:         var(--stContentColor);
+  padding-right: 1em;
+  margin-top:    1em;
+}
+
+/*
+ * Tables.
+ */
+
+.stTable td
+{
+  vertical-align: top;
+}
+.stTable th
+{
+  text-align: left;
+  padding-right: 1em;
+}
+
+/*
+ * Cover image.
+ */
+
+.stWebCoverImage img
+{
+  max-width:  100%;
+  max-height: 100%;
+  width:      100%;
+  height:     auto;
+}

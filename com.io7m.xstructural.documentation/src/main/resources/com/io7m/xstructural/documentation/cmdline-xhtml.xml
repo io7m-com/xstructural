@@ -48,6 +48,12 @@
           <Cell>A file that will contain XSLT trace messages.</Cell>
         </Row>
         <Row>
+          <Cell><Term type="parameter">--typeFile</Term></Cell>
+          <Cell>Path</Cell>
+          <Cell>true</Cell>
+          <Cell>The path to the type description file.</Cell>
+        </Row>
+        <Row>
           <Cell><Term type="parameter">--sourceFile</Term></Cell>
           <Cell>Path</Cell>
           <Cell>true</Cell>

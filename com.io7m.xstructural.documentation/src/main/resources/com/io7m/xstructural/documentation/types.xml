@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Section xmlns="urn:com.io7m.structural:8:0"
+         title="Types"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         id="26f17f0a-f486-4722-ad6d-8504c3bb1ad6">
+
+  <Subsection title="Overview">
+    <Paragraph>
+      The <Term type="package">xstructural</Term> package provides a simple
+      checker for
+      <Link target="09b89d86-aed4-4d4b-805d-d8aec81206e1">type</Link>
+      attributes. Given a file of
+      <Term type="term">type declarations</Term>, the checker will ensure
+      that all type attributes that appear in a document refer to declared
+      types. If a type attribute refers to a nonexistent type, the document
+      will fail to validate.
+    </Paragraph>
+    <FormalItem title="Example">
+      <Verbatim><![CDATA[
+<Types xmlns="urn:com.io7m.structural.types:1:0">
+  <Type Name="package">
+    <Description xml:lang="en">
+      A name of a software package.
+    </Description>
+    <Description xml:lang="fr">
+      Le nom d'un logiciel de service.
+    </Description>
+    <Description xml:lang="de">
+      Ein Name eines Softwarepakets.
+    </Description>
+  </Type>
+</Types>
+]]></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+  <Subsection title="Schema">
+    <Paragraph>
+      A <Term type="term">type declaration file</Term> must conform to the
+      following schema:
+    </Paragraph>
+    <FormalItem title="Type Declaration Schema">
+      <Verbatim><xi:include
+        href="com/io7m/xstructural/xml/xstructural-types-1.xsd"
+        parse="text"/></Verbatim>
+    </FormalItem>
+  </Subsection>
+
+</Section>
