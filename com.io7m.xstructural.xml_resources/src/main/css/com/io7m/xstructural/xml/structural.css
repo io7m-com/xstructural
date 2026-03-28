@@ -402,3 +402,8 @@ h6
   width:      100%;
   height:     auto;
 }
+
+.stWebCoverImage .stRegionContent
+{
+  max-width: var(--stMaxWidth);
+}
