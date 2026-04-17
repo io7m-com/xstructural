@@ -186,9 +186,21 @@
         <c:change date="2026-03-28T00:00:00+00:00" summary="Add a new max-width and line-height."/>
       </c:changes>
     </c:release>
-    <c:release date="2026-03-28T20:07:02+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="2.0.1">
+    <c:release date="2026-03-28T00:00:00+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="2.0.1">
       <c:changes>
         <c:change date="2026-03-28T00:00:00+00:00" summary="Apply max-width to stWebCoverImage."/>
+      </c:changes>
+    </c:release>
+    <c:release date="2026-04-17T19:23:58+00:00" is-open="false" ticket-system="com.github.io7m.xstructural" version="2.1.0">
+      <c:changes>
+        <c:change date="2026-04-01T00:00:00+00:00" summary="Update io7m.maven-api.version:3.9.12 → 3.9.14."/>
+        <c:change date="2026-04-01T00:00:00+00:00" summary="Update ch.qos.logback:logback-classic:1.5.28 → 1.5.32."/>
+        <c:change date="2026-04-01T00:00:00+00:00" summary="Update org.junit:junit-bom:5.14.2 → 5.14.3."/>
+        <c:change date="2026-04-17T00:00:00+00:00" summary="Add structural-single.css, structural-multi.css, document-single.css, document-multi.css, document-epub.css.">
+          <c:tickets>
+            <c:ticket id="65"/>
+          </c:tickets>
+        </c:change>
       </c:changes>
     </c:release>
   </c:releases>

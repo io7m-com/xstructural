@@ -97,7 +97,13 @@
                 href="structural.css"/>
           <link rel="stylesheet"
                 type="text/css"
+                href="structural-single.css"/>
+          <link rel="stylesheet"
+                type="text/css"
                 href="document.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="document-single.css"/>
 
           <xsl:apply-templates select="*:Metadata"
                                mode="xstructural.metadata.header"/>
