@@ -198,6 +198,8 @@ public final class XSTransformer implements XSProcessorType
 
     if (this.request.writeResources()) {
       this.copyXStructuralResource("reset.css");
+      this.copyXStructuralResource("structural-multi.css");
+      this.copyXStructuralResource("structural-single.css");
       this.copyXStructuralResource("structural.css");
     }
   }

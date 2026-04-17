@@ -318,4 +318,26 @@ public final class SXMLResources
   {
     return SXMLResources.class.getResource("reset-epub.css");
   }
+
+  /**
+   * @return The xstructural single-page CSS stylesheet
+   *
+   * @since 2.1.0
+   */
+
+  public URL cssStructuralSinglePage()
+  {
+    return SXMLResources.class.getResource("structural-single.css");
+  }
+
+  /**
+   * @return The xstructural multi-page CSS stylesheet
+   *
+   * @since 2.1.0
+   */
+
+  public URL cssStructuralMultiPage()
+  {
+    return SXMLResources.class.getResource("structural-multi.css");
+  }
 }

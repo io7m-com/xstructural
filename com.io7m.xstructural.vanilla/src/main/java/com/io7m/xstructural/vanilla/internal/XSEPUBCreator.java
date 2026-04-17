@@ -366,14 +366,28 @@ public final class XSEPUBCreator implements XSProcessorType
         this.resources.cssStructuralEPUB()
       );
 
-      final var documentCSSfile =
-        this.request.sourceFile()
-          .resolveSibling("document.css");
+      {
+        final var documentCSSfile =
+          this.request.sourceFile()
+            .resolveSibling("document.css");
 
-      if (Files.isRegularFile(documentCSSfile)) {
-        createEPUBCopyFile(zipOut, "OEBPS", documentCSSfile);
-      } else {
-        createEPUBWriteEmpty(zipOut, "OEBPS", "document.css");
+        if (Files.isRegularFile(documentCSSfile)) {
+          createEPUBCopyFile(zipOut, "OEBPS", documentCSSfile);
+        } else {
+          createEPUBWriteEmpty(zipOut, "OEBPS", "document.css");
+        }
+      }
+
+      {
+        final var documentEpubCSSfile =
+          this.request.sourceFile()
+            .resolveSibling("document-epub.css");
+
+        if (Files.isRegularFile(documentEpubCSSfile)) {
+          createEPUBCopyFile(zipOut, "OEBPS", documentEpubCSSfile);
+        } else {
+          createEPUBWriteEmpty(zipOut, "OEBPS", "document-epub.css");
+        }
       }
 
       final var resourcesList =

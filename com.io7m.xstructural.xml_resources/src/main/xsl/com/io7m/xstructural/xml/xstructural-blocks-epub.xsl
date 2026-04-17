@@ -200,6 +200,9 @@
           <link rel="stylesheet"
                 type="text/css"
                 href="document.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="document-epub.css"/>
 
           <title>
             <xsl:value-of select="$sectionCurrTitle"/>

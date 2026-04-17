@@ -60,6 +60,9 @@
           <item id="document-css"
                 href="OEBPS/document.css"
                 media-type="text/css"/>
+          <item id="document-epub-css"
+                href="OEBPS/document-epub.css"
+                media-type="text/css"/>
 
           <xsl:apply-templates select=".//*:Image"
                                mode="s:manifestItem"/>

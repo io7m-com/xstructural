@@ -82,7 +82,13 @@
                 href="structural.css"/>
           <link rel="stylesheet"
                 type="text/css"
+                href="structural-multi.css"/>
+          <link rel="stylesheet"
+                type="text/css"
                 href="document.css"/>
+          <link rel="stylesheet"
+                type="text/css"
+                href="document-multi.css"/>
 
           <link rel="schema.DC"
                 href="http://purl.org/dc/elements/1.1/"/>
