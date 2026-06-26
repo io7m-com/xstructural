@@ -1,45 +1,12 @@
-xstructural
-===
+ERROR com.io7m.ghrepostools.Main : The specified command does not exist.
+  Command    : README
+  Error Code : command-nonexistent
 
-[![Maven Central](https://img.shields.io/maven-central/v/com.io7m.xstructural/com.io7m.xstructural.svg?style=flat-square)](http://search.maven.org/#search%7Cga%7C1%7Cg%3A%22com.io7m.xstructural%22)
-[![Maven Central (snapshot)](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fcentral.sonatype.com%2Frepository%2Fmaven-snapshots%2Fcom%2Fio7m%2Fxstructural%2Fcom.io7m.xstructural%2Fmaven-metadata.xml&style=flat-square)](https://central.sonatype.com/repository/maven-snapshots/com/io7m/xstructural/)
-[![Codecov](https://img.shields.io/codecov/c/github/io7m-com/xstructural.svg?style=flat-square)](https://codecov.io/gh/io7m-com/xstructural)
-![Java Version](https://img.shields.io/badge/17-java?label=java&color=e65cc3)
-
-![com.io7m.xstructural](./src/site/resources/xstructural.jpg?raw=true)
-
-| JVM | Platform | Status |
-|-----|----------|--------|
-| OpenJDK (Temurin) Current | Linux | [![Build (OpenJDK (Temurin) Current, Linux)](https://img.shields.io/github/actions/workflow/status/io7m-com/xstructural/main.linux.temurin.current.yml)](https://www.github.com/io7m-com/xstructural/actions?query=workflow%3Amain.linux.temurin.current)|
-| OpenJDK (Temurin) LTS | Linux | [![Build (OpenJDK (Temurin) LTS, Linux)](https://img.shields.io/github/actions/workflow/status/io7m-com/xstructural/main.linux.temurin.lts.yml)](https://www.github.com/io7m-com/xstructural/actions?query=workflow%3Amain.linux.temurin.lts)|
-| OpenJDK (Temurin) Current | Windows | [![Build (OpenJDK (Temurin) Current, Windows)](https://img.shields.io/github/actions/workflow/status/io7m-com/xstructural/main.windows.temurin.current.yml)](https://www.github.com/io7m-com/xstructural/actions?query=workflow%3Amain.windows.temurin.current)|
-| OpenJDK (Temurin) LTS | Windows | [![Build (OpenJDK (Temurin) LTS, Windows)](https://img.shields.io/github/actions/workflow/status/io7m-com/xstructural/main.windows.temurin.lts.yml)](https://www.github.com/io7m-com/xstructural/actions?query=workflow%3Amain.windows.temurin.lts)|
-
-## xstructural
-
-XSLT implementation of the structural documentation format.
-
-## Features
-
-* Extremely simple core language with roughly ~20 elements. Easy to learn!
-* DocBook-like semantic tagging of terms without the need to memorize hundreds
-  of XML elements.
-* Automatic tables of content, section and paragraph numbering.
-* Full, strict XSD schema with mandatory validation of documents.
-* XHTML Strict 1.0 output, in single or multi-page forms.
-* EPUB output.
-* Produces valid and strongly accessible XHTML, with captions and metadata for
-  screen readers. Tools automatically validate their own output and refuse to
-  produce invalid output.
-* Written in Java 17 for platform independence.
-* Fully documented command line tools for document processing.
-* Maven plugin for processing documentation as part of a project build.
-* Large, high-coverage test suite.
-* [OSGi-ready](https://www.osgi.org/)
-* [JPMS-ready](https://en.wikipedia.org/wiki/Java_Platform_Module_System)
-* ISC license.
-
-## Usage
-
-See the [documentation](https://www.io7m.com/software/xstructural).
-
+DEBUG com.io7m.ghrepostools.Main : Exception: 
+com.io7m.quarrel.core.QException: The specified command does not exist.
+	at com.io7m.quarrel.core.QApplication.parseExpanded(QApplication.java:244)
+	at com.io7m.quarrel.core.QApplication.parse(QApplication.java:152)
+	at com.io7m.quarrel.core.QApplicationType.run(QApplicationType.java:94)
+	at com.io7m.ghrepostools.Main.run(Main.java:126)
+	at com.io7m.ghrepostools.Main.mainExitless(Main.java:110)
+	at com.io7m.ghrepostools.Main.main(Main.java:95)
